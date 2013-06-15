@@ -1,0 +1,150 @@
+body {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  -webkit-appearance: none;
+  color: #4d4d4d;
+  background-color: #f4efdd;
+}
+body:focus {
+  outline: 0;
+  outline-offset: 0;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  -webkit-appearance: none;
+  list-style-type: none;
+}
+ul:focus {
+  outline: 0;
+  outline-offset: 0;
+}
+#content {
+  margin-left: auto;
+  margin-right: auto;
+  width: 900px;
+  background-color: #faf8f0;
+  padding-left: 76px;
+  padding-right: 76px;
+  padding-top: 24px;
+  padding-bottom: 144px;
+}
+.form {
+  margin-top: 24px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #4d4d4d;
+}
+li {
+  margin-bottom: 24px;
+}
+input,
+textarea,
+select {
+  display: block;
+}
+label {
+  font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 200;
+  margin-bottom: 12px;
+  color: #4d4d4d;
+}
+input[type="text"],
+textarea {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  -webkit-appearance: none;
+  padding-left: 6px;
+  padding-right: 6px;
+  font-size: 20px;
+  border-top: 2px solid #b3b3b3;
+  border-bottom: 2px solid #b3b3b3;
+}
+input[type="text"]:focus,
+textarea:focus {
+  outline: 0;
+  outline-offset: 0;
+}
+input[type="text"]:focus,
+textarea:focus {
+  border-top: 2px solid #25cef2;
+  border-bottom: 2px solid #25cef2;
+}
+input[type="text"] {
+  width: 596px;
+  height: 36px;
+}
+textarea {
+  width: 596px;
+  max-width: 596px;
+}
+select {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  -webkit-appearance: none;
+  padding-left: 6px;
+  width: 292px;
+  height: 36px;
+  font-size: 20px;
+  color: #4d4d4d;
+  border-left: 4px solid #b3b3b3;
+  border-right: 4px solid #b3b3b3;
+}
+select:focus {
+  outline: 0;
+  outline-offset: 0;
+}
+select:focus {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  border-left: 4px solid #25cef2;
+  border-right: 4px solid #25cef2;
+}
+input[type="file"] {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  -webkit-appearance: none;
+  height: 36px;
+  width: 292px;
+  padding: 4px;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  color: #4d4d4d;
+}
+input[type="file"]:focus {
+  outline: 0;
+  outline-offset: 0;
+}
+input[type="file"]:focus {
+  color: #25cef2;
+}
+input[type="submit"] {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  -webkit-appearance: none;
+  height: 36px;
+  width: 292px;
+  padding: 4px;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  color: #4d4d4d;
+  cursor: pointer;
+  border: 2px solid #b3b3b3;
+  background-color: #fff;
+}
+input[type="submit"]:focus {
+  outline: 0;
+  outline-offset: 0;
+}
+input[type="submit"]:focus {
+  color: #25cef2;
+}

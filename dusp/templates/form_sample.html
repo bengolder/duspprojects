@@ -1,0 +1,53 @@
+<ul class="form">
+
+    <li>
+        <label for="id_full_name">FULL NAME</label> 
+        <input id="id_full_name" maxlength="400" name="full_name" type="text" />
+    </li>
+
+    <li>
+        <label for="id_official_title">OFFICIAL TITLE</label> 
+        <input id="id_official_title" maxlength="500" name="official_title" type="text" />
+    </li>
+
+    <li>
+        <label for="id_status">DUSP AFFILIATION</label>
+        <select id="id_status" name="status">
+            <option value="fac" selected="selected">Faculty</option>
+            <option value="phd">Ph.D</option>
+            <option value="psd">Post Doc</option>
+            <option value="vsc">Visiting Scholar</option>
+            <option value="vfa">Visiting Faculty</option>
+            <option value="gst">Graduate Student</option>
+            <option value="ust">Undergraduate Student</option>
+            <option value="stf">Staff</option>
+        </select>
+    </li>
+
+    <li>
+        <label for="id_picture">PICTURE</label> 
+        <input id="id_picture" name="picture" type="file" />
+    </li>
+
+    <li>
+        <label for="id_home_page">HOME PAGE</label> 
+        <input id="id_home_page" maxlength="200" name="home_page" type="text" />
+    </li>
+
+    <li>
+        <label for="id_bio">BRIEF BIOGRAPHY</label> 
+        <textarea cols="40" id="id_bio" name="bio" rows="10"></textarea>
+    </li>
+
+    <li>
+        <label for="id_interests">INTERESTS</label> 
+        <input id="id_interests" class="autocompletefield" options="topics" maxlength="400" name="interests" type="text" />
+    </li>
+
+    <li>
+        <label for="id_email">EMAIL</label> 
+        <input id="id_email" maxlength="75" name="email" type="text" />
+    </li>
+
+</ul>
+

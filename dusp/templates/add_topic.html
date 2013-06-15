@@ -1,0 +1,13 @@
+{% extends "home.html" %}
+
+{% block content %}
+<h3>Add A Topic To DUSP Explorer</h3>
+<form action="/add/topic/" method="post"> {% csrf_token %}
+<ul class="topic form">
+{{topicform.as_ul}}
+<li>
+<input type="submit" value="Add this topic">
+</li>
+</ul>
+</form>
+{% endblock %}

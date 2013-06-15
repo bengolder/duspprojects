@@ -1,0 +1,47 @@
+{% load static %}
+<!doctype html>
+<html lang="en"> 
+<head>
+	<meta charset="utf-8">
+	
+    <title>{%if page_title%}{{page_title}}{%else%}Projects{%endif%}</title>
+	
+    <link href="{% get_static_prefix %}css/base.css" rel="stylesheet" media="all">
+    <link href="{% get_static_prefix %}css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" media="all">
+    {% block jshead %}
+    {% endblock %}
+</head>
+<body>
+    <div id="content">
+      {% block content %}
+      {% include "form.html" %}
+      {% endblock %}
+    </div>
+    {% block js %}
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}js/jquery-ui-1.10.3.custom.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}js/autoCompleteTextField.js"></script>
+    {% autoescape off %}
+    {% if jsons %}
+    <script type="text/javascript" >
+    {% for key, value in jsons.items %}
+      var {{key}} = {{value}};
+    {% endfor %}
+    </script>
+    {% endif %}
+    {% endautoescape %}
+  {% endblock %}
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

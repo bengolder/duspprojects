@@ -1,0 +1,13 @@
+{% extends "home.html" %}
+
+{% block content %}
+<h3>Add A Person To DUSP Explorer</h3>
+<form action="/add/person/" method="post">{% csrf_token %}
+<ul class="person form">
+{{personform.as_ul}}
+<li>
+<input type="submit" value="Add this person">
+</li>
+</ul>
+</form>
+{% endblock %}

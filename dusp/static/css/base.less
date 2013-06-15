@@ -1,0 +1,153 @@
+
+
+@sans: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+@condensed: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
+@char: 16px;
+@vu: 24px;
+@col: 64px;
+@pad: 6px;
+@gut: 12px;
+@strip: @col + @gut;
+
+// COLORS
+@back: #FAF8F0;
+@text: #000;
+@blue: #25CEF2;
+@darkblue: #1C545E;
+@red: #D62512;
+@lighttext: lighten(@text, 30%);
+@fainttext: lighten(@text, 70%);
+
+.cols(@num) {
+  width: (@col * @num) + (@gut * (@num - 1));
+}
+
+
+.clear(){
+  margin: 0;
+  padding: 0;
+  border: 0;
+  -webkit-appearance: none;
+  &:focus {
+    outline: 0;
+    outline-offset: 0;
+  }
+}
+
+body {
+  font-family: @sans;
+  font-size: @char;
+  line-height: @vu;
+  .clear;
+  color: @lighttext;
+  background-color: darken(@back, 5%);
+}
+
+ul {
+  .clear;
+  list-style-type: none;
+}
+
+#content {
+  margin-left: auto;
+  margin-right: auto;
+  .cols(12);
+  background-color: @back;
+  padding-left: @strip;
+  padding-right: @strip;
+  padding-top: @vu;
+  padding-bottom: @vu * 6;
+}
+
+.form {
+  margin-top: @vu;
+  margin-bottom: @vu;
+  border-bottom: 1px solid @lighttext;
+}
+
+li {
+  margin-bottom: @vu;
+}
+
+input, textarea, select { display: block; }
+
+label { 
+  font-family: @condensed;
+  font-weight: 200;
+  // padding-left: @pad;
+  margin-bottom: @vu/2; 
+  color: lighten(@text, 30%);
+}
+
+input[type="text"], textarea { 
+  font-family: @sans;
+  .clear; 
+  padding-left: @pad;
+  padding-right: @pad;
+  font-size: @vu - 4;
+  border-top: 2px solid @fainttext;
+  border-bottom: 2px solid @fainttext;
+  &:focus {
+    border-top: 2px solid @blue;
+    border-bottom: 2px solid @blue;
+  }
+}
+
+input[type="text"] { 
+  .cols(8);
+  height: @vu * 1.5;  
+}
+
+textarea {
+  .cols(8);
+  max-width: @col * 8 + @gut * 7;
+}
+
+select {
+  font-family: @sans;
+  .clear;
+  padding-left: @pad;
+  .cols(4);
+  height: @vu * 1.5;
+  font-size: @vu - 4;
+  color: @lighttext;
+  border-left: 4px solid @fainttext;
+  border-right: 4px solid @fainttext;
+  &:focus {
+    font-family: @sans;
+    border-left: 4px solid @blue;
+    border-right: 4px solid @blue;
+  }
+}
+
+input[type="file"] {
+  .clear;
+  height: @vu * 1.5;
+  .cols(4);
+  padding: @vu / 6;
+  font-family: @sans;
+  font-size: @vu - 4;
+  color: @lighttext;
+  &:focus {
+    color: @blue;
+  }
+}
+
+input[type="submit"] {
+  .clear;
+  height: @vu * 1.5;
+  .cols(4);
+  padding: @vu / 6;
+  font-family: @sans;
+  font-size: @vu - 4;
+  color: @lighttext;
+  cursor: pointer;
+  border: 2px solid @fainttext;
+  background-color: #fff;
+  &:focus {
+    color: @blue;
+    border: 2px solid @blue;
+  }
+}
+
+
