@@ -6,7 +6,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('projects.views',
-    url(r'^$', 'home', name='home'),
+    url(r'^$', 'index', name='index'),
     url(r'^add/(?P<model>\w+)/$', 'add', name='add'),
     url(r'^edit/(?P<model>\w+)/(?P<object_id>\d+)/$', 'edit', name='edit'),
 )

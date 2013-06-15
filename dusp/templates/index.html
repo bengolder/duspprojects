@@ -1,21 +1,70 @@
-<!doctype html>
-<html lang="en"> 
-<head>
-	<meta charset="utf-8">
-	
-    <title>MapModel</title>
-	
-</head>
-<body>
-    <div id="content">
-        <h1> MapModel</h1>
-        <p>Me and Sayel are just testing things out.</p>
-    </div>
-
-</body>
-</html>
+{% extends "home.html" %}
 
 
+<!--person-->
+<!--project-->
+<!--topic-->
+
+{% block content %}
+<h1>{{page_title}}</h1>
+{% if project %}
+<h3>Projects</h3>
+<ul class="projects">
+  {% for p in project %}
+  <li class="project">
+  <a href="/edit/project/{{p.id}}/">
+    <div class="project-title"> {{p.title}} </div></a>
+    {% if p.start_year %} <div class="project-years">
+      {% if p.end_year %} {{p.start_year}} - {{p.end_year}}
+      {% else %} since {{p.start_year}}
+      {% endif %}
+    </div> {% endif %}
+    <div class="project-people"> {{p.people}} </div>
+    {% if p.description %}
+    <div class="project-description"> {{p.description}} </div>
+    {% endif %}
+    {% if p.topics %}
+    <div class="project-topics">{{p.topics}}</div>
+    {% endif %}
+    <div class="project-countries">{{p.countries}}</div>
+    {% if p.website %}
+    <a href="{{p.website}}"><div class="project-website">{{p.website}}</div></a>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+{% if topic %}
+<h3>Topics</h3>
+<ul class="topics">
+  {% for t in topic %}
+  <li class="topic">
+    <a href="/edit/topic/{{t.id}}">
+      <div class="topic-title"> {{t.title}} </div></a>
+    <div class="topic-description"> {{t.description}} </div>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+{% if person %}
+<h3>People</h3>
+<ul class="people">
+  {% for n in person %}
+  <li class="person">
+    <a href="/edit/person/{{n.id}}">
+      <div class="person-name"> {{n.full_name}} </div></a>
+      <div class="person-title"> {{n.official_title}} </div>
+      <div class="person-interests"> {{n.interests}} </div>
+    {% if n.email %}
+      <a href="mailto:{{n.email}}"><div class="person-email">{{n.email}}</div></a>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}
 
 
 
