@@ -1,12 +1,12 @@
 {% extends "home.html" %}
 
 {% block content %}
-<h3>Add A Project To DUSP Explorer</h3>
+<h3>{{ page_title }}</h3>
 <form action="/add/project/" method="post">{% csrf_token %}
 <ul class="project form">
 {{projectform.as_ul}}
 <li>
-<input type="submit" value="Add this project">
+<input type="submit" value="Save">
 </li>
 </ul>
 </form>

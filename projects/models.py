@@ -37,7 +37,7 @@ class Person(DataModel):
     email = models.EmailField(blank=True, null=True)
 
     def __unicode__(self):
-        return "%s: %s" % (self.full_name, self.official_title)
+        return self.full_name
 
     def to_json_format(self, *args, **kwargs):
         data = super(Person, self).to_json_format(*args, **kwargs)

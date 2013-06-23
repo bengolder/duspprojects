@@ -26,7 +26,9 @@
     {% if p.topics %}
     <div class="project-topics">{{p.topics}}</div>
     {% endif %}
+    {% if p.countries %}
     <div class="project-countries">{{p.countries}}</div>
+    {% endif %}
     {% if p.website %}
     <a href="{{p.website}}"><div class="project-website">{{p.website}}</div></a>
     {% endif %}
