@@ -77,13 +77,14 @@ def read(request, model, object_id ):
 
 def edit(request, model, object_id ):
     # get the lists of people, topics, countries, and cities
+    print "in edit view"
     if request.method == "POST":
-        print request.POST
         form = model_lookup[model][1](request.POST)
         if form.is_valid():
             print form.cleaned_data
         else:
             print "not valid"
+        return HttpResponse( "<pre>%s</pre>" % str(vars(form)) )
     else:
         m = model_lookup[model][0].objects.get(id=int(object_id))
         d = m.to_json_format(natural=True)
@@ -99,7 +100,7 @@ def edit(request, model, object_id ):
             }
         c.update(add_jsons())
         return render_to_response(
-                'add_%s.html' % model,
+                'edit_%s.html' % model,
                 RequestContext(request, c),
                 )
 
@@ -107,13 +108,13 @@ def add(request, model="person"):
     """Add"""
     # get the lists of people, topics, countries, and cities
     if request.method == "POST":
-        print request
+        print "add post for %s" % model
     c = {
             "action": "add",
             "page_title": "Add a new %s to DUSP Explorer" % model,
             "%sform" % model: model_lookup[model][1](),
         }
-    c.update(autocomplete_lists())
+    c.update(add_jsons())
     return render_to_response(
             'add_%s.html' % model,
             RequestContext(request, c),

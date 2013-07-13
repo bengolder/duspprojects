@@ -2,9 +2,9 @@
 
 {% block content %}
 <h3>{{ page_title }}</h3>
-<form action="/edit/topic/" method="post"> {% csrf_token %}
-<ul class="topic form">
-{{topicform.as_ul}}
+<form action="/edit/project/{{object_id}}/" method="post">{% csrf_token %}
+<ul class="project form">
+{{projectform.as_ul}}
 <li>
 <input type="submit" value="Save">
 </li>

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en"> 
+    <head>
+        <meta charset="utf-8">
+        <title>Edit Singapore Parametric Urbanism Workshop</title>
+        <link href="http://localhost/static/dusp/css/base.css" rel="stylesheet" media="all">
+        <link href="http://localhost/static/dusp/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" media="all">
+    </head>
+    <body>
+        <div id="content">
+            <h3>Add A Project To DUSP Explorer</h3>
+            <form action="/add/project/" method="post">
+                <input type='hidden' name='csrfmiddlewaretoken' value='Ir2WxwetasuKAajsjxtl7dNiXij57Tg9' />
+
+<ul class="project form">
+    <li>
+        <label for="id_title">Title:</label> 
+        <input id="id_title" maxlength="500" name="title" type="text" value="Singapore Parametric Urbanism Workshop" />
+    </li>
+    <li>
+        <label for="id_type">Type:</label> 
+        <input id="id_type" maxlength="100" name="type" type="text" />
+    </li>
+    <li>
+        <label for="id_description">Description:</label> 
+        <textarea cols="40" id="id_description" name="description" rows="10">
+        </textarea></li>
+    <li>
+        <label for="id_people">People:</label> 
+        <input id="id_people" name="people" type="text" value="Brent Ryan" /> 
+        <span class="helptext"> Hold down "Control", or "Command" on a Mac, to select more than one.</span>
+    </li>
+    <li>
+        <label for="id_partners">Partners:</label> 
+        <textarea cols="40" id="id_partners" name="partners" rows="10"> Singapore University of Technology and Design
+        </textarea>
+    </li>
+    <li>
+        <label for="id_website">Website:</label> 
+        <input id="id_website" maxlength="200" name="website" type="text" />
+    </li>
+    <li>
+        <label for="id_start_year">Start year:</label> 
+        <input id="id_start_year" name="start_year" type="text" />
+    </li>
+    <li>
+        <label for="id_end_year">End year:</label> 
+        <input id="id_end_year" name="end_year" type="text" />
+    </li>
+    <li>
+        <label for="id_cities">Cities:</label> 
+        <input id="id_cities" name="cities" type="text" /> 
+        <span class="helptext"> Hold down "Control", or "Command" on a Mac, to select more than one.</span>
+    </li>
+    <li>
+        <label for="id_countries">Countries:</label> 
+        <input id="id_countries" name="countries" type="text" value="Singapore" /> 
+        <span class="helptext"> Hold down "Control", or "Command" on a Mac, to select more than one.</span>
+    </li>
+    <li>
+        <label for="id_topics">Topics:</label> 
+        <input id="id_topics" name="topics" type="text" /> 
+        <span class="helptext"> Hold down "Control", or "Command" on a Mac, to select more than one.</span>
+    </li>
+    <li>
+        <input type="submit" value="Add this project">
+    </li>
+</ul>
+
+
+
+</form>
+
+        </div>
+
+        <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+        <script type="text/javascript" src="http://localhost/static/dusp/js/jquery-1.9.1.js"></script>
+        <script type="text/javascript" src="http://localhost/static/dusp/js/jquery-ui-1.10.3.custom.js"></script>
+        <script type="text/javascript" src="http://localhost/static/dusp/js/autoCompleteTextField.js"></script>
+
+
+        <script type="text/javascript" >
+
+            var topics = ["transportation", "urban design", "environmental policy", "consensus building", "community engagement", "economic development", "resource management"];
+
+            var countries = ["Canada", "all", "Guernsey", "Turkmenistan", "Montenegro", "Lithuania", "Sao Tome and Principe", "Cambodia", "Saint Helena, Ascension and Tristan da Cunha", "Switzerland", "Ethiopia", "Aruba", "Swaziland", "Argentina", "Cameroon", "Burkina Faso", "Somaliland", "Saudi Arabia", "Rwanda", "Togo", "Japan", "American Samoa", "Montserrat", "United States Minor Outlying Islands", "Cocos (Keeling) Islands", "Pakistan", "Guatemala", "Bosnia and Herzegovina", "Kuwait", "Jordan", "Bonaire, Sint Eustatius and Saba", "Virgin Islands, British", "Dominica", "Liberia", "Maldives", "Micronesia, Federated States of", "Jamaica", "Oman", "Martinique", "Jersey", "Venezuela, Bolivarian Republic of", "Christmas Island", "Gabon", "Niue", "Monaco", "Wallis and Futuna", "New Zealand", "Virgin Islands, U.S.", "Saint Martin (French part)", "Andorra", "Yemen", "Albania", "Samoa", "Norfolk Island", "United Arab Emirates", "Guam", "Uruguay", "India", "Azerbaijan", "Lesotho", "Saint Vincent and the Grenadines", "Kenya", "Macao", "Pitcairn", "Turkey", "Afghanistan", "Bangladesh", "Mauritania", "Solomon Islands", "Turks and Caicos Islands", "Saint Lucia", "San Marino", "French Polynesia", "Taiwan, Province of China", "Macedonia, the former Yugoslav Republic of", "Syrian Arab Republic", "Bermuda", "Slovakia", "Somalia", "Peru", "Vanuatu", "Nauru", "Seychelles", "Norway", "Malawi", "Cook Islands", "Benin", "Congo, the Democratic Republic of the", "Western Sahara", "Cuba", "Iran, Islamic Republic of", "Falkland Islands (Malvinas)", "British Indian Ocean Territory", "Heard Island and McDonald Islands", "China", "Armenia", "Timor-Leste", "Dominican Republic", "Ukraine", "Bahrain", "Tonga", "Finland", "Libya", "Cayman Islands", "Central African Republic", "New Caledonia", "Mauritius", "Tajikistan", "Liechtenstein", "Belarus", "Mali", "Sweden", "Russia", "Bulgaria", "United States", "Romania", "Cura\u00e7ao", "Angola", "French Southern Territories", "Chad", "South Africa", "Tokelau", "Cyprus", "South Georgia and the South Sandwich Islands", "Brunei Darussalam", "Qatar", "Malaysia", "Austria", "Vietnam", "Mozambique", "Slovenia", "Uganda", "Hungary", "Niger", "Isle of Man", "Brazil", "Faroe Islands", "Guinea", "Panama", "Korea, Republic of", "Costa Rica", "Luxembourg", "Cape Verde", "Bahamas", "Gibraltar", "Ireland", "Ghana", "Palau", "Nigeria", "Ecuador", "Czech Republic", "Australia", "Algeria", "Korea, Democratic People's Republic of", "El Salvador", "Tuvalu", "Saint Pierre and Miquelon", "Marshall Islands", "Chile", "Puerto Rico", "Belgium", "Kiribati", "Haiti", "Belize", "Hong Kong", "Sierra Leone", "Georgia", "Lao People's Democratic Republic", "Gambia", "Philippines", "Morocco", "Croatia", "Mongolia", "Guinea-Bissau", "Thailand", "Namibia", "Grenada", "France", "\u00c5land Islands", "Iraq", "Tanzania, United Republic of", "Portugal", "Estonia", "Kosovo", "Bouvet Island", "Lebanon", "Northern Cyprus", "Svalbard and Jan Mayen", "Uzbekistan", "Egypt", "Djibouti", "Greenland", "Antigua and Barbuda", "Spain", "Colombia", "Burundi", "Fiji", "Barbados", "Madagascar", "Italy", "Bhutan", "Sudan", "Bolivia, Plurinational State of", "Nepal", "Malta", "Netherlands", "Northern Mariana Islands", "Suriname", "Anguilla", "Israel", "R\u00e9union", "Indonesia", "Iceland", "Zambia", "Senegal", "Papua New Guinea", "Saint Kitts and Nevis", "Trinidad and Tobago", "Zimbabwe", "Germany", "Denmark", "Kazakhstan", "Poland", "Moldova, Republic of", "Eritrea", "Kyrgyzstan", "Saint Barth\u00e9lemy", "Mayotte", "Holy See (Vatican City State)", "Mexico", "Paraguay", "Latvia", "South Sudan", "Guyana", "Guadeloupe", "C\u00f4te d'Ivoire", "Honduras", "Myanmar", "Equatorial Guinea", "Tunisia", "Nicaragua", "Singapore", "Serbia", "Botswana", "United Kingdom", "Antarctica", "Congo", "Sint Maarten (Dutch part)", "Greece", "Sri Lanka", "French Guiana", "Palestinian Territory, Occupied", "Comoros"];
+
+            var cities = [];
+
+            var people = ["Judy Layzer", "Anne Whiston Spirn", "Gabriella Carolini", "Sarah Williams", "Carlo Ratti", "Susan Murcott", "Chris Zegras", "Annette Kim", "Tunney Lee", "Larry Susskind", "Balakrishnan Rajagopal", "Miho Mazereeuw", "Bish Sanyal", "Joe Ferreira", "Brent Ryan", "Larry Vale", "Phil Thompson", "Oscar Grauer", "Jota Samper", "Peter Roth", "Victor Eskinazi", "JoAnn Carmin", "Ralph Gakenheimer", "Eran Ben-Joseph", "Dennis Frenchman"];
+
+            </script>
+
+
+
+
+        </body>
+    </html>
+
+
+
+
+
+
+
+
+
+

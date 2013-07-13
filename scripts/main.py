@@ -10,8 +10,7 @@ import random
 
 import networkx
 from networkx.readwrite import json_graph
-import web
-import pystache
+#import pystache
 from datertots.core import (
         xls_to_dicts,
         writeToXls,
@@ -226,44 +225,44 @@ def load_db():
     book = country_codes()
 
     # add countries
-    #for c in book:
-        #country = Country()
-        #country.name = c
-        #country.country_id = book[c]
-        #print 'created', country
-        #country.save()
-        #print 'saved', country
+    for c in book:
+        country = Country()
+        country.name = c
+        country.country_id = book[c]
+        print 'created', country
+        country.save()
+        print 'saved', country
 
-    #for p in projects:
-        #project = Project()
-        #project.title = p['title']
-        #print p['title']
-        ##print project
-        #if 'description' in p:
-            #project.description = p['description']
-        #print "    added description"
-        #if 'partners' in p:
-            #project.partners = p['partners']
-        #project.save()
-        #print "    saving"
-        #print "    added partners"
-        #for f in p['faculty']:
-            #print "    creating/looking for", f
-            #try:
-                #person = Person.objects.get(full_name=f)
-                #print "    found", f
-            #except:
-                #person = Person()
-                #person.full_name = f
-                #person.save()
-                #print "    created", f
+    for p in projects:
+        project = Project()
+        project.title = p['title']
+        print p['title']
+        #print project
+        if 'description' in p:
+            project.description = p['description']
+        print "    added description"
+        if 'partners' in p:
+            project.partners = p['partners']
+        project.save()
+        print "    saving"
+        print "    added partners"
+        for f in p['faculty']:
+            print "    creating/looking for", f
+            try:
+                person = Person.objects.get(full_name=f)
+                print "    found", f
+            except:
+                person = Person()
+                person.full_name = f
+                person.save()
+                print "    created", f
 
-            #project.people.add(person)
-        #for c in p['countries']:
-            #country = Country.objects.get(name=c)
-            #project.countries.add(country)
+            project.people.add(person)
+        for c in p['countries']:
+            country = Country.objects.get(name=c)
+            project.countries.add(country)
 
-        #project.save()
+        project.save()
     # load things from graph
     for name, node in g.nodes(data=True):
         pass

@@ -1,0 +1,13 @@
+{% extends "home.html" %}
+
+{% block content %}
+<h3>{{page_title}}</h3>
+<form action="/{{action}}/person/{% if object_id %}{{object_id}}/{%endif%}" method="post">{% csrf_token %}
+<ul class="person form">
+{{personform.as_ul}}
+<li>
+<input type="submit" value="Save">
+</li>
+</ul>
+</form>
+{% endblock %}
