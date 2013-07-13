@@ -68,19 +68,6 @@ model_lookup = {
         "topic":(Topic, TopicForm),
         }
 
-def browse(request, model="project"):
-    """Add"""
-    m = model_lookup[model][0]
-    objects = m.objects.all()
-    c = {
-            "page_title": "Browse %ss" % model,
-            model + "list": objects,
-        }
-    return render_to_response(
-            'browse_%s.html' % model,
-            RequestContext(request, c),
-            )
-
 def read(request, model, object_id ):
     """ This is for ajax calls to just grab a json of a single object"""
     m = model_lookup[model][0]
@@ -91,29 +78,38 @@ def read(request, model, object_id ):
 def edit(request, model, object_id ):
     # get the lists of people, topics, countries, and cities
     if request.method == "POST":
-        print request
-    m = model_lookup[model][0].objects.get(id=int(object_id))
-    d = m.to_json_format(natural=True)
-    pprint(d)
-    if 'interests' in d:
-        d['interests'] = ', '.join(d['interests'])
-    form = model_lookup[model][1](initial=d)
-    c = {
-            "page_title": "Edit %s" % m.__unicode__(),
-            "%sform" % model: form,
-        }
-    c.update(add_jsons())
-    return render_to_response(
-            'add_%s.html' % model,
-            RequestContext(request, c),
-            )
+        print request.POST
+        form = model_lookup[model][1](request.POST)
+        if form.is_valid():
+            print form.cleaned_data
+        else:
+            print "not valid"
+    else:
+        m = model_lookup[model][0].objects.get(id=int(object_id))
+        d = m.to_json_format(natural=True)
+        pprint(d)
+        if 'interests' in d:
+            d['interests'] = ', '.join(d['interests'])
+        form = model_lookup[model][1](initial=d)
+        c = {
+                "action": "edit",
+                "page_title": "Edit %s" % m.__unicode__(),
+                "%sform" % model: form,
+                "object_id": object_id,
+            }
+        c.update(add_jsons())
+        return render_to_response(
+                'add_%s.html' % model,
+                RequestContext(request, c),
+                )
 
 def add(request, model="person"):
-    """ Add """
+    """Add"""
     # get the lists of people, topics, countries, and cities
     if request.method == "POST":
         print request
     c = {
+            "action": "add",
             "page_title": "Add a new %s to DUSP Explorer" % model,
             "%sform" % model: model_lookup[model][1](),
         }
@@ -121,17 +117,17 @@ def add(request, model="person"):
     return render_to_response(
             'add_%s.html' % model,
             RequestContext(request, c),
-            )
+    )
 
 def update(request, model, object_id ):
-    """ This is for ajax calls to update a single object"""
+    """This is for ajax calls to update a single object"""
     m = model_lookup[model][0].objects.get(id=int(object_id))
     jFormat = m.to_json_format(natural=True)
     json = json.dumps(jFormat)
     return HttpResponse(json, mimetype='application/json')
 
 def delete(request, model, object_id ):
-    """ This is for ajax calls to delete a single object"""
+    """This is for ajax calls to delete a single object"""
     m = model_lookup[model][0].objects.get(id=int(object_id))
     name = m.__unicode__()
     m.delete()

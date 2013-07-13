@@ -1,33 +1,94 @@
-
-
 @sans: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-@condensed: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
+@condensed: "Open Sans Condensed", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 @char: 16px;
-@vu: 24px;
+@vu: 22px;
 @col: 64px;
 @pad: 6px;
 @gut: 12px;
 @strip: @col + @gut;
 
 // COLORS
-@back: #FAF8F0;
-@text: #000;
-@blue: #25CEF2;
-@darkblue: #1C545E;
-@red: #D62512;
+@white: #FFFFFF;
+@back: @white;
+@text: #414042;
+@black: #000000;
+@blue: #0785FF;
+@midgray: #9E9CA1;
+@orange: #FF4010;
 @lighttext: lighten(@text, 30%);
 @fainttext: lighten(@text, 70%);
+@verylight: darken(@back, 15%);
 
 .cols(@num) {
   width: (@col * @num) + (@gut * (@num - 1));
 }
 
+.select-highlight(@color){
+  ::selection { background: @color;}
+  ::-moz-selection {background: @color;}
+}
+.aselect-highlight(@color){
+  ::selection { background: @color;}
+  ::-moz-selection {background: @color;}
+}
+
+.inset(@rad, @color){
+  box-shadow:         inset 0 0 @rad @color;
+  -moz-box-shadow:    inset 0 0 @rad @color;
+  -webkit-box-shadow: inset 0 0 @rad @color;
+}
+
+.insetDouble(@rad, @color){
+  box-shadow:         inset 0 0 @rad @color, inset 0 1px 0 @color;
+  -moz-box-shadow:    inset 0 0 @rad @color, inset 0 1px 0 @color;
+  -webkit-box-shadow: inset 0 0 @rad @color, inset 0 1px 0 @color;
+}
+
+.outset(@rad, @color){
+  box-shadow:         0 1px @rad @color;
+  -moz-box-shadow:    0 1px @rad @color;
+  -webkit-box-shadow: 0 1px @rad @color;
+}
+
+.radius(@rad){
+  border-radius: @rad;
+  -webkit-border-radius: @rad;
+  -moz-border-radius: @rad;
+}
+
+.specialShadow(){
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3) inset, 0 -1px 0 rgba(0,0,0,0.3) inset;
+}
+
+.hLines(@thick, @color){
+  border-top: @thick solid @color;
+  border-bottom: @thick solid @color;
+}
+
+.transition(@t){
+  transition: all @t linear;
+}
+a {
+  text-decoration: none;
+  color: @blue;
+  &:hover {
+    color: @black;
+  }
+}
+
+h1, h2, h3, h4 {
+  font-family: @condensed;
+  color: @text;
+}
+h3 { letter-spacing: .1em; }
+h1 { letter-spacing: .05em; }
 
 .clear(){
   margin: 0;
   padding: 0;
   border: 0;
   -webkit-appearance: none;
+  -moz-appearance: none;
   &:focus {
     outline: 0;
     outline-offset: 0;
@@ -39,8 +100,9 @@ body {
   font-size: @char;
   line-height: @vu;
   .clear;
-  color: @lighttext;
+  color: @text;
   background-color: darken(@back, 5%);
+  .select-highlight( lighten(yellow, 25%));
 }
 
 ul {
@@ -62,34 +124,46 @@ ul {
 .form {
   margin-top: @vu;
   margin-bottom: @vu;
-  border-bottom: 1px solid @lighttext;
 }
 
 li {
   margin-bottom: @vu;
 }
 
-input, textarea, select { display: block; }
+input, textarea, select { 
+  display: block; 
+}
 
 label { 
+  display: block;
   font-family: @condensed;
-  font-weight: 200;
+  font-weight: 700;
   // padding-left: @pad;
-  margin-bottom: @vu/2; 
-  color: lighten(@text, 30%);
+  margin-bottom: @vu / 2;
+  color: @midgray;
+  letter-spacing: .1em;
 }
 
 input[type="text"], textarea { 
+  ///.inset(@pad, lighten(@text, 30%));
   font-family: @sans;
   .clear; 
-  padding-left: @pad;
-  padding-right: @pad;
-  font-size: @vu - 4;
-  border-top: 2px solid @fainttext;
-  border-bottom: 2px solid @fainttext;
+  padding: @pad;
+  font-size: @char - 1;
+  color: lighten(@text, 5%);
+  background: linear-gradient(to bottom, #fcfcfc 0%,#ffffff 100%);
+  border: 1px solid @back;
+  .insetDouble(@pad, darken(@back, 16%));
+  // .hLines(3px, @back);
+  .transition(0.2s);
+  // .radius(4px);
   &:focus {
-    border-top: 2px solid @blue;
-    border-bottom: 2px solid @blue;
+    border: 1px solid @blue;
+    color: @black;
+    // color: @blue;
+    // .hLines(3px, @blue);
+    background: @white;
+    // .outset(@pad + 2, lighten(@blue, 10%));
   }
 }
 
@@ -110,9 +184,9 @@ select {
   .cols(4);
   height: @vu * 1.5;
   font-size: @vu - 4;
-  color: @lighttext;
-  border-left: 4px solid @fainttext;
-  border-right: 4px solid @fainttext;
+  color: @black;
+  border-left: 4px solid @lighttext;
+  border-right: 4px solid @lighttext;
   &:focus {
     font-family: @sans;
     border-left: 4px solid @blue;
@@ -137,17 +211,131 @@ input[type="submit"] {
   .clear;
   height: @vu * 1.5;
   .cols(4);
+  .radius(6px);
   padding: @vu / 6;
-  font-family: @sans;
+  font-family: @condensed;
   font-size: @vu - 4;
-  color: @lighttext;
+  color: @text;
   cursor: pointer;
-  border: 2px solid @fainttext;
-  background-color: #fff;
+  border: 1px solid @text;
+  background-color: #fafafa;
+  .outset(3px, darken(@back, 25%));
+  &:hover {
+    color: @blue;
+    border: 1px solid @blue;
+  }
   &:focus {
     color: @blue;
-    border: 2px solid @blue;
+    border: 1px solid @blue;
+  }
+  &:active {
+    color: @blue;
+    border: 1px solid @blue;
+    background-color: lighten(@blue, 45%);
+    .outset(0px, @back );
   }
 }
 
+// Autocomplete widget
+.ui-autocomplete {
+  .clear;
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: default;
+  z-index: 100;
+  background-color: darken(@back, 4%);
+  color: @text;
+  .outset(6px, darken(@back, 13%));
+}
+
+.ui-menu-item {
+  .clear;
+}
+
+.ui-menu .ui-menu-item a {
+  .clear;
+  padding-top: @pad;
+  padding-bottom: @pad;
+  padding-left: @pad;
+  padding-right: @pad;
+	text-decoration: none;
+  color: lighten(@text, 24%);
+	display: block;
+  cursor: pointer;
+  border-right: 1px solid @verylight;
+  border-left: 1px solid @verylight;
+  border-bottom: 1px solid @verylight;
+  border-top:  1px solid darken(@back, 4%);
+}
+.ui-state-focus, .ui-state-hover {
+  border-right: 1px solid @blue !important;
+  border-left:  1px solid @blue !important;
+  border-bottom:  1px solid @blue !important;
+  border-top:  1px solid @blue !important;
+  background-color: @back;
+  color: @black !important;
+}
+a.ui-state-focus, a.ui-state-hover {
+  background-color: @back;
+}
+
+.ui-helper-hidden {
+	display: none;
+}
+.ui-helper-hidden-accessible {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+}
+.ui-helper-reset {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	line-height: 1.3;
+	text-decoration: none;
+	font-size: 100%;
+	list-style: none;
+}
+
+
+
+
+// for the index page
+ul { 
+  .cols(7);
+}
+
+ul.projects {
+  .project-title { font-weight: 700; }
+  .project-people { 
+    font-weight: 600; 
+    color: @black;
+  }
+  .project-description { font-weight: 300; color: @black; }
+  .project-countries { 
+    font-family: @condensed; 
+    font-weight: 700; 
+    color: lighten(@text, 10%);
+    letter-spacing: .08em;
+  }
+}
+
+ul.topics {
+  .topic-title {font-weight: 700; text-transform: capitalize; }
+}
+
+ul.people {
+  .person-name {font-weight: 700; }
+  .person-title {font-style: italic; color: @black; font-weight: 300; }
+  .person-email {font-weight: 700; font-family: @condensed; font-size: @char * 0.9; }
+  .person-interests { font-weight: 700; font-family: @condensed; font-size: @char * 0.9; text-transform: uppercase;
+                      letter-spacing: .08em;}
+}
 
