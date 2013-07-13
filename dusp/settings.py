@@ -1,6 +1,6 @@
 # import the stuff I actually change
 from config import (site, backend, gis_backend,
-        dbname, dbusername, pw, bdhost,
+        dbname, dbusername, pw, dbhost,
         INSTALLED_APPS, SECRET_KEY,
         MEDIA_ROOT,
         MEDIA_URL,
