@@ -3,7 +3,7 @@ import os
 import sys
 
 if __name__ == "__main__":
-    sys.path.append("/Users/benjamin/projects/mitdusp/dusp/dusp")
+    sys.path.insert(0, "/mit/duspexplorer/Scripts/django/dusp")
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "dusp.settings")
 
     from django.core.management import execute_from_command_line

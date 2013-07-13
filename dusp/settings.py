@@ -1,6 +1,6 @@
 # import the stuff I actually change
 from config import (site, backend, gis_backend,
-        dbname, dbusername, pw,
+        dbname, dbusername, pw, bdhost,
         INSTALLED_APPS, SECRET_KEY,
         MEDIA_ROOT,
         MEDIA_URL,
@@ -25,7 +25,7 @@ DATABASES = {
         'NAME': dbname,
         'USER': dbusername,
         'PASSWORD': pw,
-        'HOST': '',
+        'HOST': dbhost,
         'PORT': '',
     }
 }
