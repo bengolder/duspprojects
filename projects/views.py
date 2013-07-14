@@ -14,6 +14,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail, get_connection
 
+from dusp.config import root_url
 from projects.models import (
         Topic, Person, Project, Country, City,
         PersonForm, ProjectForm, TopicForm,
@@ -32,6 +33,11 @@ For each porject or person:
 def d(obj):
     for k in vars(obj):
         print '"%s": %s' % (k, obj[k])
+
+def add_root():
+    """adds the root url for this project from settings for template
+    rendering"""
+    return {"root_url":root_url}
 
 def add_jsons():
     """This is a set of json lists, not python objects.
@@ -56,7 +62,7 @@ def index(request):
     for k in model_lookup:
         c[k] = model_lookup[k][0].objects.all()
         c[k] = [n.to_json_format(True) for n in c[k]]
-
+    c.update(add_root())
     return render_to_response(
             'index.html',
             RequestContext(request, c),
@@ -99,6 +105,7 @@ def edit(request, model, object_id ):
                 "object_id": object_id,
             }
         c.update(add_jsons())
+        c.update(add_root())
         return render_to_response(
                 'edit_%s.html' % model,
                 RequestContext(request, c),
@@ -115,6 +122,7 @@ def add(request, model="person"):
             "%sform" % model: model_lookup[model][1](),
         }
     c.update(add_jsons())
+    c.update(add_root())
     return render_to_response(
             'add_%s.html' % model,
             RequestContext(request, c),

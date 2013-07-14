@@ -12,7 +12,7 @@
 <ul class="projects">
   {% for p in project %}
   <li class="project">
-  <a href="/edit/project/{{p.id}}/">
+  <a href="{{root_url}}edit/project/{{p.id}}/">
     <div class="project-title"> {{p.title}} </div></a>
     {% if p.start_year %} <div class="project-years">
       {% if p.end_year %} {{p.start_year}} - {{p.end_year}}
@@ -42,7 +42,7 @@
 <ul class="topics">
   {% for t in topic %}
   <li class="topic">
-    <a href="/edit/topic/{{t.id}}">
+  <a href="{{root_url}}edit/topic/{{t.id}}">
       <div class="topic-title"> {{t.title}} </div></a>
     <div class="topic-description"> {{t.description}} </div>
   </li>
@@ -55,7 +55,7 @@
 <ul class="people">
   {% for n in person %}
   <li class="person">
-    <a href="/edit/person/{{n.id}}">
+  <a href="{{root_url}}edit/person/{{n.id}}">
       <div class="person-name"> {{n.full_name}} </div></a>
       <div class="person-title"> {{n.official_title}} </div>
       <div class="person-interests"> {{n.interests}} </div>
