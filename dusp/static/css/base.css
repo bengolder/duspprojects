@@ -69,6 +69,9 @@ ul:focus {
 li {
   margin-bottom: 22px;
 }
+li:focus label {
+  color: #0785ff;
+}
 input,
 textarea,
 select {
@@ -81,6 +84,7 @@ label {
   margin-bottom: 11px;
   color: #9e9ca1;
   letter-spacing: .1em;
+  transition: all 0.2s linear;
 }
 input[type="text"],
 textarea {
@@ -339,4 +343,25 @@ ul.people .person-interests {
   font-size: 14.4px;
   text-transform: uppercase;
   letter-spacing: .08em;
+}
+.helpBubble {
+  padding-left: 22px;
+  padding-right: 22px;
+  padding-top: 11px;
+  padding-bottom: 11px;
+  background-color: #3984cd;
+  color: #ffffff;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  box-shadow: 0 1px 6px rgba(65, 64, 66, 0.7);
+  -moz-box-shadow: 0 1px 6px rgba(65, 64, 66, 0.7);
+  -webkit-box-shadow: 0 1px 6px rgba(65, 64, 66, 0.7);
+}
+.helpBubble .helpText {
+  font-family: "Open Sans Condensed", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  letter-spacing: 0.08em;
+  font-size: 15px;
+  line-height: 26px;
+  font-weight: 300;
 }

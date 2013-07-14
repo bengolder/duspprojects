@@ -128,6 +128,11 @@ ul {
 
 li {
   margin-bottom: @vu;
+  &:focus {
+    label {
+      color: @blue;
+    }
+  }
 }
 
 input, textarea, select { 
@@ -142,6 +147,7 @@ label {
   margin-bottom: @vu / 2;
   color: @midgray;
   letter-spacing: .1em;
+  .transition(0.2s);
 }
 
 input[type="text"], textarea { 
@@ -337,5 +343,24 @@ ul.people {
   .person-email {font-weight: 700; font-family: @condensed; font-size: @char * 0.9; }
   .person-interests { font-weight: 700; font-family: @condensed; font-size: @char * 0.9; text-transform: uppercase;
                       letter-spacing: .08em;}
+}
+
+
+.helpBubble {
+  padding-left: @vu;
+  padding-right: @vu;
+  padding-top: @vu / 2;
+  padding-bottom: @vu / 2;
+  background-color: lighten(desaturate(darken(@blue, 10%), 40%), 10%);
+  color: @white;
+  .radius(5px);
+  .outset(6px, fade(@text, 70%));
+  .helpText { 
+    font-family: @condensed;
+    letter-spacing: 0.08em;
+    font-size: @char - 1;
+    line-height: @vu + 4;
+    font-weight: 300;
+  }
 }
 

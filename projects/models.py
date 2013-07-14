@@ -28,12 +28,12 @@ class Person(DataModel):
     full_name = models.CharField(max_length=400)
     official_title = models.CharField(max_length=500)
     status = models.CharField(max_length=100, default="fac", choices=people_types)
-    picture = models.ImageField(upload_to="images/people", blank=True,
-            null=True)
+    picture = models.ImageField(upload_to="images/people", blank=True, null=True)
     home_page = models.URLField(blank=True, null=True)
     # process the bio with markdown
     bio = models.TextField(blank=True, null=True)
     interests = models.ManyToManyField('Topic', blank=True, null=True)
+    interests.help_text = ''
     email = models.EmailField(blank=True, null=True)
 
     def __unicode__(self):
@@ -66,6 +66,7 @@ class Topic(DataModel):
 class Project(DataModel):
     title = models.CharField(max_length=500)
     people = models.ManyToManyField('Person')
+    people.help_text = ''
     type = models.CharField(max_length=100, null=True, blank=True)
     website = models.URLField(blank=True, null=True)
     # process this with markdown
@@ -75,8 +76,11 @@ class Project(DataModel):
     # cities, they don't need to enter both for the same location
     # it's just so that we can accommodate nationa-level projects
     cities = models.ManyToManyField('City', blank=True, null=True)
+    cities.help_text = ''
     countries = models.ManyToManyField('Country', blank=True, null=True)
+    countries.help_text = ''
     topics = models.ManyToManyField('Topic', blank=True, null=True)
+    topics.help_text = ''
     start_year = models.IntegerField(blank=True, null=True)
     end_year = models.IntegerField(blank=True, null=True)
     def __unicode__(self):
