@@ -104,13 +104,16 @@ app.brickView = {
       .enter().append("g")
       .attr("transform", function(d){ return trans(d.x, d.y); })
       .attr("class", "node block");
-    this.gs.append("rect")
-      .attr("width",  function(d){ return d.block.x; })
-      .attr("height", function(d){ return d.block.y; });
+    //this.gs.append("rect")
+      //.attr("width",  function(d){ return d.block.x; })
+      //.attr("height", function(d){ return d.block.y; });
+    var me = this;
     this.gs.append("svg:foreignObject")
-      .attr("width",  function(d){ return d.block.x; })
-      .attr("height", function(d){ return d.block.y; })
-      .append("xhtml:div").attr("class", "node-div")
+      .attr("width",  function(d){ return d.block.x + (me.horizontalPadding * 2); })
+      .attr("height", function(d){ return d.block.y + (me.verticalPadding * 2); })
+      .append("xhtml:div").attr("class", "node-title")
+      .style("width", function(d){ return d.block.x + "px"; })
+      .style("height", function(d){ return d.block.y + "px"; })
       .text(function(d){ return d.displayText; });
   },
 

@@ -90,8 +90,13 @@ rect {
   fill: fade(@text, 20%);
 }
 
-foreign.body {
+div.node-title {
   position: inherit;
-  background: none;
-  .reset-spacing;
+  background-color: fade(@text, 10%);
+  overflow: hidden;
+  padding-left: @em * 0.5;
+  padding-right: @em * 0.5;
+  padding-top: @em * 0.25;
+  padding-bottom: @em * 0.25;
+  cursor: pointer;
 }
