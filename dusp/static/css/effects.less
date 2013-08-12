@@ -1,0 +1,42 @@
+
+
+// horizontal offset,  (negative is left)
+// vertical offset, (negative is above box)
+// blur radius, 0 is a sharp shadow, bigger is more blurred
+// spread radus, 0 is same size as blur, bigger extends it
+// color
+
+.box_shadow( @h, @v, @rad, @color) {
+  -moz-box-shadow:    @h @v @rad 0 @color;
+  -webkit-box-shadow: @h @v @rad 0 @color;
+  box-shadow:         @h @v @rad 0 @color;
+}
+
+.inner_shadow(@rad, @fade) {
+  -moz-box-shadow:    inset 0 0 @rad fade(#000, @fade);
+  -webkit-box-shadow: inset 0 0 @rad fade(#000, @fade);
+  box-shadow:         inset 0 0 @rad fade(#000, @fade);
+}
+
+
+.basic_shadow(@rad, @fade) {
+  .box_shadow(0, 0, @rad, fade(#000, @fade));
+}
+
+.radius(@rad) {
+  -webkit-border-radius: @rad;
+  -moz-border-radius:    @rad;
+  border-radius:         @rad;
+}
+
+.transition(@time:2s;) {
+  -moz-transition: @time;
+  -webkit-transition: @time;
+  -o-transition: @time;
+  transition: @time;
+}
+
+
+
+
+

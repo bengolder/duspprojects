@@ -1,0 +1,78 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <meta charset="UTF-8">
+        <title>DUSP Explorer</title>
+        <link rel="stylesheet" href="{% get_static_prefix %}css/explorer.css" type="text/css"/>
+    </head>
+    <body>
+        <div class="header">
+            <div class="titleblock">
+              <span class="title">DUSP Explorer</span>
+            </div>
+            <div class="about column">
+                <p>This project aims to visualize the connections between
+                faculty and research efforts within <a href="http://mit.edu">MIT</a>'s 
+                <a href="http://dusp.mit.edu">Department of Urban Studies and Planning</a>.
+                </p>
+            </div>
+            <div class="edit column">
+                <p>If you are DUSP Faculty and you'd like to add projects or
+                make corrections, just click right <a href="/#login">here</a>.
+                </p>
+            </div>
+            <div class="controls">
+                <div class="organize">
+                    <img src="{% get_static_prefix %}img/column_stack.png">
+                </div>
+                <div class="networkize">
+                    <img src="{% get_static_prefix %}img/network_symbol.png">
+                </div>
+                <div class="randomize current_state">
+                    <img src="{% get_static_prefix %}img/brick_stack.png">
+                </div>
+                <div class="locate">
+                    <img src="{% get_static_prefix %}img/globe.png">
+                </div>
+            </div>
+            <div class="categories">
+                <div class="category" string="topic">
+                    TOPICS
+                </div>
+                <div class="category" string="person">
+                    PEOPLE
+                </div>
+                <div class="category" string="project">
+                    PROJECTS
+                </div>
+            </div>
+        </div>
+        <div id="chart">
+        </div>
+
+
+        <div id="switch-template" class="expansion-switch">
+            <svg width="24px" height="10px">
+                <g class="chevron_single">
+                    <polygon points="0,5 12,1.5 24,5 24,8.5 12,5 0,8.5 "/>
+                </g>
+            </svg>
+        </div>
+    
+        <script type="text/javascript" src="{% get_static_prefix %}lib/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript" src="{% get_static_prefix %}lib/d3.v3.min.js"></script>
+        <script type="text/javascript" src="{% get_static_prefix %}lib/topojson.v1.min.js"></script>
+        <script type="text/javascript" src="{% get_static_prefix %}js/app/models.js"></script>
+        <script type="text/javascript" src="{% get_static_prefix %}js/app/force.js"></script>
+        <script type="text/javascript" src="{% get_static_prefix %}js/app/stacks.js"></script>
+        <script type="text/javascript" src="{% get_static_prefix %}js/app/explorer.js"></script>
+    </body>
+</html>
+
+
+
+
+
+

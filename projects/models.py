@@ -5,6 +5,9 @@ from django.forms import ModelForm
 from django import forms
 from django.db.models import Q
 
+from django.contrib.auth.models import User
+
+
 from datertots.models import DataModel
 
 people_types = (
@@ -25,6 +28,7 @@ topic_sets = (
         )
 
 class Person(DataModel):
+    account = models.ForeignKey(User, blank=True, null=True, related_name="profile")
     full_name = models.CharField(max_length=400)
     official_title = models.CharField(max_length=500)
     status = models.CharField(max_length=100, default="fac", choices=people_types)
