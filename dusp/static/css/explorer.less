@@ -4,7 +4,6 @@
 @import "effects.less";
 
 
-
 @text: @gray8;
 @back: @gray2;
 
@@ -69,34 +68,104 @@ strong {font-weight: 700; }
     &:hover { opacity: 1.0; }
     cursor: pointer;
   }
-  .current_state { opacity: 1.0; }
+  .current_view { opacity: 1.0; }
 }
 
 .categories, .expansion-switch {
   display: none;
 }
 
+/*
+      (line) link
+      (g) node
+        (foreignElement)
+          (div)
+            (div)
+            (description)
+              (div)
+                (img) picture
+              (md) details <-- this is where more elements can go
+
+        (g) dots
+          (inner circle) .dot
+          (outer circle) .dot outline
+
+      
+*/
+
 line.link {
   stroke: fade(@text, 50%);
   stroke-width: 3px;
 }
 
-circle.node {
+
+circle.dot-outline {
+  fill: fade(lighten(@black, 15%), 80%);
+  stroke-width: 1px;
+}
+
+g.dots {
   fill: @text;
   cursor: pointer;
+}
+
+.project .dot {
+  fill: @gray6;
+}
+.person .dot {
+  fill: @orange;
+}
+
+.topic .dot {
+  fill: @blue;
 }
 
 rect {
   fill: fade(@text, 20%);
 }
 
+
+
 div.node-title {
   position: inherit;
-  background-color: fade(@text, 10%);
   overflow: hidden;
   padding-left: @em * 0.5;
   padding-right: @em * 0.5;
-  padding-top: @em * 0.25;
-  padding-bottom: @em * 0.25;
+  // padding-top: @em * 0.25;
+  padding-bottom: @vu * 0.25;
   cursor: pointer;
+  background-color: fade(@gray2, 90%);
 }
+.person .node-title {
+  color: @gray8;
+}
+.project .node-title {
+  .italic;
+  .light;
+  color: @gray8;
+}
+
+.topicMenu {
+  position: absolute;
+  top: @vu * 6;
+  z-index: 9;
+  width: @em * 14;
+  .topic {
+    .transition(0.3s);
+    .bold;
+    .uppercase;
+    .tracking(0.1);
+    .text-small;
+    color: @gray4;
+    cursor: pointer;
+    &:hover{
+      color: @gray9;
+      border-right: 2px solid @gray9;
+    }
+  }
+  .selected {
+    color: @gray8;
+  }
+}
+
+

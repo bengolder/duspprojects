@@ -20,7 +20,7 @@ function trans(x, y) {
   return "translate("+x+","+y+")";
 }
 
-app.Node = function(obj, i){
+app.Node = function(obj){
     if (obj.full_name !== undefined){
       obj.nodeType = "person";
       obj.displayText = obj.full_name;
@@ -33,14 +33,35 @@ app.Node = function(obj, i){
     } else {
       console.log("I don't know what this is", obj);
     }
-    obj.prototype = this.prototype;
-    return obj;
+    // we will want these so that we can move links with 
+    // the nodes they are attached to
+    obj.incomingLinks = [];
+    obj.outgoingLinks = [];
+    obj.selected = false;
+    $.extend(this, obj);
+    return this;
 };
 
 app.Node.prototype = {
 
   getDisplayText: function(){
     return this.displayText;
+  },
+
+  hasSelectedTopics: function(){
+    var theseTopics;
+    if (this.nodeType == "person"){
+      theseTopics = this.interests;
+    } else {
+      theseTopics = this.topics;
+    }
+    for (var i = theseTopics.length; i > 0; i = i-1){
+      var topic = theseTopics[i-1];
+      if (topic.selected) {
+        return true
+      }
+    }
+    return false;
   },
 
 };
@@ -50,6 +71,8 @@ app.models = {
 
     modelNames: ['countries', 'topics', 'people', 'projects'],
     ajaxes: 0,
+    nodes: [],
+    links: [],
 
     init: function(){
         this.jq = $(this);
@@ -80,11 +103,11 @@ app.models = {
     getAllConnecting: function(item){
       // this is only meant to be used on people or projects
       if (item.hasOwnProperty("full_name")){
-        // it's a person
+        // it's a person, get their interests
         return item.interests;
       } else {
-        // it's a project
-        return item.people.concat(item.topics);
+        // it's a project, get the people and topic tags
+        return item.people;
       }
     },
 
@@ -94,6 +117,15 @@ app.models = {
 
     getAllNodesRandomly: function(){
       return shuffle(this.getAllNodes());
+    },
+
+    getShuffledNodeIndices: function(){
+      var len = this.nodes.length;
+      var indices = [];
+      for (var i = 0; i < len; i++){
+        indices.push(i);
+      }
+      return shuffle(indices);
     },
 
     makeLinks: function( modelToEdit, propertyName, modelForLookup){
@@ -123,12 +155,40 @@ app.models = {
         console.log("linked", modelToEdit,"with", modelForLookup);
     },
 
+    addNode: function(n){
+      // first, add the node to nodes
+      this.nodes.push(n);
+
+      // get all it's targets.
+      var targets = app.models.getAllConnecting(n);
+      for (var i = 0; i < targets.length; i++){
+        var target = targets[i];
+        // is it already a node?
+        var idx = this.nodes.indexOf(target);
+        if (idx < 0) {
+          // if not, then add it
+          this.nodes.push(target);
+        }
+
+        // add a link
+        var link = {source: n, target: target,};
+        // now our nodes can access the link, and know
+        // which end they lie upon
+        n.outgoingLinks.push(link);
+        target.incomingLinks.push(link);
+        this.links.push(link);
+      }
+    },
+
     convertNodes: function(){
 
       ['people','projects','topics'].forEach(function(type){
         // convert each one into a node
-        this[type].forEach(app.Node, app.Node);
-
+        // instantiating tons of things in one line
+        var len = this[type].length;
+        for (var i=0; i < len; i++){
+          this[type][i] = new app.Node(this[type][i]);
+        }
       }, this);
 
     },
@@ -165,6 +225,11 @@ app.models = {
                 app.onLoad();
             }
         }
+    },
+
+    buildGraph: function(){
+      // this.people.forEach(this.addNode, this);
+      this.projects.forEach(this.addNode, this);
     },
 };
 

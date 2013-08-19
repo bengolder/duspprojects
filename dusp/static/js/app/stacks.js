@@ -7,6 +7,12 @@ app.grid = {
   em: 14,
   ems: function(n){ return this.em * n; },
   vus: function(n){ return this.vu * n; },
+  wMax: app.grid.ems(18),
+  hMax: app.grid.vus(2),
+  hGap: app.grid.em,
+  vGap: app.grid.vu,
+  hPad: app.grid.em / 2,
+  vPad: app.grid.vu / 4,
 };
 
 function trans(x, y) {
@@ -26,6 +32,9 @@ app.brickView = {
   calculatePositions: function(){
     // for each object, pick a point on the grid
     // use a standard object height
+
+    var order = app.models.getShuffledNodeIndices();
+
     var pos = {x: 0, y: this.verticalGap};
 
     for (var i = this.nodes.length; i; i -= 1) {
@@ -99,7 +108,8 @@ app.brickView = {
   },
 
   initSVG: function(){
-    this.gs = app.svg.selectAll("g.block")
+    // make svg elements. Assume they don't exist
+    app.gs = app.svg.selectAll("g.block")
       .data(this.nodes)
       .enter().append("g")
       .attr("transform", function(d){ return trans(d.x, d.y); })
@@ -108,13 +118,22 @@ app.brickView = {
       //.attr("width",  function(d){ return d.block.x; })
       //.attr("height", function(d){ return d.block.y; });
     var me = this;
-    this.gs.append("svg:foreignObject")
+    app.gs.append("svg:foreignObject")
       .attr("width",  function(d){ return d.block.x + (me.horizontalPadding * 2); })
       .attr("height", function(d){ return d.block.y + (me.verticalPadding * 2); })
-      .append("xhtml:div").attr("class", "node-title")
+      .append("xhtml:div").attr("class", function(d){
+        return d.nodeType + " node-title";
+      })
       .style("width", function(d){ return d.block.x + "px"; })
       .style("height", function(d){ return d.block.y + "px"; })
       .text(function(d){ return d.displayText; });
+
+    app.dots = app.gs.append("g").attr("class", "dots")
+      .attr("transform", function(d){return "translate("+app.grid.em/2+",0)";});
+    app.dots.append("circle").attr("class", "dot-outline")
+      .attr("r", (app.grid.vu / 2) - 6);
+    app.dots.append("circle").attr("class", "dot")
+      .attr("r", (app.grid.em / 2) - 4 );
   },
 
   start: function(){
@@ -124,6 +143,16 @@ app.brickView = {
     this.move();
   },
 
+  takeover: function(){
+    // stop any force or anything
+    // get positions
+    // move nodes
+    // open divs
+    // turn on event listeners
+  },
+
+  intro: function(){
+  },
 
 
 };

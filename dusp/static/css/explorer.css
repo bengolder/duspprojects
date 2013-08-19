@@ -549,31 +549,94 @@ strong {
 .controls div:hover {
   opacity: 1.0;
 }
-.controls .current_state {
+.controls .current_view {
   opacity: 1.0;
 }
 .categories,
 .expansion-switch {
   display: none;
 }
+/*
+      (line) link
+      (g) node
+        (foreignElement)
+          (div)
+            (div)
+            (description)
+              (div)
+                (img) picture
+              (md) details <-- this is where more elements can go
+
+        (g) dots
+          (inner circle) .dot
+          (outer circle) .dot outline
+
+      
+*/
 line.link {
   stroke: rgba(204, 204, 204, 0.5);
   stroke-width: 3px;
 }
-circle.node {
+circle.dot-outline {
+  fill: rgba(38, 38, 38, 0.5);
+  stroke-width: 1px;
+}
+g.dots {
   fill: #cccccc;
   cursor: pointer;
+}
+.project .dot {
+  fill: #999999;
+}
+.person .dot {
+  fill: #ff4010;
+}
+.topic .dot {
+  fill: #0785ff;
 }
 rect {
   fill: rgba(204, 204, 204, 0.2);
 }
 div.node-title {
   position: inherit;
-  background-color: rgba(204, 204, 204, 0.1);
   overflow: hidden;
   padding-left: 7px;
   padding-right: 7px;
-  padding-top: 3.5px;
-  padding-bottom: 3.5px;
+  padding-bottom: 5.5px;
   cursor: pointer;
+  background-color: rgba(51, 51, 51, 0.9);
+}
+.person .node-title {
+  color: #cccccc;
+}
+.project .node-title {
+  font-style: italic;
+  font-weight: 300;
+  color: #cccccc;
+}
+.topicMenu {
+  position: absolute;
+  top: 132px;
+  z-index: 9;
+  width: 196px;
+}
+.topicMenu .topic {
+  -moz-transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 12px;
+  line-height: 22px;
+  color: #666666;
+  cursor: pointer;
+}
+.topicMenu .topic:hover {
+  color: #e6e6e6;
+  border-right: 2px solid #e6e6e6;
+}
+.topicMenu .selected {
+  color: #cccccc;
 }

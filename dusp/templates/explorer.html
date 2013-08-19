@@ -24,16 +24,16 @@
                 </p>
             </div>
             <div class="controls">
-                <div class="organize">
+                <div class="organize control">
                     <img src="{% get_static_prefix %}img/column_stack.png">
                 </div>
-                <div class="networkize">
+                <div class="networkize current_view control">
                     <img src="{% get_static_prefix %}img/network_symbol.png">
                 </div>
-                <div class="randomize current_state">
+                <div class="randomize control">
                     <img src="{% get_static_prefix %}img/brick_stack.png">
                 </div>
-                <div class="locate">
+                <div class="locate control">
                     <img src="{% get_static_prefix %}img/globe.png">
                 </div>
             </div>
@@ -64,6 +64,7 @@
         <script type="text/javascript" src="{% get_static_prefix %}lib/jquery-2.0.3.min.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}lib/d3.v3.min.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}lib/topojson.v1.min.js"></script>
+        <script type="text/javascript" src="{% get_static_prefix %}lib/d3mouseEnterLeave.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}js/app/models.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}js/app/force.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}js/app/stacks.js"></script>
