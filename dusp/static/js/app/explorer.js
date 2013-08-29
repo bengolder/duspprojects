@@ -10,41 +10,50 @@ app.currentView = null;
 app.models.init();
 
 
-app.colors = {
-    text: "#888",
-    projectsBase: "#FF4010",
-    topicsBase: "#0785FF",
-    peopleBase: "#0785FF",
-};
-
-app.grid = {
-  vu: 22,
-  em: 14,
-  ems: function(n){ return this.em * n; },
-  vus: function(n){ return this.vu * n; },
-  wMax: app.grid.ems(18),
-  hMax: app.grid.vus(2),
-  hGap: app.grid.em,
-  vGap: app.grid.vu,
-  hPad: app.grid.em / 2,
-  vPad: app.grid.vu / 4,
-};
-
 app.header = $(".header");
 app.svg = d3.select("#chart").append("svg");
 
-app.showTitle = function(s){
+app.fadeInTitle = function(s, align){
+  app.showTitle(s, align);
+  var wraps = s.selectAll(".foreignWrapper")
+    .style("opacity", 0);
+  wraps.transition()
+    .delay(2000)
+    .duration(1000)
+    .style("opacity", 1);
+
+  s.select(".dot").transition()
+    .duration(2000)
+    .style("opacity", 0);
+
+  s.select(".dot-outline")
+    .style("stroke-width", "1px")
+    .style("stroke", "rgba(240, 240, 240, 0.3)")
+    .style("fill", "rgba(0,0,0,0)");
+
+};
+
+app.showTitle = function(s, align){
   // this needs to reduce the div to the correct display size
+  var x, y;
+  if (align == "center"){
+    x = app.grid.wMax * -0.5;
+    y = app.grid.vu;
+  } else if (align == "left"){
+    x = app.grid.em * -0.5;
+    y = app.grid.vPad;
+  }
   s.select(".foreign")
-    .attr("width", app.grid.wMax)
+    .attr("width", app.grid.wMax + (app.grid.hPad * 2))
     .attr("height", (app.grid.vu * 2) + (app.grid.vPad))
-    .attr("x", app.grid.wMax * -0.5)
-    .attr("y", app.grid.vu)
+    .attr("x", x)
+    .attr("y", y)
     .select(".node-data")
-    .style("text-align", "center")
+    .style("text-align", align)
     .select(".node-title")
+    .style("background", "none")
     .style("display", "inline-block")
-    .style("text-align", "center");
+    .style("text-align", align);
 };
 
 app.hideTitle = function(s){
@@ -53,22 +62,36 @@ app.hideTitle = function(s){
     .attr("height", 0);
 };
 
+app.cleanSVG = function(){
+
+  app.linksOut = app.svg.selectAll(".link")
+    .data(app.models.links, function(d){
+      return d.source.uniqueId() + d.target.uniqueId();
+    }).exit();
+
+  app.gsOut = app.svg.selectAll(".node")
+    .data(app.models.nodes, function(d){ return d.uniqueId(); })
+    .exit();
+
+};
+
 app.initSVG = function(){
 
   // make links
   app.linkLines = app.svg.selectAll(".link")
-    .data(app.models.links)
-    .enter().append("line")
-    .attr("class", "link");
-    // .style("display", "none");
+    .data(app.models.links, function(d){
+      return d.source.uniqueId() + d.target.uniqueId();
+    }).enter().append("line")
+    .attr("class", function(d){
+      return "link to"+d.target.nodeType;
+    });
 
   // make svg elements. turn them off right away
   // don't set things like height and width
   app.gs = app.svg.selectAll(".node")
-    .data(app.models.nodes)
+    .data(app.models.nodes, function(d){ return d.uniqueId(); })
     .enter().append("g")
     .attr("class", function(d){ return d.nodeType + " node";});
-    //.style("display", "none");
 
 
   // HACKY UGLY
@@ -98,7 +121,6 @@ app.initSVG = function(){
     .attr("r", (app.grid.vu / 2) - 6);
   app.dots.append("circle").attr("class", "dot")
     .attr("r", (app.grid.em / 2) - 4 );
-
 };
 
 app.resizeSVG = function(){
@@ -120,18 +142,30 @@ app.setSize = function(){
   }
 
 };
+
 app.handleControlClick = function(d, i){
+  // switch the class on the view icon so it's
+  // obvious which one is activated
   $(".control").removeClass("current_view");
   var $el = $(this);
   $el.addClass("current_view");
-  var views   = [app.forceView, app.brickView, app.globeView, app.stackView];
-  var classes = ["networkize",  "randomize",   "locate",      "organize"  ];
+  // now select the new view based on the class of the clicked icon
+  var classes = ["network",     "brick",       "globe",       "stack"  ];
+  var views   = [app.forceView, app.brickView, app.globeView, app.stacksView];
+  var newViewName;
   var newView;
   classes.forEach(function(name, i){
     if ($el.hasClass(name)){
+      newViewName = classes[i];
       newView = views[i];
     }
   }, this);
+  if (app.currentView === newView){
+    // if someone's just clicking on the current view, ignore it.
+    return;
+  }
+  // do the switch
+  app.currentView.collapse(newView);
 };
 
 app.setSize();

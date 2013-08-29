@@ -109,16 +109,9 @@ g.dots {
   cursor: pointer;
 }
 
-.project .dot {
-  fill: @gray6;
-}
-.person .dot {
-  fill: @orange;
-}
-
-.topic .dot {
-  fill: @blue;
-}
+.project .dot { fill: @gray6; }
+.person  .dot { fill: @orange; }
+.topic   .dot { fill: @blue; }
 
 rect {
   fill: fade(@text, 20%);
@@ -131,7 +124,7 @@ div.node-title {
   overflow: hidden;
   padding-left: @em * 0.5;
   padding-right: @em * 0.5;
-  // padding-top: @em * 0.25;
+  padding-top: @em * 0.25;
   padding-bottom: @vu * 0.25;
   cursor: pointer;
   background-color: fade(@gray2, 90%);
@@ -145,13 +138,20 @@ div.node-title {
   color: @gray8;
 }
 
+.topic .node-title {
+  .bold;
+  .uppercase;
+  .tracking(0.1);
+  .text-small;
+  color: @gray9;
+}
+
 .topicMenu {
   position: absolute;
   top: @vu * 6;
   z-index: 9;
   width: @em * 14;
-  .topic {
-    .transition(0.3s);
+  .topicToggle {
     .bold;
     .uppercase;
     .tracking(0.1);
@@ -160,11 +160,11 @@ div.node-title {
     cursor: pointer;
     &:hover{
       color: @gray9;
-      border-right: 2px solid @gray9;
+      // border-right: 2px solid @gray9;
     }
   }
   .selected {
-    color: @gray8;
+    color: @blue;
   }
 }
 

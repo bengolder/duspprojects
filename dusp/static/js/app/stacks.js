@@ -2,19 +2,6 @@
 var app = app || {};
 
 
-app.grid = {
-  vu: 22,
-  em: 14,
-  ems: function(n){ return this.em * n; },
-  vus: function(n){ return this.vu * n; },
-  wMax: app.grid.ems(18),
-  hMax: app.grid.vus(2),
-  hGap: app.grid.em,
-  vGap: app.grid.vu,
-  hPad: app.grid.em / 2,
-  vPad: app.grid.vu / 4,
-};
-
 function trans(x, y) {
   return "translate("+x+","+y+")";
 }
@@ -33,16 +20,14 @@ app.brickView = {
     // for each object, pick a point on the grid
     // use a standard object height
 
-    var order = app.models.getShuffledNodeIndices();
-
     var pos = {x: 0, y: this.verticalGap};
 
-    for (var i = this.nodes.length; i; i -= 1) {
+    for (var i = this.order.length; i; i -= 1) {
 
       // do something can I measure characters?
       // over a certain amount, I can assume it should be max width;
-      var node = this.nodes[i - 1];
-      console.log(node);
+      var index = this.order[i - 1]
+      var node = app.models.nodes[index]
       var text = node.displayText;
 
       // set default height and width of block
@@ -52,7 +37,6 @@ app.brickView = {
         y: app.grid.vu,
       };
 
-      console.log("block", node.block);
 
       // adjust the height and width based on character count
       if (node.block.x > this.maxWidth) {
@@ -85,17 +69,6 @@ app.brickView = {
     }
     console.log(this);
     this.totalHeight = pos.y + this.maxHeight + this.verticalGap;
-  },
-
-  move: function() {
-    app.height = this.totalHeight;
-    app.resizeSVG();
-    d3.selectAll(".block").transition()
-      .duration(1000)
-      .attr("transform", function (d){
-        return trans(d.destination.x,
-          d.destination.y);
-      });
   },
 
   restart: function() {
@@ -136,6 +109,59 @@ app.brickView = {
       .attr("r", (app.grid.em / 2) - 4 );
   },
 
+
+
+  move: function() {
+    app.height = this.totalHeight;
+    app.resizeSVG();
+    app.gs.transition()
+      .duration(2000)
+      .attr("transform", function(d){
+        return trans(d.destination.x, d.destination.y);
+      });
+    app.linkLines.transition()
+      .duration(2000)
+      .attr("x1", function(d){
+        return d.source.destination.x;
+      })
+      .attr("y1", function(d){
+        return d.source.destination.y;
+      })
+      .attr("x2", function(d){
+        return d.target.destination.x;
+      })
+      .attr("y2", function(d){
+        return d.target.destination.y;
+      });
+
+    app.gs.select(".dots").transition()
+      .duration(2000)
+      .attr("transform", trans(app.grid.em/2, 0));
+  },
+
+  nodeHover: function(d, i){
+    var g = d3.select(this)
+    g.select(".dot")
+      .style("opacity", 1);
+    g.select(".node-data")
+      .style("background", "rgba(0,0,0,0.8)");
+  },
+
+  nodeUnhover: function(d, i){
+    var g = d3.select(this)
+    g.select(".dot")
+      .style("opacity", 0);
+    g.select(".node-data")
+      .style("background", "none");
+  },
+
+  updateSVG: function(){
+    app.fadeInTitle(app.gs, "left");
+    app.gs.on("mouseenter", this.nodeHover)
+      .on("mouseleave", this.nodeUnhover)
+      .on("click", this.nodeClick);
+  },
+
   start: function(){
     this.nodes = app.models.getAllNodesRandomly();
     this.calculatePositions();
@@ -144,11 +170,11 @@ app.brickView = {
   },
 
   takeover: function(){
-    // stop any force or anything
-    // get positions
-    // move nodes
-    // open divs
-    // turn on event listeners
+    app.currentView = app.brickView;
+    app.brickView.order = app.models.getShuffledNodeIndices();
+    app.brickView.calculatePositions();
+    app.brickView.move();
+    app.brickView.updateSVG();
   },
 
   intro: function(){

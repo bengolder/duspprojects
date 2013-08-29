@@ -578,7 +578,7 @@ line.link {
   stroke-width: 3px;
 }
 circle.dot-outline {
-  fill: rgba(38, 38, 38, 0.5);
+  fill: rgba(38, 38, 38, 0.8);
   stroke-width: 1px;
 }
 g.dots {
@@ -602,6 +602,7 @@ div.node-title {
   overflow: hidden;
   padding-left: 7px;
   padding-right: 7px;
+  padding-top: 3.5px;
   padding-bottom: 5.5px;
   cursor: pointer;
   background-color: rgba(51, 51, 51, 0.9);
@@ -614,17 +615,21 @@ div.node-title {
   font-weight: 300;
   color: #cccccc;
 }
+.topic .node-title {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 12px;
+  line-height: 22px;
+  color: #e6e6e6;
+}
 .topicMenu {
   position: absolute;
   top: 132px;
   z-index: 9;
   width: 196px;
 }
-.topicMenu .topic {
-  -moz-transition: 0.3s;
-  -webkit-transition: 0.3s;
-  -o-transition: 0.3s;
-  transition: 0.3s;
+.topicMenu .topicToggle {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -633,10 +638,9 @@ div.node-title {
   color: #666666;
   cursor: pointer;
 }
-.topicMenu .topic:hover {
+.topicMenu .topicToggle:hover {
   color: #e6e6e6;
-  border-right: 2px solid #e6e6e6;
 }
 .topicMenu .selected {
-  color: #cccccc;
+  color: #0785ff;
 }

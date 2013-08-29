@@ -1,6 +1,29 @@
 // name space!
 var app = app || {};
 
+app.colors = {
+    text: "#888",
+    projectsBase: "#FF4010",
+    topicsBase: "#0785FF",
+    peopleBase: "#0785FF",
+};
+
+app.grid = {
+  vu: 22,
+  em: 14,
+  ems: function(n){ return this.em * n; },
+  vus: function(n){ return this.vu * n; },
+};
+
+$.extend(app.grid, {
+  wMax: app.grid.ems(18),
+  hMax: app.grid.vus(2),
+  hGap: app.grid.em,
+  vGap: app.grid.vu,
+  hPad: app.grid.em / 2,
+  vPad: app.grid.vu / 4,
+});
+
 function shuffle(arr){ //v1.0
   // this function steps backwards through an array, as it does so, it swaps
   // the current value with a randomly selected one that it hasn't yet touched.
@@ -48,17 +71,24 @@ app.Node.prototype = {
     return this.displayText;
   },
 
+  uniqueId: function(){
+    return this.nodeType + this.id;
+  },
+
   hasSelectedTopics: function(){
     var theseTopics;
     if (this.nodeType == "person"){
       theseTopics = this.interests;
-    } else {
+    } else if (this.nodeType == "project"){
       theseTopics = this.topics;
+    } else {
+      theseTopics = [];
     }
     for (var i = theseTopics.length; i > 0; i = i-1){
       var topic = theseTopics[i-1];
       if (topic.selected) {
-        return true
+        console.log("found a selected topic!", topic, this);
+        return true;
       }
     }
     return false;
@@ -100,14 +130,35 @@ app.models = {
         }
     },
 
-    getAllConnecting: function(item){
-      // this is only meant to be used on people or projects
-      if (item.hasOwnProperty("full_name")){
-        // it's a person, get their interests
-        return item.interests;
+    filterNodes: function(filterFunc){
+      return this.nodes.filter(filterFunc);
+    },
+
+    filterLinks: function(filterFunc){
+      return this.links.filter(filterFunc);
+    },
+
+    nonTopicNodes: function(){
+      return this.filterNodes(function(n){
+        return (n.nodeType !== "topic");
+      });
+    },
+
+    nonTopicLinks: function(){
+      return this.filterLinks(function(link){
+        return (link.source.nodeType !== "topic" &&
+          link.target.nodeType !== "topic");
+      });
+    },
+
+    getAllConnecting: function(item, neighborProps){
+      var prop1 = neighborProps.shift();
+      if (neighborProps.length > 0){
+        return item[prop1].concat.apply(item[prop1], 
+          neighborProps.map(function(p){ return item[p];})
+            );
       } else {
-        // it's a project, get the people and topic tags
-        return item.people;
+        return item[prop1];
       }
     },
 
@@ -155,12 +206,12 @@ app.models = {
         console.log("linked", modelToEdit,"with", modelForLookup);
     },
 
-    addNode: function(n){
+    addNode: function(n, connectingProperties){
       // first, add the node to nodes
       this.nodes.push(n);
 
       // get all it's targets.
-      var targets = app.models.getAllConnecting(n);
+      var targets = app.models.getAllConnecting(n, connectingProperties);
       for (var i = 0; i < targets.length; i++){
         var target = targets[i];
         // is it already a node?
@@ -175,6 +226,9 @@ app.models = {
         // now our nodes can access the link, and know
         // which end they lie upon
         n.outgoingLinks.push(link);
+        if (target.incomingLinks === undefined){
+          console.log("what links?", n, targets, target);
+        }
         target.incomingLinks.push(link);
         this.links.push(link);
       }
@@ -228,8 +282,12 @@ app.models = {
     },
 
     buildGraph: function(){
-      // this.people.forEach(this.addNode, this);
-      this.projects.forEach(this.addNode, this);
+      // add just the projects
+      var len = this.projects.length;
+      for (var i=0; i < len; i++){
+        this.addNode(this.projects[i], ["people", "topics"]);
+      }
     },
+
 };
 

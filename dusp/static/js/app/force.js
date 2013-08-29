@@ -3,22 +3,6 @@
 // name space!
 var app = app || {};
 
-app.grid = {
-  vu: 22,
-  em: 14,
-  ems: function(n){ return this.em * n; },
-  vus: function(n){ return this.vu * n; },
-};
-
-$.extend(app.grid, {
-  wMax: app.grid.ems(18),
-  hMax: app.grid.vus(2),
-  hGap: app.grid.em,
-  vGap: app.grid.vu,
-  hPad: app.grid.em / 2,
-  vPad: app.grid.vu / 4,
-});
-
 
 var moveElemToFront = function(elem){
   elem.parentNode.appendChild(elem);
@@ -73,15 +57,70 @@ app.forceView = {
       this.restart();
     },
 
+    collapse: function(newView){
+
+      // this preps the nodes to be switched to another view
+      this.stop();
+
+      app.models.topics.forEach(function(t){
+        t.selected = false;
+      });
+
+      this.updateTopics();
+
+      app.gs.on("click",  null)
+        .on("mouseenter", null)
+        .on("mouseleave", null)
+        .on("mousedown.drag", null);
+
+      d3.selectAll("div.topicToggle")
+        .transition()
+        .duration(900)
+        .style("margin-left", app.grid.ems(2) + "px")
+        .style("margin-bottom", app.grid.vu + "px")
+        .style("opacity", 0)
+        .each("end", function(d, i){
+          d3.select(this).remove();
+        });
+
+      // hide all dot outlines
+      d3.selectAll(".dot-outline").transition()
+        .duration(300)
+        .attr("r", 6);
+
+      // hide all titles and extra info
+      d3.selectAll(".foreign")
+        .attr("width", 0)
+        .attr("height", 0)
+        .attr("x", 0)
+        .attr("y", 0);
+
+      app.linkLines.transition()
+        .duration(900)
+        .style("opacity", 0.0)
+      
+      d3.selectAll("circle.dot").transition()
+        .duration(1000)
+        .attr("r", 4);
+
+      var topicNodes = d3.selectAll(".node.topic")
+        .style("opacity", 0)
+        .style("display", null);
+
+      var one = topicNodes.transition()
+        .duration(1100)
+        .style("opacity", 1)
+        .attr("transform", function(d, i){
+          d.y = (i * app.grid.vus(2)) + app.grid.vu;
+          return "translate("+d.x+","+d.y+")";
+        }).select(function(d,i){
+          if (i ==0){ return this; }
+        }).each("end", newView.takeover);
+
+    },
+
     takeover: function(){
-      // this method takes the existing view and transitions it to the force
-      // view
-      // any necessary event listeners should be removed
-      // any open pieces should be closed
-      // everything should be collapsed to it's node
-      // The links should fade in
-      // then the forces should begin acting on all the nodes
-      // and any event listeners should be added.
+      app.currentView = this;
     },
 
     nodeClick: function(d, i){
@@ -101,6 +140,7 @@ app.forceView = {
         .duration(100)
         .attr("r", app.grid.em);
     },
+
     nodeUnhover: function(d, i){
       var sel = d3.select(this);
       app.hideTitle(sel);
@@ -114,6 +154,9 @@ app.forceView = {
       app.linkLines
         .on("click", function(d){
           console.log(d); });
+
+      d3.selectAll(".totopic").style("display", "none");
+      d3.selectAll(".node.topic").style("display", "none");
 
       // setup events
       // make it draggable
@@ -130,10 +173,10 @@ app.forceView = {
         .attr("transform", "translate("+ adjust +","+ adjust +")")
         .select(".dot")
         .attr("r", function(d){
-          if (d.nodeType == "person"){
-            return rPerson;
-          } else {
+          if (d.nodeType == "project"){
             return rProject;
+          } else {
+            return rPerson;
           }
         });
     },
@@ -143,6 +186,7 @@ app.forceView = {
       var selected = app.models.topics.filter( function(d){
         return d.selected;
       });
+
       if (selected.length > 0){
         app.gs.select(".dots").transition()
           .duration(500)
@@ -161,10 +205,13 @@ app.forceView = {
             } else {
               return 0.1;
           }});
+
       } else {
+
         app.gs.select(".dots").transition()
           .duration(500)
           .style("opacity", 1.0);
+
         app.linkLines.transition()
           .duration(500)
           .style("opacity", 1.0);
@@ -184,12 +231,21 @@ app.forceView = {
     },
 
     layoutTopics: function(){
+
+      // layout the invisible nodes
+      d3.selectAll(".node.topic")
+        .attr("transform", function(d, i){
+          d.x = app.grid.em;
+          d.y = (i * app.grid.vu) + app.grid.vu;
+          return "translate("+d.x+","+d.y+")";
+        });
+
       d3.select("#chart").append("div")
         .attr("class", "topicMenu")
-        .selectAll(".topic")
+        .selectAll(".topicToggle")
         .data(app.models.topics)
         .enter().append("div")
-        .attr("class", "topic")
+        .attr("class", "topicToggle")
         .text(function(d){
           return d.displayText;
         }).on("click", this.handleTopicClick);
@@ -199,14 +255,13 @@ app.forceView = {
       // this goes through an animation of data loading
       // get indices
       this.initForce();
-      this.force.nodes( app.models.nodes );
+      this.force.nodes( app.models.nonTopicNodes() );
       // setup links
-      this.force.links( app.models.links );
+      this.force.links( app.models.nonTopicLinks() );
       this.updateSVG();
       this.restart();
       this.layoutTopics();
       console.log(app.models.nodes);
     },
-
 
 };
