@@ -185,6 +185,7 @@ model_lookup = {
 def explorer(request):
     c = {
             "page_title": "DUSP Explorer",
+            "ROOT_URL": root_url,
             }
     # go get everything
     return render_to_response(

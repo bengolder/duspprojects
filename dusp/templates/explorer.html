@@ -61,6 +61,10 @@
             </svg>
         </div>
     
+        <script type="text/javascript" >
+        var APP_ROOT = "{{ ROOT_URL }}";
+        var STATIC_ROOT = "{% get_static_prefix %}";
+        </script>
         <script type="text/javascript" src="{% get_static_prefix %}lib/jquery.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}lib/d3.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}lib/topojson.js"></script>

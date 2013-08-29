@@ -253,7 +253,8 @@ app.models = {
         // order is important here
         this.modelNames.forEach(function(thing, i, arr){
             // do ajax for this thing
-            var url = "/"+thing+"/";
+			// APP_ROOT is a defined global
+            var url = APP_ROOT + thing + "/";
             $.ajax(url,{success:me.processAjaxSuccess(thing)});
         });
     },
