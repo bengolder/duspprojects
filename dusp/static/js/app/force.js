@@ -86,7 +86,10 @@ app.forceView = {
       // hide all dot outlines
       d3.selectAll(".dot-outline").transition()
         .duration(300)
-        .attr("r", 6);
+        .attr("r", 6)
+		.style("stroke", function(d){
+			return d.getColor();
+		});
 
       // hide all titles and extra info
       d3.selectAll(".foreign")

@@ -28,7 +28,6 @@ app.fadeInTitle = function(s, align){
 
   s.select(".dot-outline")
     .style("stroke-width", "1px")
-    .style("stroke", "rgba(240, 240, 240, 0.3)")
     .style("fill", "rgba(0,0,0,0)");
 
 };

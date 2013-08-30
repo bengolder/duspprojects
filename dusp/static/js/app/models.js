@@ -3,9 +3,9 @@ var app = app || {};
 
 app.colors = {
     text: "#888",
-    projectsBase: "#FF4010",
+    projectsBase: "#999999",
+    peopleBase: "#FF4010",
     topicsBase: "#0785FF",
-    peopleBase: "#0785FF",
 };
 
 app.grid = {
@@ -94,6 +94,15 @@ app.Node.prototype = {
     return false;
   },
 
+  getColor: function(){
+	  if (this.nodeType == "person"){
+		  return app.colors.peopleBase;
+	  } else if (this.nodeType == "topic") {
+		  return app.colors.topicsBase;
+	  } else {
+		  return app.colors.projectsBase;
+	  }
+  },
 };
 
 // we will make a singleton to hold all the data
