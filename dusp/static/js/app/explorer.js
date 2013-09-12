@@ -32,6 +32,26 @@ app.fadeInTitle = function(s, align){
 
 };
 
+app.fadeOutTitle = function(s, callback, thisArg){
+	if (!callback){
+		callback = function(){return;};
+	}
+	s.select(".foreignWrapper")
+		.transition()
+		.duration(1000)
+		.style("opacity", 0)
+		.select(function(d, i){
+			if (i == 0){
+				return this;
+			}
+		}).each("end", (function(){
+			return function(d, i){
+				app.hideTitle(s);
+				callback.call(thisArg);
+			};
+		}()));
+};
+
 
 app.showTitle = function(s, align){
   // this needs to reduce the div to the correct display size
@@ -43,6 +63,7 @@ app.showTitle = function(s, align){
     x = app.grid.em * -0.5;
     y = app.grid.vPad;
   }
+  s.select(".foreignWrapper").style("opacity", 1);
   s.select(".foreign")
     .attr("width", app.grid.wMax + (app.grid.hPad * 2))
     .attr("height", (app.grid.vu * 2) + (app.grid.vPad))
@@ -175,6 +196,7 @@ app.onLoad = function(){
   app.models.buildGraph();
   app.initSVG();
   d3.selectAll(".control").on("click", app.handleControlClick);
+  // do the first thing
   app.forceView.intro();
   app.currentView = app.forceView;
 };

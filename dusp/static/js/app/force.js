@@ -62,6 +62,8 @@ app.forceView = {
       // this preps the nodes to be switched to another view
       this.stop();
 
+	  app.gs.each(function(d){d.fixed=true;});
+
       app.models.topics.forEach(function(t){
         t.selected = false;
       });
@@ -73,6 +75,7 @@ app.forceView = {
         .on("mouseleave", null)
         .on("mousedown.drag", null);
 
+	  var numTopics = app.models.topics.length;
       d3.selectAll("div.topicToggle")
         .transition()
         .duration(900)
@@ -81,6 +84,10 @@ app.forceView = {
         .style("opacity", 0)
         .each("end", function(d, i){
           d3.select(this).remove();
+		  if (i == numTopics - 1){
+			  // if we are on the last topic, remove the whole menu
+			  d3.select(".topicMenuWrapper").remove();
+		  }
         });
 
       // hide all dot outlines
@@ -98,10 +105,12 @@ app.forceView = {
         .attr("x", 0)
         .attr("y", 0);
 
+	  // make link lines transparent
       app.linkLines.transition()
         .duration(900)
         .style("opacity", 0.0)
       
+	  // make dots small
       d3.selectAll("circle.dot").transition()
         .duration(1000)
         .attr("r", 4);
@@ -110,6 +119,7 @@ app.forceView = {
         .style("opacity", 0)
         .style("display", null);
 
+	  // animate the appearnce of topic nodes
       var one = topicNodes.transition()
         .duration(1100)
         .style("opacity", 1)
@@ -123,7 +133,13 @@ app.forceView = {
     },
 
     takeover: function(){
-      app.currentView = this;
+		console.log("forceView taking over");
+		this.updateSVG();
+		this.restart();
+		this.layoutTopics();
+        app.currentView = this;
+		app.gs.each(function(d){
+			d.fixed=false;});
     },
 
     nodeClick: function(d, i){
@@ -156,7 +172,17 @@ app.forceView = {
 
       app.linkLines
         .on("click", function(d){
-          console.log(d); });
+          console.log(d); })
+		.transition()
+		.duration(500)
+		.style("opacity", 1);
+
+	  app.dots.select(".dot").transition()
+		  .duration(500)
+		  .style("opacity", 1);
+	  app.dots.select(".dot-outline")
+		  .style("fill", "rgba(38, 38, 38, 0.8)")
+		  .style("stroke", "none");
 
       d3.selectAll(".totopic").style("display", "none");
       d3.selectAll(".node.topic").style("display", "none");
@@ -247,6 +273,7 @@ app.forceView = {
 		  .attr("class", "topicMenuWrapper").append("div")
         .attr("class", "topicMenu");
 
+	  // add the nice thin scrollbar
 	  $(".topicMenu").slimScroll({
 		  height: app.grid.vus(15),
 	  });

@@ -118,7 +118,10 @@ app.brickView = {
       .duration(2000)
       .attr("transform", function(d){
         return trans(d.destination.x, d.destination.y);
-      });
+      }).each("end", function(d){
+		  d.x = d.destination.x;
+		  d.y = d.destination.y;
+	  });
     app.linkLines.transition()
       .duration(2000)
       .attr("x1", function(d){
@@ -161,6 +164,24 @@ app.brickView = {
     app.gs.on("mouseenter", this.nodeHover)
       .on("mouseleave", this.nodeUnhover)
       .on("click", this.nodeClick);
+  },
+
+  collapse: function(newView){
+	  if (newView == app.stackView){
+		  app.stackView.shiftBricks();
+	  } else {
+		  // remove events
+		  app.gs.on("click",  null)
+			.on("mouseenter", null)
+			.on("mouseleave", null);
+		  this.closeSelections();
+		  // hide titles
+		  app.fadeOutTitle(app.gs, newView.takeover, newView);
+	  }
+  },
+
+  closeSelections: function(){
+	  console.log("this should be closing selections right now");
   },
 
   start: function(){
