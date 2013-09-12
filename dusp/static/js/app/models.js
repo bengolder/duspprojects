@@ -71,6 +71,10 @@ app.Node.prototype = {
     return this.displayText;
   },
 
+  numLinks: function(){
+	  return this.outgoingLinks.length + this.incomingLinks.length;
+  },
+
   uniqueId: function(){
     return this.nodeType + this.id;
   },
@@ -219,6 +223,7 @@ app.models = {
         console.log("linked", modelToEdit,"with", modelForLookup);
     },
 
+
     addNode: function(n, connectingProperties){
       // first, add the node to nodes
       this.nodes.push(n);
@@ -295,12 +300,17 @@ app.models = {
         }
     },
 
+	compareTopics: function(a, b){
+		return a.numLinks() - b.numLinks();
+	},
+
     buildGraph: function(){
       // add just the projects
       var len = this.projects.length;
       for (var i=0; i < len; i++){
         this.addNode(this.projects[i], ["people", "topics"]);
       }
+	  this.topics.sort(this.compareTopics);
     },
 
 };

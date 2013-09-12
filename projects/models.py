@@ -83,7 +83,8 @@ class Project(DataModel):
     cities.help_text = ''
     countries = models.ManyToManyField('Country', blank=True, null=True)
     countries.help_text = ''
-    topics = models.ManyToManyField('Topic', blank=True, null=True)
+    topics = models.ManyToManyField('Topic', blank=True, null=True,
+            related_name="projects")
     topics.help_text = ''
     start_year = models.IntegerField(blank=True, null=True)
     end_year = models.IntegerField(blank=True, null=True)
