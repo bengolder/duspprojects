@@ -248,7 +248,7 @@ app.forceView = {
         .attr("class", "topicMenu");
 
 	  $(".topicMenu").slimScroll({
-		  height: app.grid.vus(5),
+		  height: app.grid.vus(15),
 	  });
 
       menu.selectAll(".topicToggle")
