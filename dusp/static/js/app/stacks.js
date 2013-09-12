@@ -199,8 +199,23 @@ app.brickView = {
     app.brickView.updateSVG();
   },
 
-  intro: function(){
+  shuffle: function(){
+    app.brickView.order = app.models.getShuffledNodeIndices();
+    app.brickView.calculatePositions();
+    app.brickView.move();
   },
+};
 
-
+app.stackView = {
+	calculatePositions: function(){
+	},
+	updateSVG: function(){
+	},
+	shiftBricks: function(){
+	},
+	takeover: function(){
+	},
+	collapse: function(newView){
+		newView.takeover();
+	},
 };

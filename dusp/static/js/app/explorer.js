@@ -182,6 +182,9 @@ app.handleControlClick = function(d, i){
     }
   }, this);
   if (app.currentView === newView){
+    if (app.currentView == app.brickView){
+        app.brickView.shuffle();
+    }
     // if someone's just clicking on the current view, ignore it.
     return;
   }
