@@ -613,7 +613,7 @@ div.node-title {
 .project .node-title {
   font-style: italic;
   font-weight: 300;
-  color: #cccccc;
+  color: #b3b3b3;
 }
 .topic .node-title {
   font-weight: 700;
@@ -621,7 +621,7 @@ div.node-title {
   letter-spacing: 0.1em;
   font-size: 12px;
   line-height: 22px;
-  color: #e6e6e6;
+  color: #808080;
 }
 .topicMenuWrapper {
   position: absolute;
