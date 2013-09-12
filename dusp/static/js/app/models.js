@@ -301,7 +301,7 @@ app.models = {
     },
 
 	compareTopics: function(a, b){
-		return a.numLinks() - b.numLinks();
+		return - (a.numLinks() - b.numLinks());
 	},
 
     buildGraph: function(){
