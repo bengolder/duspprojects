@@ -261,6 +261,8 @@ app.forceView = {
 
     layoutTopics: function(){
 
+		app.models.sortTopics();
+
       // layout the invisible nodes
       d3.selectAll(".node.topic")
         .attr("transform", function(d, i){

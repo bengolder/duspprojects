@@ -304,13 +304,16 @@ app.models = {
 		return - (a.numLinks() - b.numLinks());
 	},
 
+	sortTopics: function(){
+	  this.topics.sort(this.compareTopics);
+	},
+
     buildGraph: function(){
       // add just the projects
       var len = this.projects.length;
       for (var i=0; i < len; i++){
         this.addNode(this.projects[i], ["people", "topics"]);
       }
-	  this.topics.sort(this.compareTopics);
     },
 
 };

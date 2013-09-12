@@ -69,7 +69,6 @@ app.brickView = {
       pos.x = pos.x + node.block.x + this.horizontalGap + (this.horizontalPadding * 2);
 
     }
-    console.log(this);
     this.totalHeight = pos.y + this.maxHeight + this.verticalGap;
   },
 
@@ -221,9 +220,7 @@ app.stackView = {
 			if(a.displayText > b.displayText) return 1;
 			return 0;
 		};
-		app.models.topics.sort(textSort)
-		app.models.people.sort(textSort)
-		app.models.projects.sort(textSort)
+		app.gs.sort(textSort);
 	},
 
 	calculatePositions: function(){
