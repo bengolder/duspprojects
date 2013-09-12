@@ -623,13 +623,14 @@ div.node-title {
   line-height: 22px;
   color: #e6e6e6;
 }
-.topicMenu {
+.topicMenuWrapper {
   position: absolute;
   top: 132px;
   z-index: 9;
-  width: 196px;
+  width: 210px;
+  height: 110px;
 }
-.topicMenu .topicToggle {
+.topicMenuWrapper .topicToggle {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -637,10 +638,11 @@ div.node-title {
   line-height: 22px;
   color: #666666;
   cursor: pointer;
+  padding-right: 14px;
 }
-.topicMenu .topicToggle:hover {
+.topicMenuWrapper .topicToggle:hover {
   color: #e6e6e6;
 }
-.topicMenu .selected {
+.topicMenuWrapper .selected {
   color: #0785ff;
 }

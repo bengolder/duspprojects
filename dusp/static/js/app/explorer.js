@@ -32,6 +32,7 @@ app.fadeInTitle = function(s, align){
 
 };
 
+
 app.showTitle = function(s, align){
   // this needs to reduce the div to the correct display size
   var x, y;

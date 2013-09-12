@@ -146,11 +146,12 @@ div.node-title {
   color: @gray9;
 }
 
-.topicMenu {
-  position: absolute;
-  top: @vu * 6;
-  z-index: 9;
-  width: @em * 14;
+.topicMenuWrapper {
+   position: absolute;
+   top: @vu * 6;
+   z-index: 9;
+   width: @em * 15;
+   height: @vu * 5;
   .topicToggle {
     .bold;
     .uppercase;
@@ -158,6 +159,7 @@ div.node-title {
     .text-small;
     color: @gray4;
     cursor: pointer;
+    padding-right: @em;
     &:hover{
       color: @gray9;
       // border-right: 2px solid @gray9;
@@ -167,5 +169,4 @@ div.node-title {
     color: @blue;
   }
 }
-
 

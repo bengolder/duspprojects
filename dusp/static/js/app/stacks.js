@@ -145,6 +145,7 @@ app.brickView = {
       .style("opacity", 1);
     g.select(".node-data")
       .style("background", "rgba(0,0,0,0.8)");
+	console.log("hovered", d);
   },
 
   nodeUnhover: function(d, i){

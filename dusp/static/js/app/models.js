@@ -103,6 +103,10 @@ app.Node.prototype = {
 		  return app.colors.projectsBase;
 	  }
   },
+
+  getLinks: function(){
+	  return this.incomingLinks.concat(this.outgoingLinks);
+  },
 };
 
 // we will make a singleton to hold all the data

@@ -243,15 +243,22 @@ app.forceView = {
           return "translate("+d.x+","+d.y+")";
         });
 
-      d3.select("#chart").append("div")
-        .attr("class", "topicMenu")
-        .selectAll(".topicToggle")
+      var menu = d3.select("#chart").append("div")
+		  .attr("class", "topicMenuWrapper").append("div")
+        .attr("class", "topicMenu");
+
+	  $(".topicMenu").slimScroll({
+		  height: app.grid.vus(5),
+	  });
+
+      menu.selectAll(".topicToggle")
         .data(app.models.topics)
         .enter().append("div")
         .attr("class", "topicToggle")
         .text(function(d){
           return d.displayText;
         }).on("click", this.handleTopicClick);
+
     },
 
     intro: function(){
