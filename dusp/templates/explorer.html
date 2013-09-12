@@ -38,17 +38,6 @@
                     <img src="{% get_static_prefix %}img/globe.png">
                 </div>
             </div>
-            <div class="categories">
-                <div class="category" string="topic">
-                    TOPICS
-                </div>
-                <div class="category" string="person">
-                    PEOPLE
-                </div>
-                <div class="category" string="project">
-                    PROJECTS
-                </div>
-            </div>
         </div>
         <div id="chart">
         </div>
@@ -69,11 +58,13 @@
         <script type="text/javascript" src="{% get_static_prefix %}lib/jquery.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}lib/d3.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}lib/topojson.js"></script>
+        <script type="text/javascript" src="{% get_static_prefix %}js/world-110m.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}lib/jquery.slimscroll.min.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}lib/d3MouseEnterLeave.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}js/app/models.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}js/app/force.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}js/app/stacks.js"></script>
+        <script type="text/javascript" src="{% get_static_prefix %}js/app/globe.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}js/app/explorer.js"></script>
     </body>
 </html>

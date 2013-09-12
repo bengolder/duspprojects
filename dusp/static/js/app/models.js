@@ -3,10 +3,15 @@ var app = app || {};
 
 app.colors = {
     text: "#888",
+	faded: "#666",
     projectsBase: "#999999",
     peopleBase: "#FF4010",
     topicsBase: "#0785FF",
+	back: "#333",
 };
+
+app.colors.blue = app.colors.topicsBase;
+app.colors.orange = app.colors.peopleBase;
 
 app.grid = {
   vu: 22,
