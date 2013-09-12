@@ -172,7 +172,7 @@ app.handleControlClick = function(d, i){
   $el.addClass("current_view");
   // now select the new view based on the class of the clicked icon
   var classes = ["network",     "brick",       "globe",       "stack"  ];
-  var views   = [app.forceView, app.brickView, app.globeView, app.stacksView];
+  var views   = [app.forceView, app.brickView, app.globeView, app.stackView];
   var newViewName;
   var newView;
   classes.forEach(function(name, i){

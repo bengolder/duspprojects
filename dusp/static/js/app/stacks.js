@@ -16,6 +16,21 @@ app.brickView = {
   horizontalPadding: app.grid.em / 2,
   verticalPadding: app.grid.vu / 4,
 
+  buildBlockSize: function(node){
+      var text = node.displayText;
+      // set default height and width of block
+      // make sure the width is in ems
+      node.block = {
+        x: app.grid.ems(Math.ceil(text.length / 1.6)),
+        y: app.grid.vu,
+      };
+      // adjust the height and width based on character count
+      if (node.block.x > this.maxWidth) {
+        node.block.x = this.maxWidth;
+        node.block.y = this.maxHeight;
+      }
+  },
+
   calculatePositions: function(){
     // for each object, pick a point on the grid
     // use a standard object height
@@ -28,21 +43,8 @@ app.brickView = {
       // over a certain amount, I can assume it should be max width;
       var index = this.order[i - 1]
       var node = app.models.nodes[index]
-      var text = node.displayText;
 
-      // set default height and width of block
-      // make sure the width is in ems
-      node.block = {
-        x: app.grid.ems(Math.ceil(text.length / 1.6)),
-        y: app.grid.vu,
-      };
-
-
-      // adjust the height and width based on character count
-      if (node.block.x > this.maxWidth) {
-        node.block.x = this.maxWidth;
-        node.block.y = this.maxHeight;
-      }
+	  this.buildBlockSize(node);
 
       // check if the block would fall outside
       if ( (node.block.x + pos.x) > app.width) {
@@ -166,6 +168,11 @@ app.brickView = {
       .on("click", this.nodeClick);
   },
 
+  shiftBricks: function(){
+      app.currentView = app.brickView;
+	  this.shuffle();
+  },
+
   collapse: function(newView){
 	  if (newView == app.stackView){
 		  app.stackView.shiftBricks();
@@ -207,15 +214,110 @@ app.brickView = {
 };
 
 app.stackView = {
+
+	sortNodes: function(){
+		var textSort = function (a, b){
+			if(a.displayText < b.displayText) return -1;
+			if(a.displayText > b.displayText) return 1;
+			return 0;
+		};
+		app.models.topics.sort(textSort)
+		app.models.people.sort(textSort)
+		app.models.projects.sort(textSort)
+	},
+
 	calculatePositions: function(){
+		this.sortNodes();
+		var cols = {
+			"person": {
+				x: app.grid.ems(25),
+				y: app.brickView.verticalGap,
+			},
+			"topic": {
+				x: 0,
+				y: app.brickView.verticalGap,
+			},
+			"project": {
+				x: app.grid.ems(49),
+				y: app.brickView.verticalGap,
+			},
+		};
+		app.gs.each(function(d,i){
+			app.brickView.buildBlockSize(d);
+			d.destination = {};
+			// get the column x and y
+			d.destination.x = cols[d.nodeType].x;
+			d.destination.y = cols[d.nodeType].y;
+			// increment the column y
+			cols[d.nodeType].y += (d.block.y + app.brickView.verticalGap);
+		});
+		this.totalHeight = d3.max([cols["person"],cols["topic"], cols["project"]], function(c){
+			return c.y;
+		});
 	},
+
+	move: function(){
+		app.height = this.totalHeight;
+		app.resizeSVG();
+		app.gs.transition()
+		  .duration(2000)
+		  .attr("transform", function(d){
+			return trans(d.destination.x, d.destination.y);
+		  }).each("end", function(d){
+			  d.x = d.destination.x;
+			  d.y = d.destination.y;
+		  });
+		app.linkLines.transition()
+		  .duration(2000)
+		  .attr("x1", function(d){
+			return d.source.destination.x;
+		  })
+		  .attr("y1", function(d){
+			return d.source.destination.y;
+		  })
+		  .attr("x2", function(d){
+			return d.target.destination.x;
+		  })
+		  .attr("y2", function(d){
+			return d.target.destination.y;
+		  });
+
+		app.gs.select(".dots").transition()
+		  .duration(2000)
+		  .attr("transform", trans(app.grid.em/2, 0));
+	},
+
 	updateSVG: function(){
+		app.brickView.updateSVG();
 	},
+
+	setSize: function(){
+		app.height = this.totalHeight;
+		app.resizeSVG();
+	},
+
 	shiftBricks: function(){
+		app.currentView = app.stackView;
+		app.stackView.calculatePositions();
+		app.stackView.move();
 	},
+
 	takeover: function(){
+		app.currentView = app.stackView;
+		app.stackView.calculatePositions();
+		app.stackView.move();
+		app.stackView.updateSVG();
 	},
+
 	collapse: function(newView){
-		newView.takeover();
+	  if (newView == app.brickView){
+		  app.brickView.shiftBricks();
+	  } else {
+		  app.gs.on("click",  null)
+			.on("mouseenter", null)
+			.on("mouseleave", null);
+		  app.brickView.closeSelections();
+		  app.fadeOutTitle(app.gs, newView.takeover, newView);
+	  }
 	},
 };
