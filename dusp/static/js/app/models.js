@@ -3,6 +3,8 @@ var app = app || {};
 
 app.colors = {
     text: "#888",
+	dullText: '#666',
+    highlightedText: "#ccc",
 	faded: "#666",
     projectsBase: "#999999",
     peopleBase: "#FF4010",
@@ -159,6 +161,7 @@ app.models = {
                 return m;
             }
         }
+		return null;
 	},
 
     filterNodes: function(filterFunc){
@@ -327,11 +330,10 @@ app.models = {
 		this.projects.forEach(function(project){
 			if (project.countries.length > 0){
 				project.countries.forEach(function(country){
-					if (country.hasOwnProperty("projects")){
-						country.projects.push( project );
-					} else {
-						country.projects = [project];
-					}
+					country.projects = country.projects || [];
+					country.projects.push( project );
+					console.log("added", project.id, "to", country.name);
+					console.log("here is the new array", country.projects);
 				});
 			}
 		});

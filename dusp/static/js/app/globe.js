@@ -3,17 +3,16 @@ app.globeView = {
 	height: app.grid.vus(30),
 	width: app.grid.ems(24 * 4),
 	selectedCountry: null,
-	landColor: app.colors.text,
+	landColor: app.colors.dullText,
 	selectedColor: app.colors.orange,
 
-	shades: [
-            "#57A5F5",
-            "#5B8AD2",
-            "#5971B0",
-            "#51598F",
-            ],
-
 	setScales: function(){
+
+		this.ramp = d3.scale.linear()
+			.domain([0,4])
+			.range(["#fff", app.colors.blue])
+			.interpolate(d3.interpolateHsl);
+
 		this.projection = d3.geo.orthographic()
 								.scale(248)
 								.clipAngle(90);
@@ -25,10 +24,6 @@ app.globeView = {
 		this.pitchScale = d3.scale.linear()
 				   .domain([0, app.globeView.height])
 				   .range([60, -60]);
-	},
-
-	ramp: function(n){
-        return this.shades[n-1];
 	},
 
 	takeover: function(){
@@ -109,7 +104,7 @@ app.globeView = {
 		});
 
 		this.linkedCountries.sort(function(a,b){
-			return a.projects.length = b.projects.length;
+			return a.projects.length - b.projects.length;
 		});
 
 		console.log("countries", this.linkedCountries);
@@ -152,7 +147,7 @@ app.globeView = {
 
 		this.drawFill(this.selectedColor, this.selectedCountry);
 		this.drawStroke(app.colors.back, 0.5, this.borders);
-		this.drawStroke(app.colors.text, 2, {type:"Sphere"});
+		this.drawStroke(this.landColor, 2, {type:"Sphere"});
 	},
 
 	setSize: function(){
