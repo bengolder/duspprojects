@@ -1,5 +1,4 @@
 app.globeView = {
-
 	world: world,
 	height: app.grid.vus(30),
 	width: app.grid.ems(24 * 4),
@@ -29,7 +28,7 @@ app.globeView = {
 	},
 
 	ramp: function(n){
-        this.shades[n-1];
+        return this.shades[n-1];
 	},
 
 	takeover: function(){
@@ -67,16 +66,13 @@ app.globeView = {
 				app.globeView.pitchScale(p[1])
 				]);
 			app.globeView.drawGlobe();
-			console.log("p", p, "circum", app.globeView.circumScale(p[0]),
-				"pitch", app.globeView.pitchScale(p[1]));
 			});
-
 	},
 
 	start: function(){
+		this.loadData();
 		this.setScales();
 		this.initSVG();
-		this.loadData();
 		this.buildCountryMenu();
 		this.drawGlobe();
 	},
@@ -87,12 +83,36 @@ app.globeView = {
 				this.world.objects.land);
 
 		this.countries = topojson.feature(this.world,
-				this.world.objects.countries).geometries;
+				this.world.objects.countries).features;
+
+		this.linkedCountries = [];
 
 		this.borders = topojson.mesh(this.world,
 				this.world.objects.countries,
 				function(a, b){ return a.id !== b.id; }
 				);
+
+		var me = this;
+		this.countries.forEach(function(country){
+			var countryModel = app.models.getItemByAttribute("countries",
+				"country_id", country.id);
+			if (countryModel){
+				if (countryModel.hasOwnProperty("projects")){
+					// merge the model with the geometry
+					$.extend(country, countryModel);
+					// add it to the list of linked countries
+					me.linkedCountries.push(country);
+				}
+			} else {
+				console.log("couldn't find", country);
+			}
+		});
+
+		this.linkedCountries.sort(function(a,b){
+			return a.projects.length = b.projects.length;
+		});
+
+		console.log("countries", this.linkedCountries);
 	},
 
 	buildCountryMenu: function(){
@@ -123,11 +143,12 @@ app.globeView = {
 		this.drawFill(this.landColor, this.land);
 
 		// now draw each country according to its ramp
-		/// countries.forEach(function(country, i){
-            //if (country.projects.length > 0){
-                //drawFill(ramp(country.projects.length), country);
-            //}
-        //});/
+		var me = this;
+		this.linkedCountries.forEach(function(country, i){
+			if (country.projects.length > 0){
+				me.drawFill(me.ramp(country.projects.length), country);
+			}
+		});
 
 		this.drawFill(this.selectedColor, this.selectedCountry);
 		this.drawStroke(app.colors.back, 0.5, this.borders);

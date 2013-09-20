@@ -152,6 +152,15 @@ app.models = {
         }
     },
 
+	getItemByAttribute: function(model, attributeName, value){
+        for (var i = this[model].length; i; i = i - 1){
+            var m = this[model][i - 1];
+            if (m[attributeName] == value){
+                return m;
+            }
+        }
+	},
+
     filterNodes: function(filterFunc){
       return this.nodes.filter(filterFunc);
     },
@@ -287,6 +296,7 @@ app.models = {
         this.makeLinks('projects', 'countries', 'countries');
         this.makeLinks('projects', 'topics', 'topics');
         this.makeLinks('projects', 'people', 'people');
+		this.linkCountriesToProjects();
     },
 
     processAjaxSuccess: function(thing){
@@ -302,7 +312,7 @@ app.models = {
                 console.log(me);
                 app.onLoad();
             }
-        }
+		};
     },
 
 	compareTopics: function(a, b){
@@ -311,6 +321,20 @@ app.models = {
 
 	sortTopics: function(){
 	  this.topics.sort(this.compareTopics);
+	},
+
+	linkCountriesToProjects: function(){
+		this.projects.forEach(function(project){
+			if (project.countries.length > 0){
+				project.countries.forEach(function(country){
+					if (country.hasOwnProperty("projects")){
+						country.projects.push( project );
+					} else {
+						country.projects = [project];
+					}
+				});
+			}
+		});
 	},
 
     buildGraph: function(){
