@@ -61,7 +61,7 @@ strong {font-weight: 700; }
   left: @em2 + 2;
   top: @vu3;
   div {
-    .transition(0.3s);
+    //.transition(0.3s);
     float: left;
     opacity: 0.6;
     margin-right: @em3;
@@ -167,6 +167,30 @@ div.node-title {
   }
   .selected {
     color: @blue;
+  }
+}
+
+.countryMenuWrapper {
+   position: absolute;
+   top: @vu * 6;
+   z-index: 9;
+   width: @em * 15;
+   height: @vu * 15;
+  .country {
+    .bold;
+    .uppercase;
+    .tracking(0.1);
+    .text-small;
+    color: @gray6;
+    cursor: pointer;
+    padding-right: @em;
+    &:hover{
+      color: @orange;
+      // border-right: 2px solid @gray9;
+    }
+  }
+  .selected {
+    color: @orange;
   }
 }
 

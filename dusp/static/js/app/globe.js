@@ -62,13 +62,14 @@ app.globeView = {
 				]);
 			app.globeView.drawGlobe();
 			});
+
+		this.buildCountryMenu();
 	},
 
 	start: function(){
 		this.loadData();
 		this.setScales();
 		this.initSVG();
-		this.buildCountryMenu();
 		this.drawGlobe();
 	},
 
@@ -104,13 +105,78 @@ app.globeView = {
 		});
 
 		this.linkedCountries.sort(function(a,b){
-			return a.projects.length - b.projects.length;
+			return b.projects.length - a.projects.length;
 		});
 
 		console.log("countries", this.linkedCountries);
 	},
 
+	getCountryPoint: function(country){
+		return d3.geo.centroid(country);
+	},
+
+	tweenToPoint: function(point){
+		var me = this;
+		return function(){
+            // This function returns a tweening function for rotating the globe
+            var rotator = d3.interpolate(me.projection.rotate(), 
+                    [-point[0], -point[1]]
+                    );
+
+            return function(t) {
+                me.projection.rotate(rotator(t));
+                me.drawGlobe();
+            };
+        };
+	},
+
+	handleCountryClick: function(){
+		var me = this;
+		return function(d){
+			// set the selected country
+			me.selectedCountry = d;
+			// show projects for that country
+			$(".country").removeClass("selected");
+			$(this).addClass("selected");
+			var p = me.getCountryPoint(d);
+			var movement = d3.transition()
+				.duration(1000)
+				.tween("rotate", me.tweenToPoint(p));
+			movement.transition();
+		};
+		me.updateProjects();
+	},
+
+	updateProjects: function(country){
+	},
+
 	buildCountryMenu: function(){
+      this.menu = d3.select("#chart").append("div")
+		  .attr("class", "countryMenuWrapper").append("div")
+        .attr("class", "countryMenu");
+
+	  // add the nice thin scrollbar
+	  $(".countryMenu").slimScroll({
+		  height: app.grid.vus(15),
+	  });
+
+	  var me = this;
+	  this.menu.selectAll(".country")
+		  .data(this.linkedCountries)
+		  .enter().append("div")
+		  .attr("class", "country")
+		  .style("color", function(d){
+			  return me.ramp(d.projects.length);
+		  })
+		  .text(function(d){
+			  return d.name;
+		  }).on("mouseenter", function(d){
+			  d3.select(this).style("color", app.colors.orange);
+		  }).on("mouseleave", function(d){
+			  d3.select(this).style("color", 
+				  me.ramp(d.projects.length));
+		  }).on("click", this.handleCountryClick());
+		
 	},
 
 	getCountryPoint: function(country){
