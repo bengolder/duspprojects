@@ -33,9 +33,9 @@ app.brickView = {
 	  // reset the size of the foreign element
 	  node.el.select(".foreign")
 		  .attr("width", 
-			  node.block.x + (2 * this.horizontalPadding))
+			  node.block.x + (app.grid.hPad * 2))
 		  .attr("height",
-			  node.block.y + (1.5 * this.verticalPadding));
+			  node.block.y + (app.grid.vPad));
   },
 
   calculatePositions: function(){
