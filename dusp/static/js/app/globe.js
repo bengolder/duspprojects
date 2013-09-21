@@ -17,13 +17,6 @@ app.globeView = {
 								.scale(230)
 								.clipAngle(90);
 
-		this.circumScale = d3.scale.linear()
-			        .domain([0, app.globeView.width])
-					.range([-210, 210]);
-
-		this.pitchScale = d3.scale.linear()
-				   .domain([0, app.globeView.height])
-				   .range([60, -60]);
 	},
 
 	takeover: function(){
@@ -57,16 +50,6 @@ app.globeView = {
 			.projection(this.projection)
 			.pointRadius(5)
 			.context(this.context);
-
-		this.canvas.on("mousemove", function(){
-			// it would be nice to allow manual rotation
-			var p = d3.mouse(this);
-			app.globeView.projection.rotate([
-				app.globeView.circumScale(p[0]), 
-				app.globeView.pitchScale(p[1])
-				]);
-			app.globeView.drawGlobe();
-			});
 
 		this.buildCountryMenu();
 	},
