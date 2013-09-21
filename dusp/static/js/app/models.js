@@ -98,7 +98,6 @@ app.Node.prototype = {
     for (var i = theseTopics.length; i > 0; i = i-1){
       var topic = theseTopics[i-1];
       if (topic.selected) {
-        console.log("found a selected topic!", topic, this);
         return true;
       }
     }
@@ -237,7 +236,6 @@ app.models = {
             }
         });
 
-        console.log("linked", modelToEdit,"with", modelForLookup);
     },
 
 
@@ -262,7 +260,6 @@ app.models = {
         // which end they lie upon
         n.outgoingLinks.push(link);
         if (target.incomingLinks === undefined){
-          console.log("what links?", n, targets, target);
         }
         target.incomingLinks.push(link);
         this.links.push(link);
@@ -312,7 +309,6 @@ app.models = {
                 console.log("finished all ajax, linking models");
                 me.convertNodes();
                 me.linkModels();
-                console.log(me);
                 app.onLoad();
             }
 		};
@@ -332,8 +328,6 @@ app.models = {
 				project.countries.forEach(function(country){
 					country.projects = country.projects || [];
 					country.projects.push( project );
-					console.log("added", project.id, "to", country.name);
-					console.log("here is the new array", country.projects);
 				});
 			}
 		});

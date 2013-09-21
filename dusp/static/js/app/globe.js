@@ -129,9 +129,12 @@ app.globeView = {
 		return function(d){
 			// set the selected country
 			me.selectedCountry = d;
+			d3.selectAll(".country")
+				.style("color", function(c){
+				  return me.ramp(c.projects.length);
+				});
 			// show projects for that country
-			$(".country").removeClass("selected");
-			$(this).addClass("selected");
+			d3.select(this).style("color", app.colors.orange);
 			var p = me.getCountryPoint(d);
 			var movement = d3.transition()
 				.duration(1000)
@@ -220,8 +223,11 @@ app.globeView = {
 		  }).on("mouseenter", function(d){
 			  d3.select(this).style("color", app.colors.orange);
 		  }).on("mouseleave", function(d){
-			  d3.select(this).style("color", 
-				  me.ramp(d.projects.length));
+			  if (d == app.globeView.selectedCountry){
+			  } else {
+				  d3.select(this).style("color", 
+					  me.ramp(d.projects.length));
+			  }
 		  }).on("click", this.handleCountryClick());
 		
 	},

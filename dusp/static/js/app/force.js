@@ -171,8 +171,6 @@ app.forceView = {
     updateSVG: function( ){
 
       app.linkLines
-        .on("click", function(d){
-          console.log(d); })
 		.transition()
 		.duration(500)
 		.style("opacity", 1);
@@ -300,7 +298,6 @@ app.forceView = {
       this.updateSVG();
       this.restart();
       this.layoutTopics();
-      console.log(app.models.nodes);
     },
 
 };
