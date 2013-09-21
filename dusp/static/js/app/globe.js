@@ -51,7 +51,8 @@ app.globeView = {
 		this.context = this.canvas.node().getContext("2d");
 		this.path = d3.geo.path()
 			.projection(this.projection)
-			.context(this.context);
+			.context(this.context)
+			.pointRadius(5);
 
 		this.canvas.on("mousemove", function(){
 			// it would be nice to allow manual rotation
@@ -89,6 +90,7 @@ app.globeView = {
 				);
 
 		var me = this;
+
 		this.countries.forEach(function(country){
 			var countryModel = app.models.getItemByAttribute("countries",
 				"country_id", country.id);
@@ -104,6 +106,18 @@ app.globeView = {
 			}
 		});
 
+		var singapore = $.extend({
+			type:"Feature",
+			properties: {},
+			geometry:{
+				type: "Point",
+				coordinates: [103.8, 1.3],
+			}
+		}, app.models.getItemByAttribute("countries",
+				"name", "Singapore"));
+
+		this.linkedCountries.push(singapore);
+
 		this.linkedCountries.sort(function(a,b){
 			return b.projects.length - a.projects.length;
 		});
@@ -111,11 +125,8 @@ app.globeView = {
 		console.log("countries", this.linkedCountries);
 	},
 
-	getCountryPoint: function(country){
-		return d3.geo.centroid(country);
-	},
-
 	tweenToPoint: function(point){
+		console.log("point", point);
 		var me = this;
 		return function(){
             // This function returns a tweening function for rotating the globe
@@ -180,13 +191,24 @@ app.globeView = {
 	},
 
 	getCountryPoint: function(country){
+		if (country.geometry.type == "Point"){
+			return country.geometry.coordinates;
+		} else {
 		return d3.geo.centroid(country);
+		}
 	},
 
 	drawFill: function(color, pathItems){
 		this.context.fillStyle = color;
 		this.context.beginPath();
 		this.path(pathItems);
+		this.context.fill();
+	},
+
+	drawCircle: function(color, pointItem){
+		this.context.fillStyle = color;
+		this.context.beginPath();
+		this.path(pointItem);
 		this.context.fill();
 	},
 
@@ -211,13 +233,18 @@ app.globeView = {
 			}
 		});
 
-		this.drawFill(this.selectedColor, this.selectedCountry);
+		if (this.selectedCountry){
+			if (this.selectedCountry.geometry.type == "Point"){
+				this.drawCircle(this.selectedColor, this.selectedCountry);
+			} else {
+				this.drawFill(this.selectedColor, this.selectedCountry);
+			}
+		}
 		this.drawStroke(app.colors.back, 0.5, this.borders);
 		this.drawStroke(this.landColor, 2, {type:"Sphere"});
 	},
 
 	setSize: function(){
 	},
-
 
 };
