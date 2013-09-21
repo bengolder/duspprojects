@@ -154,7 +154,11 @@ app.forceView = {
       // highlight it
       var sel = d3.select(this);
       // show the title
-      app.showTitle(sel);
+      app.showTitle(sel, "center");
+	  sel.select(".node-title")
+		  .style("background-color", 
+			  app.colors.fade("#222", 0.7));
+	  console.log(app.colors.fade(app.colors.back, 0.5));
       sel.select(".dot-outline").transition()
         .duration(100)
         .attr("r", app.grid.em);
@@ -166,6 +170,8 @@ app.forceView = {
       sel.select(".dot-outline").transition()
         .duration(300)
         .attr("r", 2);
+	  sel.select(".node-title")
+		  .style("background-color", null);
     },
 
     updateSVG: function( ){

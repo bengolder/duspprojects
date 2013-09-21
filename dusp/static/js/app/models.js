@@ -10,6 +10,10 @@ app.colors = {
     peopleBase: "#FF4010",
     topicsBase: "#0785FF",
 	back: "#333",
+	fade: function(color, fraction){
+		var c = d3.rgb(color);
+		return "rgba("+ [c.r, c.g, c.b].join(",") +","+ fraction + ")";
+	},
 };
 
 app.colors.blue = app.colors.topicsBase;

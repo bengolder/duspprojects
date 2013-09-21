@@ -29,6 +29,11 @@ app.brickView = {
         node.block.x = this.maxWidth;
         node.block.y = this.maxHeight;
       }
+
+	  // reset the size of the foreign element
+	  node.el.select(".foreign")
+		  .attr("width", node.block.x)
+		  .attr("height", node.block.y + 3);
   },
 
   calculatePositions: function(){

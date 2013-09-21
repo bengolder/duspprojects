@@ -593,6 +593,9 @@ g.dots {
 rect {
   fill: rgba(204, 204, 204, 0.2);
 }
+g.foreignWrapper {
+  cursor: pointer;
+}
 div.node-title {
   position: inherit;
   overflow: hidden;
@@ -600,8 +603,6 @@ div.node-title {
   padding-right: 7px;
   padding-top: 3.5px;
   padding-bottom: 5.5px;
-  cursor: pointer;
-  background-color: rgba(51, 51, 51, 0.9);
 }
 .person .node-title {
   color: #cccccc;

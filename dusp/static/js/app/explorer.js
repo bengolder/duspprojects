@@ -58,7 +58,7 @@ app.showTitle = function(s, align){
   var x, y;
   if (align == "center"){
     x = app.grid.wMax * -0.5;
-    y = app.grid.vu;
+    y = app.grid.vu * 0.75;
   } else if (align == "left"){
     x = app.grid.em * -0.5;
     y = app.grid.vPad;
@@ -72,7 +72,7 @@ app.showTitle = function(s, align){
     .select(".node-data")
     .style("text-align", align)
     .select(".node-title")
-    .style("background", "none")
+    .style("background", null)
     .style("display", "inline-block")
     .style("text-align", align);
 };
