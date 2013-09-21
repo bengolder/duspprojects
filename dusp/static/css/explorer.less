@@ -201,16 +201,31 @@ div.node-title {
    z-index: 9;
    width: @em * 24;
    height: @vu * 15;
+    .term { 
+        .bold; .uppercase; 
+        color: @gray4;
+        .tracking(0.1);
+        font-size: @em * 0.8;
+    }
    .countryName {
        .bold;
        .uppercase;
        margin-bottom: @vu;
        color: @gray6;
+       .tracking(0.1);
    }
     .countryProject {
+        padding-right: @em;
         .title {
-            .bold;
         }
+        .people {
+            .light;
+            .italic;
+        }
+        .partners {
+            .partnerList { .italic; .light; }
+        }
+        .description { .light; color: @gray6;}
         margin-bottom:@vu;
     }
 }

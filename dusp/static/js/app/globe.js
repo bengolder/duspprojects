@@ -105,9 +105,7 @@ app.globeView = {
 					// add it to the list of linked countries
 					me.linkedCountries.push(country);
 				}
-			} else {
-				console.log("couldn't find", country);
-			}
+			} 
 		});
 
 		var singapore = $.extend({
@@ -126,11 +124,9 @@ app.globeView = {
 			return b.projects.length - a.projects.length;
 		});
 
-		console.log("countries", this.linkedCountries);
 	},
 
 	tweenToPoint: function(point){
-		console.log("point", point);
 		var me = this;
 		return function(){
             // This function returns a tweening function for rotating the globe
@@ -173,15 +169,45 @@ app.globeView = {
 			.attr("class", "countryName")
 			.text(country.name);
 
-		list.selectAll("countryProject")
+		var projects = list.selectAll("countryProject")
 			.data(country.projects).enter()
 			.append("div")
-			.attr("class", "countryProject")
-			.append("div")
+			.attr("class", "countryProject");
+		
+		projects.append("div")
 			.attr("class", "title")
 			.text(function(d){
 				return d.title;
 			});
+		
+		projects.append("div")
+			.attr("class", "description")
+			.text(function(d){ return d.description; });
+
+		var people = projects.append("div")
+			.attr("class", "faculty");
+
+		people.append("span")
+			.attr("class", "term")
+			.text("faculty: ");
+
+		people.append("span")
+			.attr("class", "people")
+			.text(function(d){
+				var names = d.people.map(function(p){
+					return p.displayText;
+				});
+				return names.join(", ");
+			});
+
+		var partners = projects.append("div")
+			.attr("class", "partners")
+		partners.append("span")
+			.attr("class", "term")
+			.text("partners: ");
+		partners.append("span")
+			.attr("class", "partnerList")
+			.text(function(d){return d.partners;});
 
 		$(".projectlist").slimScroll({
 		  height: app.grid.vus(15),
