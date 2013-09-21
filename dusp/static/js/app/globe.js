@@ -1,7 +1,7 @@
 app.globeView = {
 	world: world,
 	height: app.grid.vus(30),
-	width: app.grid.ems(24 * 4),
+	width: app.grid.ems(24 * 3),
 	selectedCountry: null,
 	landColor: app.colors.dullText,
 	selectedColor: app.colors.orange,
@@ -14,7 +14,7 @@ app.globeView = {
 			.interpolate(d3.interpolateHsl);
 
 		this.projection = d3.geo.orthographic()
-								.scale(248)
+								.scale(230)
 								.clipAngle(90);
 
 		this.circumScale = d3.scale.linear()
@@ -41,18 +41,22 @@ app.globeView = {
 		// maybe I should then reveal all the nodes at the center
 		this.canvas.remove();
 		newView.takeover();
+		d3.select(".projectlistWrapper").remove();
+		d3.select(".countryMenuWrapper").remove();
 	},
 
 	initSVG: function(){
 		this.canvas = d3.select("#chart").append("canvas")
 			.attr("width", this.width)
 			.attr("height", this.height)
-			.style("margin-top", app.grid.vu + "px");
+			.style("margin-top", app.grid.vu + "px")
+			.style("margin-left", -app.grid.ems(4) + "px");
 		this.context = this.canvas.node().getContext("2d");
+
 		this.path = d3.geo.path()
 			.projection(this.projection)
-			.context(this.context)
-			.pointRadius(5);
+			.pointRadius(5)
+			.context(this.context);
 
 		this.canvas.on("mousemove", function(){
 			// it would be nice to allow manual rotation
@@ -154,11 +158,34 @@ app.globeView = {
 				.duration(1000)
 				.tween("rotate", me.tweenToPoint(p));
 			movement.transition();
+			me.updateProjects(d);
 		};
-		me.updateProjects();
 	},
 
 	updateProjects: function(country){
+		d3.select(".projectlistWrapper").remove();
+		var list = d3.select("#chart").append("div")
+			.attr("class", "projectlistWrapper")
+			.append("div")
+			.attr("class", "projectlist");
+
+		list.append("div")
+			.attr("class", "countryName")
+			.text(country.name);
+
+		list.selectAll("countryProject")
+			.data(country.projects).enter()
+			.append("div")
+			.attr("class", "countryProject")
+			.append("div")
+			.attr("class", "title")
+			.text(function(d){
+				return d.title;
+			});
+
+		$(".projectlist").slimScroll({
+		  height: app.grid.vus(15),
+		});
 	},
 
 	buildCountryMenu: function(){
@@ -206,6 +233,7 @@ app.globeView = {
 	},
 
 	drawCircle: function(color, pointItem){
+		// draw fill
 		this.context.fillStyle = color;
 		this.context.beginPath();
 		this.path(pointItem);
@@ -229,7 +257,11 @@ app.globeView = {
 		var me = this;
 		this.linkedCountries.forEach(function(country, i){
 			if (country.projects.length > 0){
-				me.drawFill(me.ramp(country.projects.length), country);
+				if (country.geometry.type == "Point"){
+					me.drawCircle(me.ramp(country.projects.length), country);
+				} else {
+					me.drawFill(me.ramp(country.projects.length), country);
+				}
 			}
 		});
 

@@ -174,7 +174,7 @@ div.node-title {
    position: absolute;
    top: @vu * 6;
    z-index: 9;
-   width: @em * 15;
+   width: @em * 12;
    height: @vu * 15;
   .country {
     .bold;
@@ -194,3 +194,23 @@ div.node-title {
   }
 }
 
+.projectlistWrapper {
+   position: absolute;
+   top: @vu * 6;
+   left: @em * 51;
+   z-index: 9;
+   width: @em * 24;
+   height: @vu * 15;
+   .countryName {
+       .bold;
+       .uppercase;
+       margin-bottom: @vu;
+       color: @gray6;
+   }
+    .countryProject {
+        .title {
+            .bold;
+        }
+        margin-bottom:@vu;
+    }
+}

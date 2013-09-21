@@ -646,7 +646,7 @@ div.node-title {
   position: absolute;
   top: 132px;
   z-index: 9;
-  width: 210px;
+  width: 168px;
   height: 330px;
 }
 .countryMenuWrapper .country {
@@ -664,4 +664,24 @@ div.node-title {
 }
 .countryMenuWrapper .selected {
   color: #ff4010;
+}
+.projectlistWrapper {
+  position: absolute;
+  top: 132px;
+  left: 714px;
+  z-index: 9;
+  width: 336px;
+  height: 330px;
+}
+.projectlistWrapper .countryName {
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+  color: #999999;
+}
+.projectlistWrapper .countryProject {
+  margin-bottom: 22px;
+}
+.projectlistWrapper .countryProject .title {
+  font-weight: 700;
 }
