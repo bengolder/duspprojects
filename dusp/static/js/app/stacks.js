@@ -35,7 +35,7 @@ app.brickView = {
 		  .attr("width", 
 			  node.block.x + (2 * this.horizontalPadding))
 		  .attr("height",
-			  node.block.y + (this.verticalPadding))
+			  node.block.y + (1.5 * this.verticalPadding));
   },
 
   calculatePositions: function(){
