@@ -126,13 +126,13 @@ app.brickView = {
     app.linkLines.transition()
       .duration(2000)
       .attr("x1", function(d){
-        return d.source.destination.x;
+        return d.source.destination.x + 6;
       })
       .attr("y1", function(d){
         return d.source.destination.y;
       })
       .attr("x2", function(d){
-        return d.target.destination.x;
+        return d.target.destination.x + 6;
       })
       .attr("y2", function(d){
         return d.target.destination.y;
@@ -147,9 +147,17 @@ app.brickView = {
     var g = d3.select(this)
     g.select(".dot")
       .style("opacity", 1);
-    g.select(".node-data")
-      .style("background", "rgba(0,0,0,0.8)");
-	console.log("hovered", d);
+    //g.select(".node-data")
+      //.style("background", "rgba(0,0,0,0.8)");
+	var links = d.getLinks();
+	links.forEach(function(link){
+		link.el.style("opacity", 1);
+	});
+	var neighbors = d.getNeighbors();
+	neighbors.forEach(function(n){
+		n.el.select(".dot")
+			.style("opacity", 1);
+	});
   },
 
   nodeUnhover: function(d, i){
@@ -158,10 +166,22 @@ app.brickView = {
       .style("opacity", 0);
     g.select(".node-data")
       .style("background", "none");
+	var links = d.getLinks();
+	links.forEach(function(link){
+		link.el.style("opacity", 0);
+	});
+	var neighbors = d.getNeighbors();
+	neighbors.forEach(function(n){
+		n.el.select(".dot")
+			.style("opacity", 0);
+	});
   },
 
   updateSVG: function(){
     app.fadeInTitle(app.gs, "left");
+	app.linkLines.style("display", null)
+		.style("stroke-width", "1")
+		.style("stroke-dasharray", "4,4");
     app.gs.on("mouseenter", this.nodeHover)
       .on("mouseleave", this.nodeUnhover)
       .on("click", this.nodeClick);
@@ -181,6 +201,8 @@ app.brickView = {
 			.on("mouseenter", null)
 			.on("mouseleave", null);
 		  this.closeSelections();
+		  app.linkLines.style("stroke-width", null)
+			.style("stroke-dasharray", null);
 		  // hide titles
 		  app.fadeOutTitle(app.gs, newView.takeover, newView);
 	  }
@@ -267,13 +289,13 @@ app.stackView = {
 		app.linkLines.transition()
 		  .duration(2000)
 		  .attr("x1", function(d){
-			return d.source.destination.x;
+			return d.source.destination.x + 6;
 		  })
 		  .attr("y1", function(d){
 			return d.source.destination.y;
 		  })
 		  .attr("x2", function(d){
-			return d.target.destination.x;
+			return d.target.destination.x + 6;
 		  })
 		  .attr("y2", function(d){
 			return d.target.destination.y;
@@ -314,6 +336,8 @@ app.stackView = {
 			.on("mouseenter", null)
 			.on("mouseleave", null);
 		  app.brickView.closeSelections();
+		  app.linkLines.style("stroke-width", null)
+			.style("stroke-dasharray", null);
 		  app.fadeOutTitle(app.gs, newView.takeover, newView);
 	  }
 	},

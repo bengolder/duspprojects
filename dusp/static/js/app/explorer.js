@@ -104,7 +104,7 @@ app.initSVG = function(){
       return d.source.uniqueId() + d.target.uniqueId();
     }).enter().append("line")
     .attr("class", function(d){
-      return "link to"+d.target.nodeType;
+      return "link to"+d.target.nodeType + " " + d.source.uniqueId() + " " + d.target.uniqueId();
     });
 
   // make svg elements. turn them off right away
@@ -113,6 +113,15 @@ app.initSVG = function(){
     .data(app.models.nodes, function(d){ return d.uniqueId(); })
     .enter().append("g")
     .attr("class", function(d){ return d.nodeType + " node";});
+
+  // link the data back to the svg
+  app.linkLines.each(function(d){
+	  d.el = d3.select(this);
+  });
+
+  app.gs.each(function(d){
+	  d.el = d3.select(this);
+  });
 
 
   // HACKY UGLY

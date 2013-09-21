@@ -117,6 +117,17 @@ app.Node.prototype = {
   getLinks: function(){
 	  return this.incomingLinks.concat(this.outgoingLinks);
   },
+
+  getNeighbors: function(){
+	  var neighbors = [];
+	  this.incomingLinks.forEach(function(link){
+		  neighbors.push(link.source);
+	  });
+	  this.outgoingLinks.forEach(function(link){
+		  neighbors.push(link.target);
+	  });
+	  return neighbors;
+  },
 };
 
 // we will make a singleton to hold all the data
