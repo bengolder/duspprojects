@@ -154,8 +154,9 @@ app.brickView = {
     var g = d3.select(this)
     g.select(".dot")
       .style("opacity", 1);
-    //g.select(".node-data")
-      //.style("background", "rgba(0,0,0,0.8)");
+    g.select(".node-title")
+	  .style("background-color", 
+		  app.colors.fade("#222", 0.7));
 	var links = d.getLinks();
 	links.forEach(function(link){
 		link.el.style("opacity", 1);
@@ -171,8 +172,8 @@ app.brickView = {
     var g = d3.select(this)
     g.select(".dot")
       .style("opacity", 0);
-    g.select(".node-data")
-      .style("background", "none");
+    g.select(".node-title")
+	  .style("background-color", null);
 	var links = d.getLinks();
 	links.forEach(function(link){
 		link.el.style("opacity", 0);

@@ -3,6 +3,10 @@
 // name space!
 var app = app || {};
 
+var log = function(thing){
+	console.log(thing);
+};
+
 
 var moveElemToFront = function(elem){
   elem.parentNode.appendChild(elem);
@@ -143,10 +147,27 @@ app.forceView = {
     },
 
     nodeClick: function(d, i){
-      // put it in front
-      moveElemToFront(this);
-      // then expand all the details
+	  var target = d3.select(this);
+	  if (d.clicked) {
+		  d.clicked = false;
+		  // restore hover listeners
+		  target
+			.on("mouseenter", app.forceView.nodeHover)
+			.on("mouseleave", app.forceView.nodeUnhover);
+		  app.unexpandNode(target);
+	  } else {
+		  d.clicked = true;
+		  // put it in front
+		  moveElemToFront(this);
+		  // remove listeners
+		  target
+			.on("mouseenter", null)
+			.on("mouseleave", null);
+		  log(d);
+		  app.expandNode(target, d);
+	  }
     },
+
 
     nodeHover: function(d, i){
       // put it in front
@@ -158,7 +179,6 @@ app.forceView = {
 	  sel.select(".node-title")
 		  .style("background-color", 
 			  app.colors.fade("#222", 0.7));
-	  console.log(app.colors.fade(app.colors.back, 0.5));
       sel.select(".dot-outline").transition()
         .duration(100)
         .attr("r", app.grid.em);
@@ -307,4 +327,5 @@ app.forceView = {
     },
 
 };
+
 

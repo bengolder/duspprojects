@@ -132,6 +132,21 @@ app.Node.prototype = {
 	  });
 	  return neighbors;
   },
+
+  renderDetails: function(){
+	  console.log("hello");
+	  if (this.nodeType == "person"){
+		  this.el.select(".node-details")
+			  .text(this.bio);
+	  } else if (this.nodeType == "project"){
+		  this.el.select(".node-details")
+			  .text(this.description);
+	  } else if (this.nodeType == "topic"){
+		  this.el.select(".node-details")
+			  .text(this.description);
+	  }
+  },
+
 };
 
 // we will make a singleton to hold all the data
