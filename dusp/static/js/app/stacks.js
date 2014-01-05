@@ -151,38 +151,63 @@ app.brickView = {
   },
 
   nodeHover: function(d, i){
-    var g = d3.select(this)
-    g.select(".dot")
-      .style("opacity", 1);
-    g.select(".node-title")
-	  .style("background-color", 
-		  app.colors.fade("#222", 0.7));
-	var links = d.getLinks();
-	links.forEach(function(link){
-		link.el.style("opacity", 1);
-	});
-	var neighbors = d.getNeighbors();
-	neighbors.forEach(function(n){
-		n.el.select(".dot")
-			.style("opacity", 1);
-	});
+      var g = d3.select(this)
+      moveElemToFront(this);
+      g.select(".dot")
+        .style("opacity", 1);
+      g.select(".node-title")
+	    .style("background-color", 
+	  	  app.colors.fade("#222", 0.7));
+	  var links = d.getLinks();
+	  links.forEach(function(link){
+	  	link.el.style("opacity", 1);
+	  });
+	  var neighbors = d.getNeighbors();
+	  neighbors.forEach(function(n){
+	  	n.el.select(".dot")
+	  		.style("opacity", 1);
+	  });
   },
 
   nodeUnhover: function(d, i){
     var g = d3.select(this)
-    g.select(".dot")
-      .style("opacity", 0);
+	if (!d.hasSelectedNeighbor()){
+		g.select(".dot")
+		  .style("opacity", 0);
+	}
     g.select(".node-title")
 	  .style("background-color", null);
 	var links = d.getLinks();
 	links.forEach(function(link){
-		link.el.style("opacity", 0);
-	});
+		if (!(link.target.selected || link.source.selected)){
+			link.el.style("opacity", 0);
+	}});
 	var neighbors = d.getNeighbors();
 	neighbors.forEach(function(n){
-		n.el.select(".dot")
-			.style("opacity", 0);
-	});
+		if (!n.hasSelectedNeighbor() && !n.selected){
+			n.el.select(".dot")
+				.style("opacity", 0);
+	}});
+  },
+
+  nodeClick: function(d, i){
+	  // this toggles selection by removing or activating event listeners
+      var g = d3.select(this)
+	  if (d.selected){
+		  // deselect
+		  d.selected = false;
+		  console.log(d, "deselected");
+		  g.on("mouseenter", app.brickView.nodeHover)
+		   .on("mouseleave", app.brickView.nodeUnhover);
+		  app.brickView.nodeUnhover.call(this, d, i);
+	  } else {
+		  // select
+		  d.selected = true;
+		  moveElemToFront(this);
+		  console.log(d, "selected");
+		  g.on("mouseenter", null)
+		   .on("mouseleave", null);
+	  }
   },
 
   updateSVG: function(){
@@ -350,3 +375,4 @@ app.stackView = {
 	  }
 	},
 };
+

@@ -52,31 +52,6 @@ app.fadeOutTitle = function(s, callback, thisArg){
 		}()));
 };
 
-app.expandNode = function(s, d){
-	d.renderDetails();
-	s.select(".node-title").transition()
-		.duration(500)
-		.style("width", 
-				(app.grid.ems(24) - (app.grid.hPad * 2)) + "px");
-	s.select(".foreign").transition()
-		.duration(500)
-		.attr("width", app.grid.ems(24) + "px")
-		.attr("height", 
-				app.grid.vus(10) + "px")
-		.attr("x", -1 * app.grid.ems(12) + "px");
-};
-
-app.unexpandNode = function(s){
-    var x, y;
-	x = app.grid.em * -0.5;
-	y = app.grid.vPad;
-    s.select(".foreign")
-        .attr("width", app.grid.wMax + (app.grid.hPad * 2))
-        .attr("height", (app.grid.vu * 2) + (app.grid.vPad))
-        .attr("x", x)
-        .attr("y", y);
-};
-
 app.showTitle = function(s, align){
   // this needs to reduce the div to the correct display size
   var x, y;
@@ -163,16 +138,6 @@ app.initSVG = function(){
   app.titles = app.dataDivs.append("div")
     .attr("class", "node-title")
     .text(function(d){ return d.displayText; });
-
-  // we'll save the picture and markdown rendering for later
-  app.details = app.dataDivs.append("div")
-	.attr("class", "node-detail-wrapper")
-	.append("div")
-    .attr("class", "node-details");
-
-	$(".node-details").slimScroll({
-	  height: app.grid.vus(10),
-	});
 
   // gimme dots. Dots all over the place. Dots inside dots
   app.dots = app.gs.append("g").attr("class", "dots")
