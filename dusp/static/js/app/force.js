@@ -192,6 +192,9 @@ app.forceView = {
 		      	  .attr("xlink:href", d.getURL())
 		      	  .attr("target", "_blank");
 
+			    linkBox.append("title")
+				    .text("home page for "+d.displayText);
+
 				linkBox.append("rect")
 					.attr("x", -14)
 					.attr("y", -16)

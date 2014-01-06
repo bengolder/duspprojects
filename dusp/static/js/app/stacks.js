@@ -229,6 +229,9 @@ app.brickView = {
 				  .attr("xlink:href", d.getURL())
 				  .attr("target", "_blank");
 
+			  linkBox.append("title")
+				  .text("home page for "+d.displayText);
+
 			  linkBox.append("text")
 				  .text("→")
 				  .attr("y", 11)
