@@ -13,6 +13,17 @@ app.models.init();
 app.header = $(".header");
 app.svg = d3.select("#chart").append("svg");
 
+app.selection = [];
+
+app.saveSelection = function(){
+	app.gs.each(function(d, i){
+		if (d.selected) {
+			app.selection.push(d);
+		}
+	});
+
+};
+
 app.fadeInTitle = function(s, align){
   app.showTitle(s, align);
   var wraps = s.selectAll(".foreignWrapper")
@@ -52,21 +63,29 @@ app.fadeOutTitle = function(s, callback, thisArg){
 		}()));
 };
 
-
 app.showTitle = function(s, align){
-  // this needs to reduce the div to the correct display size
-  var x, y;
+  var x, y, block;
+  s.each(function(d){
+	  app.brickView.buildBlockSize(d);
+	  block = d.block;
+  });
   if (align == "center"){
-    x = app.grid.wMax * -0.5;
+    x = block.x * -0.5;
     y = app.grid.vu * 0.75;
   } else if (align == "left"){
     x = app.grid.em * -0.5;
     y = app.grid.vPad;
   }
   s.select(".foreignWrapper").style("opacity", 1);
+
+
   s.select(".foreign")
-    .attr("width", app.grid.wMax + (app.grid.hPad * 2))
-    .attr("height", (app.grid.vu * 2) + (app.grid.vPad))
+    .attr("width", function(d){
+		return d.block.x + (app.grid.hPad * 2);
+	})
+    .attr("height", function(d){
+		return d.block.y + (app.grid.vPad);
+	})
     .attr("x", x)
     .attr("y", y)
     .select(".node-data")
@@ -139,10 +158,6 @@ app.initSVG = function(){
   app.titles = app.dataDivs.append("div")
     .attr("class", "node-title")
     .text(function(d){ return d.displayText; });
-
-  // we'll save the picture and markdown rendering for later
-  app.details = app.dataDivs.append("div")
-    .attr("class", "node-details");
 
   // gimme dots. Dots all over the place. Dots inside dots
   app.dots = app.gs.append("g").attr("class", "dots")

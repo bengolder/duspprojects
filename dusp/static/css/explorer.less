@@ -23,7 +23,7 @@ strong {font-weight: 700; }
 
 @colwidth: @em * 24;
 
-.header {
+header {
   height: @vu * 4.5;
   padding-top: @vu;
   // border-bottom: 1px solid @gray8;
@@ -94,7 +94,7 @@ strong {font-weight: 700; }
 */
 
 line.link {
-  stroke: fade(@text, 50%);
+  stroke: @text;
   stroke-width: 3px;
 }
 
@@ -130,6 +130,19 @@ div.node-title {
   padding-top: @em * 0.25;
   padding-bottom: @vu * 0.25;
 }
+
+div.node-detail-wrapper {
+    position: absolute;
+}
+
+div.node-details {
+  padding-left: @em * 0.5;
+  padding-right: @em * 0.5;
+  padding-top: @em * 0.25;
+  padding-bottom: @vu * 0.25;
+  background: fade(@black, 70%);
+}
+
 .person .node-title {
   color: @gray8;
 }
@@ -138,6 +151,7 @@ div.node-title {
   .light;
   color: @gray7;
 }
+
 
 .topic .node-title {
   .bold;

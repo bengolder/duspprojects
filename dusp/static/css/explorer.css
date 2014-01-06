@@ -496,19 +496,19 @@ em {
 strong {
   font-weight: 700;
 }
-.header {
+header {
   height: 99px;
   padding-top: 22px;
   border-bottom: 2px solid #cccccc;
   overflow: hidden;
 }
-.header .titleblock {
+header .titleblock {
   height: 88px;
   width: 336px;
   float: left;
   padding-bottom: 11px;
 }
-.header .titleblock .title {
+header .titleblock .title {
   padding-top: 22px;
   font-weight: 700;
   text-transform: uppercase;
@@ -517,7 +517,7 @@ strong {
   margin-bottom: 16px;
   display: inline-block;
 }
-.header .column {
+header .column {
   height: 88px;
   margin: 0;
   padding: 0;
@@ -525,7 +525,7 @@ strong {
   float: left;
   padding-bottom: 11px;
 }
-.header .column p {
+header .column p {
   margin: 0;
   padding: 0;
   padding-left: 14px;
@@ -570,7 +570,7 @@ strong {
       
 */
 line.link {
-  stroke: rgba(204, 204, 204, 0.5);
+  stroke: #cccccc;
   stroke-width: 3px;
 }
 circle.dot-outline {
@@ -603,6 +603,16 @@ div.node-title {
   padding-right: 7px;
   padding-top: 3.5px;
   padding-bottom: 5.5px;
+}
+div.node-detail-wrapper {
+  position: absolute;
+}
+div.node-details {
+  padding-left: 7px;
+  padding-right: 7px;
+  padding-top: 3.5px;
+  padding-bottom: 5.5px;
+  background: rgba(0, 0, 0, 0.7);
 }
 .person .node-title {
   color: #cccccc;

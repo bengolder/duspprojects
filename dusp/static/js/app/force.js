@@ -3,6 +3,10 @@
 // name space!
 var app = app || {};
 
+var log = function(thing){
+	console.log(thing);
+};
+
 
 var moveElemToFront = function(elem){
   elem.parentNode.appendChild(elem);
@@ -62,7 +66,15 @@ app.forceView = {
       // this preps the nodes to be switched to another view
       this.stop();
 
-	  app.gs.each(function(d){d.fixed=true;});
+	  app.saveSelection();
+
+	  app.gs.each(function(d){
+		  d.fixed = true;
+		  if (d.selected) {
+			  app.forceView.nodeClick.call(this, d);
+			  d.selected = false;
+		  }
+	  });
 
       app.models.topics.forEach(function(t){
         t.selected = false;
@@ -132,6 +144,17 @@ app.forceView = {
 
     },
 
+	restoreSelection: function(){
+		app.selection.forEach(function(d, i, arr){
+			if (d.nodeType !== "topic"){
+				d.el.each(function(d, i){
+					app.forceView.nodeClick.call(this, d, i);
+				});
+			}
+		});
+		app.selection = [];
+	},
+
     takeover: function(){
 		console.log("forceView taking over");
 		this.updateSVG();
@@ -140,13 +163,62 @@ app.forceView = {
         app.currentView = this;
 		app.gs.each(function(d){
 			d.fixed=false;});
+		setTimeout(this.restoreSelection, 1500);
     },
 
     nodeClick: function(d, i){
-      // put it in front
-      moveElemToFront(this);
-      // then expand all the details
+	    var target = d3.select(this);
+	    if (d.selected) {
+	        d.selected = false;
+		    target.select(".link-box").remove();
+	        target.on("mouseenter", app.forceView.nodeHover)
+				  .on("mouseleave", app.forceView.nodeUnhover);
+			app.forceView.nodeUnhover.call(this, d, i);
+	    } else {
+	        d.selected = true;
+	        moveElemToFront(this);
+			app.forceView.nodeHover.call(this, d, i);
+
+		    if (d.getURL() !== null) {
+		        var linkBox = target.append("g")
+		      	  .attr("class", "link-box")
+		      	  .attr("transform", trans(
+		      				  app.grid.ems(3),
+		      				  app.grid.vu - 4
+		      				  ))
+		      	  .append("a")
+		      	  .attr("xlink:href", d.getURL())
+		      	  .attr("target", "_blank");
+
+				linkBox.append("rect")
+					.attr("x", -14)
+					.attr("y", -16)
+					.attr("width", app.grid.ems(4))
+					.attr("height", app.grid.vu)
+					.style("fill", app.colors.fade("#222", 0.7));
+
+		        linkBox.append("text")
+		      	  .text("→")
+		      	  .attr("y", 3)
+		      	  .style("fill", app.colors.text)
+		      	  .style("font-size", "30px");
+
+		        linkBox.on("mouseenter", function(d,i){
+		      	  d3.select(this).select("text")
+		      		.style("fill", d.getColor());
+		        }).on("mouseleave", function(d,i){
+		      	  d3.select(this).select("text")
+		      		.style("fill", app.colors.text);
+		        }).on("click", function(){
+		      	  d3.event.stopPropagation();
+		        });
+		    }
+	        // remove listeners
+	        target.on("mouseenter", null)
+				  .on("mouseleave", null);
+	    }
     },
+
 
     nodeHover: function(d, i){
       // put it in front
@@ -155,31 +227,66 @@ app.forceView = {
       var sel = d3.select(this);
       // show the title
       app.showTitle(sel, "center");
-	  sel.select(".node-title")
-		  .style("background-color", 
-			  app.colors.fade("#222", 0.7));
-	  console.log(app.colors.fade(app.colors.back, 0.5));
+
       sel.select(".dot-outline").transition()
         .duration(100)
         .attr("r", app.grid.em);
+
+	  sel.select(".node-title")
+		  .style("background-color", 
+			  app.colors.fade("#222", 0.7));
+
+	  d.getLinks().forEach(function(link){
+		  link.el.style("opacity", 1.0)
+	  });
+
+	  d.getNeighbors().forEach(function(n){
+		  if (!n.selected){
+			  n.el.select(".dot-outline")
+				.attr("r", app.grid.em - 3);
+		  }
+	  });
+
+
     },
 
     nodeUnhover: function(d, i){
       var sel = d3.select(this);
       app.hideTitle(sel);
-      sel.select(".dot-outline").transition()
-        .duration(300)
-        .attr("r", 2);
 	  sel.select(".node-title")
 		  .style("background-color", null);
+
+	  if (!d.hasSelectedNeighbor()){
+		  sel.select(".dot-outline").transition()
+			.duration(300)
+			.attr("r", 5);
+	  } else {
+		  sel.select(".dot-outline").transition()
+			.duration(100)
+			.attr("r", app.grid.em - 3);
+	  }
+
+	  d.getLinks().forEach(function(link){
+		  if (!(link.target.selected || link.source.selected)){
+			  link.el.style("opacity", 0.5)
+	  }});
+
+	  d.getNeighbors().forEach(function(n){
+		  if (!n.hasSelectedNeighbor() && !n.selected){
+			  n.el.select(".dot-outline").transition()
+				.duration(100)
+				.attr("r", 5);
+	  }});
     },
 
     updateSVG: function( ){
 
       app.linkLines
+		.style("stroke-width", null)
+		.style("stroke-dasharray", null)
 		.transition()
 		.duration(500)
-		.style("opacity", 1);
+		.style("opacity", 0.5);
 
 	  app.dots.select(".dot").transition()
 		  .duration(500)
@@ -307,4 +414,5 @@ app.forceView = {
     },
 
 };
+
 

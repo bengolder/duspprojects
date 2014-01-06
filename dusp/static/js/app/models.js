@@ -71,12 +71,41 @@ app.Node = function(obj){
     // the nodes they are attached to
     obj.incomingLinks = [];
     obj.outgoingLinks = [];
+	obj.eventListeners = {};
     obj.selected = false;
+    obj.subselected = false;
     $.extend(this, obj);
     return this;
 };
 
 app.Node.prototype = {
+
+ on: function( eventName, callback ){
+	  if (this.eventListeners[eventName] == undefined){
+		  this.eventListeners[eventName] = [];
+	  }
+	  this.eventListeners[eventName].push(callback);
+  },
+
+  fire: function( eventName, data ){
+	  var listeners = this.eventListeners[eventName];
+	  var target = this;
+	  if (listeners) {
+		  listeners.forEach( function(callback, i ){
+			  callback( target, data );
+		  });
+	  }
+  },
+
+  getURL: function(){
+	  if (this.nodeType == "project") {
+		  return this.website;
+	  } else if (this.nodeType == "person") {
+		  return this.home_page;
+	  } else {
+		  return null;
+	  }
+  },
 
   getDisplayText: function(){
     return this.displayText;
@@ -132,6 +161,38 @@ app.Node.prototype = {
 	  });
 	  return neighbors;
   },
+
+  hasSelectedNeighbor: function(){
+	  var outs = this.outgoingLinks.length;
+	  var ins = this.incomingLinks.length;
+	  for (var i = 0; i < outs; i++ ){
+		  if (this.outgoingLinks[i].target.selected){
+			  return true;
+		  }
+	  }
+	  for (var i = 0; i < ins; i++ ){
+		  if (this.incomingLinks[i].source.selected){
+			  return true;
+		  }
+	  }
+	  return false;
+  },
+
+  renderDetails: function(){
+	  console.log("hello");
+	  if (this.nodeType == "person"){
+		  this.el.select(".node-details")
+			  .text(this.bio);
+	  } else if (this.nodeType == "project"){
+		  this.el.select(".node-details")
+			  .text(this.description);
+	  } else if (this.nodeType == "topic"){
+		  this.el.select(".node-details")
+			  .text(this.description);
+	  }
+  },
+
+
 };
 
 // we will make a singleton to hold all the data
