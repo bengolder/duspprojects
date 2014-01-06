@@ -179,7 +179,9 @@ app.forceView = {
 	        moveElemToFront(this);
 			app.forceView.nodeHover.call(this, d, i);
 
-		    if (d.getURL() !== null) {
+		    if (d.getURL()) {
+				log("found a link");
+				log(d, d.getURL());
 		        var linkBox = target.append("g")
 		      	  .attr("class", "link-box")
 		      	  .attr("transform", trans(

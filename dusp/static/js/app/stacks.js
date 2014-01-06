@@ -216,7 +216,9 @@ app.brickView = {
 			  .attr("class", "halo")
 			  .attr("r", 15)
 			  .style("fill", app.colors.fade("#fff", 0.1));
-		  if (d.getURL() !== null) {
+		  if (d.getURL()) {
+				log("found a link");
+				log(d, d.getURL());
 			  var linkBox = g.append("g")
 				  .attr("class", "link-box")
 				  .attr("transform", trans(
