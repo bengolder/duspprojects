@@ -168,7 +168,7 @@ app.brickView = {
 
 	  var links = d.getLinks();
 	  links.forEach(function(link){
-	  	link.el.style("opacity", 1);
+	  	link.el.style("opacity", 0.8);
 	  });
 	  var neighbors = d.getNeighbors();
 	  neighbors.forEach(function(n){
