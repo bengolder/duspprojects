@@ -3,14 +3,14 @@ app.globeView = {
 	height: app.grid.vus(30),
 	width: app.grid.ems(24 * 3),
 	selectedCountry: null,
-	landColor: app.colors.dullText,
+	landColor: app.colors.fade(app.colors.text, 0.4),
 	selectedColor: app.colors.orange,
 
 	setScales: function(){
 
 		this.ramp = d3.scale.linear()
 			.domain([0,4])
-			.range(["#fff", app.colors.blue])
+			.range([app.colors.blue, "#002E57"])
 			.interpolate(d3.interpolateHsl);
 
 		this.projection = d3.geo.orthographic()

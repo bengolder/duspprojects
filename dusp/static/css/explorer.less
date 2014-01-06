@@ -4,13 +4,13 @@
 @import "effects.less";
 
 
-@text: @gray8;
-@back: @gray2;
+@text: @gray1;
+@back: @white3;
 
-body { .type-base; position: relative; background-color: @gray2; color: @gray8;
+body { .type-base; position: relative; background-color: @back; color: @text;
        padding-left: @em2; padding-right: @em2; }
-a    { color: @white9; .bold; 
-&:hover { color: @white; }}
+a    { color: @black; .bold; 
+&:hover { color: @orange; }}
 p    { .reset-spacing; margin-bottom: @vu; }
 h1, h2, h3 { font-weight: 700; .margins;}
 h1   { font-size: @vu2; line-height: @vu2; .headline_adjust(1px);}
@@ -26,8 +26,7 @@ strong {font-weight: 700; }
 header {
   height: @vu * 4.5;
   padding-top: @vu;
-  // border-bottom: 1px solid @gray8;
-  border-bottom: 2px solid @gray8;
+  border-bottom: 2px solid @text;
   overflow: hidden;
   .titleblock {
     height: @vu * 4;
@@ -109,7 +108,7 @@ g.dots {
   cursor: pointer;
 }
 
-.project .dot { fill: @gray6; }
+.project .dot { fill: @gray5; }
 .person  .dot { fill: @orange; }
 .topic   .dot { fill: @blue; }
 
@@ -144,12 +143,12 @@ div.node-details {
 }
 
 .person .node-title {
-  color: @gray8;
+  color: @black;
 }
 .project .node-title {
   .italic;
   .light;
-  color: @gray7;
+  color: @gray5;
 }
 
 
@@ -158,7 +157,7 @@ div.node-details {
   .uppercase;
   .tracking(0.1);
   .text-small;
-  color: @gray5;
+  color: @gray3;
 }
 
 .topicMenuWrapper {
@@ -172,11 +171,11 @@ div.node-details {
     .uppercase;
     .tracking(0.1);
     .text-small;
-    color: @gray4;
+    color: @gray6;
     cursor: pointer;
     padding-right: @em;
     &:hover{
-      color: @gray9;
+      color: @gray1;
       // border-right: 2px solid @gray9;
     }
   }
@@ -196,7 +195,7 @@ div.node-details {
     .uppercase;
     .tracking(0.1);
     .text-small;
-    color: @gray6;
+    color: @gray4;
     cursor: pointer;
     padding-right: @em;
     &:hover{
@@ -218,14 +217,14 @@ div.node-details {
    height: @vu * 15;
     .term { 
         .bold; .uppercase; 
-        color: @gray4;
+        color: @gray6;
         font-size: @em * 0.8;
     }
    .countryName {
        .bold;
        .uppercase;
        margin-bottom: @vu;
-       color: @gray6;
+       color: @gray4;
        .tracking(0.1);
    }
     .countryProject {
@@ -239,7 +238,7 @@ div.node-details {
         .partners {
             .partnerList { .italic; .light; }
         }
-        .description { .light; color: @gray6;}
+        .description { .light; color: @gray4;}
         margin-bottom:@vu;
     }
 }
