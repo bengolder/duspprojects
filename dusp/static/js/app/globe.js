@@ -9,8 +9,8 @@ app.globeView = {
 	setScales: function(){
 
 		this.ramp = d3.scale.linear()
-			.domain([0,4])
-			.range([app.colors.blue, "#002E57"])
+			.domain([1,4])
+			.range(["#61B1FF", "#002E57"])
 			.interpolate(d3.interpolateHsl);
 
 		this.projection = d3.geo.orthographic()

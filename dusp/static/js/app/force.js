@@ -200,7 +200,7 @@ app.forceView = {
 					.attr("y", -16)
 					.attr("width", app.grid.ems(4))
 					.attr("height", app.grid.vu)
-					.style("fill", app.colors.fade("#222", 0.7));
+					.style("fill", app.colors.fade("#222", 0.3));
 
 		        linkBox.append("text")
 		      	  .text("→")
@@ -239,10 +239,10 @@ app.forceView = {
 
 	  sel.select(".node-title")
 		  .style("background-color", 
-			  app.colors.fade("#222", 0.7));
+			  app.colors.fade("#222", 0.3));
 
 	  d.getLinks().forEach(function(link){
-		  link.el.style("opacity", 1.0)
+		  link.el.style("opacity", 0.8)
 	  });
 
 	  d.getNeighbors().forEach(function(n){
@@ -297,7 +297,7 @@ app.forceView = {
 		  .duration(500)
 		  .style("opacity", 1);
 	  app.dots.select(".dot-outline")
-		  .style("fill", "rgba(38, 38, 38, 0.8)")
+		  .style("fill", app.colors.fade(app.colors.text, 0.3))
 		  .style("stroke", "none");
 
       d3.selectAll(".totopic").style("display", "none");

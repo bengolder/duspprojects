@@ -445,7 +445,7 @@ body {
   font-size: 14px;
   line-height: 22px;
   position: relative;
-  background-color: #f7f7f7;
+  background-color: #ffffff;
   color: #1a1a1a;
   padding-left: 28px;
   padding-right: 28px;
@@ -620,7 +620,7 @@ div.node-details {
 .project .node-title {
   font-style: italic;
   font-weight: 300;
-  color: #808080;
+  color: #666666;
 }
 .topic .node-title {
   font-weight: 700;

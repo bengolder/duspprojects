@@ -215,7 +215,7 @@ app.brickView = {
 		  g.select(".dots").insert("circle", ":first-child")
 			  .attr("class", "halo")
 			  .attr("r", 15)
-			  .style("fill", app.colors.fade("#fff", 0.1));
+			  .style("fill", app.colors.fade(d.getColor(), 0.15));
 		  if (d.getURL()) {
 				log("found a link");
 				log(d, d.getURL());
