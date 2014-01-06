@@ -16,6 +16,15 @@ app.brickView = {
   horizontalPadding: app.grid.em / 2,
   verticalPadding: app.grid.vu / 4,
 
+  restoreSelection: function(){
+	  app.selection.forEach(function(d, i, arr){
+		  d.el.each(function(d, i){
+			  app.brickView.nodeClick.call(this, d, i);
+		  });
+	  });
+	  app.selection = [];
+  },
+
   buildBlockSize: function(node){
       var text = node.displayText;
       // set default height and width of block
@@ -110,7 +119,7 @@ app.brickView = {
       .text(function(d){ return d.displayText; });
 
     app.dots = app.gs.append("g").attr("class", "dots")
-      .attr("transform", function(d){return "translate("+app.grid.em/2+",0)";});
+      .attr("transform", function(d){return trans(app.grid.ems(2), 4);});
     app.dots.append("circle").attr("class", "dot-outline")
       .attr("r", (app.grid.vu / 2) - 6);
     app.dots.append("circle").attr("class", "dot")
@@ -133,21 +142,21 @@ app.brickView = {
     app.linkLines.transition()
       .duration(2000)
       .attr("x1", function(d){
-        return d.source.destination.x + 6;
+        return d.source.destination.x + app.grid.em;
       })
       .attr("y1", function(d){
-        return d.source.destination.y;
+        return d.source.destination.y + 4;
       })
       .attr("x2", function(d){
-        return d.target.destination.x + 6;
+        return d.target.destination.x + app.grid.em;
       })
       .attr("y2", function(d){
-        return d.target.destination.y;
+        return d.target.destination.y + 4;
       });
 
     app.gs.select(".dots").transition()
       .duration(2000)
-      .attr("transform", trans(app.grid.em/2, 0));
+      .attr("transform", trans(app.grid.em, 4));
   },
 
   nodeHover: function(d, i){
@@ -155,9 +164,8 @@ app.brickView = {
       moveElemToFront(this);
       g.select(".dot")
         .style("opacity", 1);
-      g.select(".node-title")
-	    .style("background-color", 
-	  	  app.colors.fade("#222", 0.7));
+
+
 	  var links = d.getLinks();
 	  links.forEach(function(link){
 	  	link.el.style("opacity", 1);
@@ -175,8 +183,6 @@ app.brickView = {
 		g.select(".dot")
 		  .style("opacity", 0);
 	}
-    g.select(".node-title")
-	  .style("background-color", null);
 	var links = d.getLinks();
 	links.forEach(function(link){
 		if (!(link.target.selected || link.source.selected)){
@@ -196,7 +202,8 @@ app.brickView = {
 	  if (d.selected){
 		  // deselect
 		  d.selected = false;
-		  console.log(d, "deselected");
+		  g.select(".halo").remove();
+		  g.select(".link-box").remove();
 		  g.on("mouseenter", app.brickView.nodeHover)
 		   .on("mouseleave", app.brickView.nodeUnhover);
 		  app.brickView.nodeUnhover.call(this, d, i);
@@ -204,7 +211,40 @@ app.brickView = {
 		  // select
 		  d.selected = true;
 		  moveElemToFront(this);
-		  console.log(d, "selected");
+		  app.brickView.nodeHover.call(this, d, i);
+		  g.select(".dots").insert("circle", ":first-child")
+			  .attr("class", "halo")
+			  .attr("r", 15)
+			  .style("fill", app.colors.fade("#fff", 0.1));
+		  if (d.getURL() !== null) {
+			  var linkBox = g.append("g")
+				  .attr("class", "link-box")
+				  .attr("transform", trans(
+							  app.grid.ems(3),
+							  0
+							  ))
+				  .append("a")
+				  .attr("xlink:href", d.getURL())
+				  .attr("target", "_blank");
+
+			  linkBox.append("text")
+				  .text("→")
+				  .attr("y", 11)
+				  .style("fill", app.colors.text)
+				  .style("font-size", "30px");
+
+			  linkBox.on("mouseenter", function(d,i){
+				  d3.select(this).select("text")
+					.style("fill", d.getColor());
+			  }).on("mouseleave", function(d,i){
+				  d3.select(this).select("text")
+					.style("fill", app.colors.text);
+			  }).on("click", function(){
+				  d3.event.stopPropagation();
+			  });
+		  }
+
+
 		  g.on("mouseenter", null)
 		   .on("mouseleave", null);
 	  }
@@ -233,15 +273,21 @@ app.brickView = {
 		  app.gs.on("click",  null)
 			.on("mouseenter", null)
 			.on("mouseleave", null);
+		  app.saveSelection()
 		  this.closeSelections();
-		  app.linkLines.style("stroke-width", null)
-			.style("stroke-dasharray", null);
 		  // hide titles
 		  app.fadeOutTitle(app.gs, newView.takeover, newView);
 	  }
   },
 
   closeSelections: function(){
+	  app.gs.each(function(d, i){
+		if (d.selected){
+			app.brickView.nodeClick.call(this, d, i);
+		}
+		  
+	  });
+	  
 	  console.log("this should be closing selections right now");
   },
 
@@ -258,6 +304,7 @@ app.brickView = {
     app.brickView.calculatePositions();
     app.brickView.move();
     app.brickView.updateSVG();
+	setTimeout(app.brickView.restoreSelection, 3000);
   },
 
   shuffle: function(){
@@ -322,21 +369,21 @@ app.stackView = {
 		app.linkLines.transition()
 		  .duration(2000)
 		  .attr("x1", function(d){
-			return d.source.destination.x + 6;
+			return d.source.destination.x + app.grid.em;
 		  })
 		  .attr("y1", function(d){
-			return d.source.destination.y;
+			return d.source.destination.y + 4;
 		  })
 		  .attr("x2", function(d){
-			return d.target.destination.x + 6;
+			return d.target.destination.x + app.grid.em;
 		  })
 		  .attr("y2", function(d){
-			return d.target.destination.y;
+			return d.target.destination.y + 4;
 		  });
 
 		app.gs.select(".dots").transition()
 		  .duration(2000)
-		  .attr("transform", trans(app.grid.em/2, 0));
+		  .attr("transform", trans(app.grid.em, 4));
 	},
 
 	updateSVG: function(){
@@ -359,6 +406,7 @@ app.stackView = {
 		app.stackView.calculatePositions();
 		app.stackView.move();
 		app.stackView.updateSVG();
+		setTimeout(app.brickView.restoreSelection, 3000);
 	},
 
 	collapse: function(newView){
@@ -369,8 +417,6 @@ app.stackView = {
 			.on("mouseenter", null)
 			.on("mouseleave", null);
 		  app.brickView.closeSelections();
-		  app.linkLines.style("stroke-width", null)
-			.style("stroke-dasharray", null);
 		  app.fadeOutTitle(app.gs, newView.takeover, newView);
 	  }
 	},

@@ -97,6 +97,16 @@ app.Node.prototype = {
 	  }
   },
 
+  getURL: function(){
+	  if (this.nodeType == "project") {
+		  return this.website;
+	  } else if (this.nodeType == "person") {
+		  return this.home_page;
+	  } else {
+		  return null;
+	  }
+  },
+
   getDisplayText: function(){
     return this.displayText;
   },

@@ -570,7 +570,7 @@ header .column p {
       
 */
 line.link {
-  stroke: rgba(204, 204, 204, 0.5);
+  stroke: #cccccc;
   stroke-width: 3px;
 }
 circle.dot-outline {
