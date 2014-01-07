@@ -18,7 +18,14 @@ app.auth = {
 		var form = d3.select("body").append("div")
 			.attr("class", "overlay")
 			.append("form")
-			.attr("class", "login-form");
+			.attr("class", "login-form")
+			.attr("method", "post")
+			.attr("action", "/index/");
+
+		form.append("input")
+			.attr("type", "hidden")
+			.attr("name", "csrfmiddlewaretoken")
+			.attr("value", csrftoken);
 
 		form.append("div")
 			.attr("class", "login-header")
@@ -28,21 +35,22 @@ app.auth = {
 			.attr("class", "field-row")
 			.append("input")
 			.attr("type", "text")
+			.attr("name", "user")
 			.attr("class", "username-field");
 
 		form.append("div")
 			.attr("class", "field-row")
 			.append("input")
 			.attr("type", "password")
+			.attr("name", "password")
 			.attr("class", "password-field");
 
-		form.append("div")
+		var submit = form.append("div")
 			.attr("class", "field-row")
 			.append("input")
-			.attr("type", "button")
+			.attr("type", "submit")
 			.attr("value", "login")
 			.attr("class", "submit-button");
-
 	},
 
 };
