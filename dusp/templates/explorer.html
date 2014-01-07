@@ -21,7 +21,7 @@
             </div>
             <div class="edit column">
                 <p>If you are DUSP Faculty and you'd like to add projects or
-                make corrections, just click right <a href="/#login">here</a>.
+                make corrections, just click right <a id="login-link" href="/#login">here</a>.
                 </p>
             </div>
             <div class="controls">
@@ -61,10 +61,12 @@
         <script type="text/javascript" src="{% get_static_prefix %}js/world-110m.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}lib/jquery.slimscroll.min.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}lib/d3MouseEnterLeave.js"></script>
+        <script type="text/javascript" src="{% get_static_prefix %}js/csrf.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}js/app/models.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}js/app/force.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}js/app/stacks.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}js/app/globe.js"></script>
+        <script type="text/javascript" src="{% get_static_prefix %}js/app/auth.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}js/app/explorer.js"></script>
     </body>
 </html>

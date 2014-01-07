@@ -220,6 +220,7 @@ app.setSize();
 window.onresize = app.setSize;
 
 app.onLoad = function(){
+  app.auth.init();
   app.models.buildGraph();
   app.initSVG();
   d3.selectAll(".control").on("click", app.handleControlClick);

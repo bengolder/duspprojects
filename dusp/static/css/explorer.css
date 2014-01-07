@@ -713,3 +713,18 @@ div.node-details {
   font-weight: 300;
   color: #999999;
 }
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.overlay form.login-form {
+  width: 448px;
+  margin: 0 auto;
+  margin-top: 88px;
+  background-color: #ffffff;
+  color: #333333;
+}
