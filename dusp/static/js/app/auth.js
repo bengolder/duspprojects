@@ -1,6 +1,3 @@
-
-
-
 var app = app || {};
 
 app.auth = {

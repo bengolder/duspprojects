@@ -162,7 +162,13 @@ def add_jsons():
     return d
 
 def index(request):
-    """This should be an index"""
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/')
+    """This is the editing page. It is auth dependent. There should be three
+    levels of authentication:
+        1. Admin - Eran & I - edit anything
+        2. Faculty - Edit their own, add new, and see others
+    """
     c = {
             "page_title": "DUSP Projects Explorer Index Page",
             }

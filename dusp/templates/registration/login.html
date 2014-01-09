@@ -1,0 +1,21 @@
+{% extends "home.html" %}
+
+    {% block content %}
+    <form class="login-form" method="post" action=".">
+      {% csrf_token %}
+      <div class="login-header">
+        DUSP Explorer Faculty/Staff Login
+      </div>
+      <div class="field-row">
+        <input type="text" name="user" class="username-field" />
+      </div>
+      <div class="field-row">
+        <input type="password" name="password" class="password-field" />
+      </div>
+      <div class="field-row">
+        <input type="submit" name="submit" class="submit-button" value="Login" />
+      </div>
+    </form>
+    {% endblock %}
+
+
