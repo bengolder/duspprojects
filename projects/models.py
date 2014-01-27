@@ -69,7 +69,7 @@ class Topic(DataModel):
 
 class Project(DataModel):
     title = models.CharField(max_length=500)
-    people = models.ManyToManyField('Person')
+    people = models.ManyToManyField('Person', related_name='projects')
     people.help_text = ''
     type = models.CharField(max_length=100, null=True, blank=True)
     website = models.URLField(blank=True, null=True)
@@ -100,6 +100,26 @@ class Project(DataModel):
             else:
                 data[f] = ''
         return data
+
+class Publication(DataModel):
+    article_id = models.IntegerField()
+    doi = models.CharField( max_length=50 )
+    title = models.CharField( max_length=300 )
+    journal_name = models.CharField( max_length=200 )
+    year = models.IntegerField()
+    vol = models.IntegerField()
+    iss = models.IntegerField()
+    start_page = models.IntegerField()
+    end_page = models.IntegerField()
+    full_name = models.CharField( max_length=100 )
+    first_name = models.CharField( max_length=50 )
+    middle_name = models.CharField( max_length=50 )
+    last_name = models.CharField( max_length=50 )
+    nice_name = models.CharField( max_length=500 )
+    mit_id = models.IntegerField()
+    source = models.CharField( max_length=50 )
+    abstract = models.TextField()
+
 
 class City(DataModel):
     name = models.CharField(max_length=400)
@@ -148,6 +168,8 @@ class ProjectForm(ModelForm):
                 "countries": forms.TextInput(),
                 "topics": forms.TextInput(),
                 }
+
+
 
 class TopicForm(ModelForm):
     class Meta:

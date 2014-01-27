@@ -7,6 +7,42 @@ Serializer notes:
     representative dictionaries.
 """
 
+class SimplePersonSerializer( serializers.ModelSerializer ):
+    class Meta:
+        model = Person
+        fields = (
+            'id',
+            'full_name',
+            'official_title',
+            'status',
+            'picture',
+            'home_page',
+            'email',
+                )
+
+class ProjectSerializer(serializers.ModelSerializer):
+    people = SimplePersonSerializer(many=True)
+    # cities = serializers.PrimaryKeyRelatedField(many=True)
+    countries = serializers.PrimaryKeyRelatedField(many=True)
+    topics = serializers.PrimaryKeyRelatedField(many=True)
+    class Meta:
+        model = Project
+        fields = (
+            'id',
+            'title',
+            'people',
+            'type',
+            'website',
+            'description',
+            'partners',
+            # 'cities',
+            'countries',
+            'topics',
+            'start_year',
+            'end_year',
+                )
+
+
 
 class PersonSerializer(serializers.ModelSerializer):
     interests = serializers.PrimaryKeyRelatedField(many=True)
@@ -26,6 +62,24 @@ class PersonSerializer(serializers.ModelSerializer):
             'email',
                 )
 
+class PersonWithProjectsSerializer( serializers.ModelSerializer ):
+    interests = serializers.PrimaryKeyRelatedField(many=True)
+    projects = ProjectSerializer(many=True)
+    class Meta:
+        model = Person
+        fields = (
+            'id',
+            'full_name',
+            'official_title',
+            'status',
+            'picture',
+            'home_page',
+            'interests',
+            'email',
+            'projects',
+                )
+
+
 class UserSerializer(serializers.ModelSerializer):
     profile = PersonSerializer()
     class Meta:
@@ -34,26 +88,12 @@ class UserSerializer(serializers.ModelSerializer):
                 "id", "username", "profile"
                 )
 
-class ProjectSerializer(serializers.ModelSerializer):
-    people = serializers.PrimaryKeyRelatedField(many=True)
-    # cities = serializers.PrimaryKeyRelatedField(many=True)
-    countries = serializers.PrimaryKeyRelatedField(many=True)
-    topics = serializers.PrimaryKeyRelatedField(many=True)
+class EditingIndexSerializer( serializers.ModelSerializer ):
+    profile = PersonWithProjectsSerializer(many=True)
     class Meta:
-        model = Project
+        model = User
         fields = (
-            'id',
-            'title',
-            'people',
-            'type',
-            'website',
-            'description',
-            'partners',
-            # 'cities',
-            'countries',
-            'topics',
-            'start_year',
-            'end_year',
+                "id", "username", "profile"
                 )
 
 class TopicSerializer(serializers.ModelSerializer):

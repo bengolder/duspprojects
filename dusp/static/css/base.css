@@ -87,7 +87,8 @@ label {
   transition: all 0.2s linear;
 }
 input[type="text"],
-textarea {
+textarea,
+input[type="password"] {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   margin: 0;
   padding: 0;
@@ -105,17 +106,20 @@ textarea {
   transition: all 0.2s linear;
 }
 input[type="text"]:focus,
-textarea:focus {
+textarea:focus,
+input[type="password"]:focus {
   outline: 0;
   outline-offset: 0;
 }
 input[type="text"]:focus,
-textarea:focus {
+textarea:focus,
+input[type="password"]:focus {
   border: 1px solid #0785ff;
   color: #000000;
   background: #ffffff;
 }
-input[type="text"] {
+input[type="text"],
+input[type="password"] {
   width: 596px;
   height: 33px;
 }
@@ -166,6 +170,21 @@ input[type="file"]:focus {
 }
 input[type="file"]:focus {
   color: #0785ff;
+}
+p {
+  max-width: 512px;
+}
+p.error {
+  width: 596px;
+  padding: 6px;
+  color: #7d241a;
+  background-color: #f6d7d3;
+  line-height: 33px;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  font-family: "Open Sans Condensed", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  border: 1px solid #7d241a;
 }
 input[type="submit"] {
   margin: 0;
