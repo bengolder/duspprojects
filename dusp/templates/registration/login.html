@@ -1,21 +1,40 @@
 {% extends "home.html" %}
 
     {% block content %}
-    <form class="login-form" method="post" action=".">
-      {% csrf_token %}
-      <div class="login-header">
+
+      <h1 class="login-header">
         DUSP Explorer Faculty/Staff Login
-      </div>
-      <div class="field-row">
-        <input type="text" name="user" class="username-field" />
-      </div>
-      <div class="field-row">
-        <input type="password" name="password" class="password-field" />
-      </div>
-      <div class="field-row">
-        <input type="submit" name="submit" class="submit-button" value="Login" />
-      </div>
-    </form>
+      </h1>
+
+      {% if form.errors %}
+        <p class="error">
+          Your username and password didn't match. Please try again or click 
+          <a href="{% url 'django.contrib.auth.views.password_reset' %}">
+            here
+          </a>
+          to reset your password.
+        </p>
+      {% endif %} 
+
+      <form class="login-form" method="post" action="{% url 'django.contrib.auth.views.login' %}">
+        {% csrf_token %}
+
+        <div class="field-row">
+          <p class="field-label">{{ form.username.label_tag }}</p>
+          <p class="field">{{ form.username }}</p>
+        </div>
+
+        <div class="field-row">
+          <p class="field-label">{{ form.password.label_tag }}</p>
+          <p class="field">{{ form.password }}</p>
+        </div>
+
+        <div class="field-row">
+          <input type="submit" name="submit" class="submit-button" value="Login" />
+        </div>
+          <input type="hidden" name="next" value="/index/" />
+      </form>
+
     {% endblock %}
 
 

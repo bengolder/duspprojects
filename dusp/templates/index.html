@@ -1,6 +1,5 @@
 {% extends "home.html" %}
 
-
 <!--person-->
 <!--project-->
 <!--topic-->
@@ -10,10 +9,10 @@
   {% include "auth_header.html" %}
 {% endblock %}
 <h1>{{page_title}}</h1>
-{% if project %}
+{% if projects %}
 <h3>Projects</h3>
 <ul class="projects">
-  {% for p in project %}
+  {% for p in projects %}
   <li class="project">
   <a href="{{root_url}}edit/project/{{p.id}}/">
     <div class="project-title"> {{p.title}} </div></a>
@@ -22,7 +21,13 @@
       {% else %} since {{p.start_year}}
       {% endif %}
     </div> {% endif %}
-    <div class="project-people"> {{p.people}} </div>
+    <div class="project-people"> 
+      {% for person in p.people %} 
+      <a href="/profiles/{{ person.id }}" class="profilelink">
+        {{ person.full_name }}
+      </a>
+      {% endfor %}
+    </div>
     {% if p.description %}
     <div class="project-description"> {{p.description}} </div>
     {% endif %}
@@ -39,6 +44,8 @@
   {% endfor %}
 </ul>
 {% endif %}
+
+
 
 {% if topic %}
 <h3>Topics</h3>

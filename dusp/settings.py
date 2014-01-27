@@ -11,6 +11,11 @@ from config import (site, backend, gis_backend,
         TEMPLATE_DIRS,
         TEMPLATE_CONTEXT_PROCESSORS,
         ADMINS,
+        EMAIL_BACKEND,
+        EMAIL_HOST,
+        EMAIL_HOST_USER,
+        EMAIL_HOST_PASSWORD,
+        EMAIL_PREFIX,
         )
 
 DEBUG = True

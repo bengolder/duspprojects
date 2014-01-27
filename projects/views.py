@@ -33,11 +33,18 @@ from projects.serializers import (
         ProjectSerializer, PersonSerializer,
         TopicSerializer, UserSerializer,
         CountrySerializer,
+        EditingIndexSerializer,
         )
 from projects.permissions import (
         OwnProfileToEdit,
         IsListedInPeopleOrReadOnly,
         )
+
+
+def get_user_person(request):
+    print "Looking for that user"
+    user = UserSerializer( request.user )
+    return user.data
 
 
 class ProjectsView(APIView):
@@ -173,9 +180,18 @@ def index(request):
             "page_title": "DUSP Projects Explorer Index Page",
             }
     # go get everything
-    for k in model_lookup:
-        c[k] = model_lookup[k][0].objects.all()
-        c[k] = [n.to_json_format(True) for n in c[k]]
+    if request.user.is_superuser:
+        for k in model_lookup:
+            c[k] = model_lookup[k][0].objects.all()
+            c[k] = [n.to_json_format(True) for n in c[k]]
+        c['profile'] = request.user
+        c['projects'] = c.pop('project')
+        print c['profile']['username']
+    else:
+        user = EditingIndexSerializer( request.user )
+        c['profile'] = user.data['profile'][0]
+        print c['profile']['full_name']
+        c['projects'] = c['profile']['projects']
     c.update(add_root())
     return render_to_response(
             'index.html',

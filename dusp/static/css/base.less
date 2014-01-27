@@ -15,6 +15,7 @@
 @blue: #0785FF;
 @midgray: #9E9CA1;
 @orange: #FF4010;
+@red: #7D241A;
 @lighttext: lighten(@text, 30%);
 @fainttext: lighten(@text, 70%);
 @verylight: darken(@back, 15%);
@@ -150,7 +151,7 @@ label {
   .transition(0.2s);
 }
 
-input[type="text"], textarea { 
+input[type="text"], textarea, input[type="password"] { 
   ///.inset(@pad, lighten(@text, 30%));
   font-family: @sans;
   .clear; 
@@ -173,7 +174,7 @@ input[type="text"], textarea {
   }
 }
 
-input[type="text"] { 
+input[type="text"], input[type="password"] { 
   .cols(8);
   height: @vu * 1.5;  
 }
@@ -211,6 +212,22 @@ input[type="file"] {
   &:focus {
     color: @blue;
   }
+}
+
+p {
+    max-width: @col * 8;
+}
+
+p.error {
+  .cols(8);
+  padding: @pad;
+  color: @red;
+  background-color: lighten(@red, 60%);
+  line-height: @vu * 1.5;
+  .radius(6px);
+  font-family: @condensed;
+  // font-size: @vu - 4;
+  border: 1px solid @red;
 }
 
 input[type="submit"] {

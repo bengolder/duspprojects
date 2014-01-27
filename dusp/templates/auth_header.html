@@ -1,0 +1,16 @@
+
+  <div class="auth-header">
+    <span class="auth-message">
+      {% if user.is_authenticated %}
+        {% if user.is_superuser %}
+      You are logged in as {{profile.username}}. Not you?
+        {% else %}
+        You are logged in as <span class="username">{{profile.full_name}}</span>. Not you?
+        {% endif %}
+      <a id="login-link" href="/login/" >Click here</a>.
+      {% else %}
+      You are not logged in.
+      {% endif %}
+    </span>
+  </div>
+
