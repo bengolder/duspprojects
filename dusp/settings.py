@@ -18,6 +18,11 @@ from config import (site, backend, gis_backend,
         EMAIL_PREFIX,
         )
 
+# HTTPS stuff
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
