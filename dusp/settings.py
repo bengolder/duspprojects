@@ -16,6 +16,7 @@ from config import (site, backend, gis_backend,
         EMAIL_HOST_USER,
         EMAIL_HOST_PASSWORD,
         EMAIL_PREFIX,
+        MIT_AUTH,
         )
 
 # HTTPS stuff
