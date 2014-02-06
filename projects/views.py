@@ -186,7 +186,7 @@ def index(request):
             c[k] = [n.to_json_format(True) for n in c[k]]
         c['profile'] = request.user
         c['projects'] = c.pop('project')
-        print c['profile']['username']
+        print request.user.username
     else:
         user = EditingIndexSerializer( request.user )
         c['profile'] = user.data['profile'][0]

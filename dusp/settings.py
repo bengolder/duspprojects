@@ -17,11 +17,13 @@ from config import (site, backend, gis_backend,
         EMAIL_HOST_PASSWORD,
         EMAIL_PREFIX,
         MIT_AUTH,
+        dev_env,
         )
 
-# HTTPS stuff
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+if dev_env == "remote":
+    # HTTPS stuff
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
 
 DEBUG = True
