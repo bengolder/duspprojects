@@ -289,7 +289,6 @@ app.models = {
         // this goes through all the models 
         // this will replace a list of ids with links to the actual objects
         var me = this;
-
         this[modelToEdit].forEach(function(item, index){
             // first, put it in the nodes
             // and store its id

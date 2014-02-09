@@ -20,6 +20,27 @@ class SimplePersonSerializer( serializers.ModelSerializer ):
             'email',
                 )
 
+class SimpleProjectSerializer(serializers.ModelSerializer):
+    people = serializers.PrimaryKeyRelatedField(many=True)
+    countries = serializers.PrimaryKeyRelatedField(many=True)
+    topics = serializers.PrimaryKeyRelatedField(many=True)
+    class Meta:
+        model = Project
+        fields = (
+            'id',
+            'title',
+            'people',
+            'type',
+            'website',
+            'description',
+            'partners',
+            # 'cities',
+            'countries',
+            'topics',
+            'start_year',
+            'end_year',
+            )
+
 class ProjectSerializer(serializers.ModelSerializer):
     people = SimplePersonSerializer(many=True)
     # cities = serializers.PrimaryKeyRelatedField(many=True)

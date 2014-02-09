@@ -34,6 +34,7 @@ from projects.serializers import (
         TopicSerializer, UserSerializer,
         CountrySerializer,
         EditingIndexSerializer,
+        SimpleProjectSerializer,
         )
 from projects.permissions import (
         OwnProfileToEdit,
@@ -56,11 +57,11 @@ class ProjectsView(APIView):
 
     def get(self, request, format=None):
         projects = Project.objects.all()
-        serializer = ProjectSerializer(projects, many=True)
+        serializer = SimpleProjectSerializer(projects, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = ProjectSerializer(data=request.DATA)
+        serializer = SimpleProjectSerializer(data=request.DATA)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
