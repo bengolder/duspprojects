@@ -4,14 +4,18 @@
 <html lang="en-us">
     <head>
         <meta charset="UTF-8">
-        <title>DUSP Explorer</title>
+      <title>{%if page_title%}{{page_title}}{%else%}DUSP Explorer{%endif%}</title>
+        {% block css %}
         <link rel="stylesheet" href="{% get_static_prefix %}css/explorer.css" type="text/css"/>
         <link rel="stylesheet" type="text/css" src="{% get_static_prefix %}css/jquery.jscrollpane.css"/>
+        {% endblock %}
     </head>
     <body>
+        {% block content %}
         <header>
+           {% block header %}
             <div class="titleblock">
-              <span class="title">DUSP Explorer</span>
+              <span class="title">{%if page_title%}{{page_title}}{%else%}DUSP Explorer{%endif%}</span>
             </div>
             <div class="about column">
                 <p>This project aims to visualize the connections between
@@ -38,6 +42,7 @@
                     <img src="{% get_static_prefix %}img/globe.png">
                 </div>
             </div>
+            {% endblock %}
         </header>
         <div id="chart">
         </div>
@@ -50,24 +55,37 @@
                 </g>
             </svg>
         </div>
-    
+        {% block scripts %}
+        {% block js_environmental_vars %}
         <script type="text/javascript" >
         var APP_ROOT = "{{ ROOT_URL }}";
         var STATIC_ROOT = "{% get_static_prefix %}";
+        var APP_VIEW = "{{ app_view }}";
         </script>
+        {% endblock %}
+        {% block js_basic_libs %}
         <script type="text/javascript" src="{% get_static_prefix %}lib/jquery.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}lib/d3.js"></script>
-        <script type="text/javascript" src="{% get_static_prefix %}lib/topojson.js"></script>
-        <script type="text/javascript" src="{% get_static_prefix %}js/world-110m.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}lib/jquery.slimscroll.min.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}lib/d3MouseEnterLeave.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}js/csrf.js"></script>
+        {% endblock %}
+        {% block js_extra_libs %}
+        <script type="text/javascript" src="{% get_static_prefix %}lib/topojson.js"></script>
+        <script type="text/javascript" src="{% get_static_prefix %}js/world-110m.js"></script>
+        {% endblock %}
+        {% block js_apps %}
         <script type="text/javascript" src="{% get_static_prefix %}js/app/models.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}js/app/force.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}js/app/stacks.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}js/app/globe.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}js/app/auth.js"></script>
         <script type="text/javascript" src="{% get_static_prefix %}js/app/explorer.js"></script>
+        {% endblock %}
+        <!--end scripts-->
+      {% endblock %}
+      <!--end content-->
+    {% endblock %}
     </body>
 </html>
 

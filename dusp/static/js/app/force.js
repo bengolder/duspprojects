@@ -337,7 +337,7 @@ app.forceView = {
           .duration(500)
           .style("opacity", function(d){
             if (d.hasSelectedTopics()){
-              return 0.5;
+              return 1.0;
             } else {
               return 0.1;
           }});

@@ -36,7 +36,8 @@ class Person(DataModel):
     home_page = models.URLField(blank=True, null=True)
     # process the bio with markdown
     bio = models.TextField(blank=True, null=True)
-    interests = models.ManyToManyField('Topic', blank=True, null=True)
+    interests = models.ManyToManyField('Topic', blank=True, null=True,
+            related_name="people")
     interests.help_text = ''
     email = models.EmailField(blank=True, null=True)
 
@@ -119,7 +120,8 @@ class Publication(DataModel):
     mit_id = models.IntegerField()
     source = models.CharField( max_length=50 )
     abstract = models.TextField()
-
+    topics = models.ManyToManyField('Topic', blank=True, null=True,
+            related_name="papers")
 
 class City(DataModel):
     name = models.CharField(max_length=400)
@@ -168,7 +170,6 @@ class ProjectForm(ModelForm):
                 "countries": forms.TextInput(),
                 "topics": forms.TextInput(),
                 }
-
 
 
 class TopicForm(ModelForm):

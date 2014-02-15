@@ -138,3 +138,20 @@ class CountrySerializer(serializers.ModelSerializer):
                 )
 
 
+class TopicSearchSerializer(serializers.ModelSerializer):
+    people = serializers.PrimaryKeyRelatedField(many=True)
+    projects = serializers.PrimaryKeyRelatedField(many=True)
+    papers = serializers.PrimaryKeyRelatedField(many=True)
+    class Meta:
+        model = Topic
+        fields = (
+            'id',
+            'title',
+            'collection',
+            'description',
+            'people',
+            'projects',
+            'papers',
+        )
+
+
