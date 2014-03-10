@@ -1,0 +1,35 @@
+{% extends "explorer.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% get_static_prefix %}css/topics.css" type="text/css"/>
+<link rel="stylesheet" type="text/css" src="{% get_static_prefix %}css/jquery.jscrollpane.css"/>
+{% endblock %}
+
+{% block content %}
+<nav class="site-nav">
+  <ul class="nav-links">
+    <li class="nav-link">DUSP</li>
+    <li class="nav-link">TOPICS</li>
+    <li class="nav-link">PEOPLE</li>
+  </ul>
+</nav>
+<div id="chart"></div>
+
+  {% block scripts %}
+    {% block js_environmental_vars %}
+    <script type="text/javascript" >
+    var APP_ROOT = "{{ ROOT_URL }}";
+    var STATIC_ROOT = "{% get_static_prefix %}";
+    var APP_VIEW = "{{ app_view }}";
+    </script>
+    {% endblock %}
+    {% block js_apps %}
+    <script data-main="{% get_static_prefix %}js/main.js" src="{% get_static_prefix %}js/require.js"></script>
+    {% endblock %}
+  <!--end scripts-->
+  {% endblock %}
+
+<!--end content-->
+{% endblock %}
+

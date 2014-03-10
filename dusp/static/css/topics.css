@@ -711,10 +711,27 @@ div.node-details {
   background-color: #ffffff;
   color: #ffffff;
 }
-header {
-  height: 55px;
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
-header .titleblock {
-  width: 672px;
-  height: 44px;
+.site-nav {
+  margin: 0;
+  border: none;
+  height: 55px;
+  background-color: #000000;
+  position: fixed;
+  left: 0;
+  width: 56px;
+  height: 100%;
+  cursor: pointer;
+}
+.site-nav .nav-links {
+  display: none;
+}
+#chart {
+  margin-left: 56px;
+  height: 100%;
 }
