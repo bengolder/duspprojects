@@ -16,6 +16,7 @@ from config import (site, backend, gis_backend,
         EMAIL_HOST_USER,
         EMAIL_HOST_PASSWORD,
         EMAIL_PREFIX,
+        DATABASES,
         MIT_AUTH,
         dev_env,
         )
@@ -32,24 +33,7 @@ TEMPLATE_DEBUG = DEBUG
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    'default': {
-        'ENGINE': backend,
-        'NAME': dbname,
-        'USER': dbusername,
-        'PASSWORD': pw,
-        'HOST': dbhost,
-        'PORT': '',
-    },
-    'db2': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': dbname + '2',
-    },
-    'db3': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': dbname + '3',
-    }
-}
+
 TIME_ZONE = None
 LANGUAGE_CODE = 'en-us'
 SITE_ID = 1
