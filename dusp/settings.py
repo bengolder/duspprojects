@@ -40,6 +40,14 @@ DATABASES = {
         'PASSWORD': pw,
         'HOST': dbhost,
         'PORT': '',
+    },
+    'db2': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': dbname + '2',
+    },
+    'db3': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': dbname + '3',
     }
 }
 TIME_ZONE = None

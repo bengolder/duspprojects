@@ -8,9 +8,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('projects.views',
-
     url(r'^explorer/$', 'explorer', name='explorer'),
-
     url(r'^$', 'topic_explorer', name='topic_explorer'),
 
 )
@@ -35,6 +33,7 @@ urlpatterns += patterns('projects.api_views',
 
     url(r'^topics/$', api_views.TopicsView.as_view()),
     url(r'^topic/(?P<pk>[0-9]+)/$', api_views.TopicView.as_view()),
+
     url(r'^countries/$', api_views.CountriesView.as_view()),
     url(r'^users/$', api_views.UserList.as_view()),
     url(r'^user/(?P<pk>[0-9]+)/$', api_views.UserDetail.as_view()),

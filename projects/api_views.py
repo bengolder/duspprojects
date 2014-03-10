@@ -20,6 +20,7 @@ from projects.serializers import (
         TopicSerializer, UserSerializer,
         CountrySerializer,
         SimpleProjectSerializer,
+        TopicSearchSerializer,
         )
 
 class ProjectsView(APIView):
@@ -98,14 +99,14 @@ class TopicsView(ListAPIView):
     Get the topics
     """
     queryset = Topic.objects.all()
-    serializer_class = TopicSerializer
+    serializer_class = TopicSearchSerializer
 
 class TopicView(ListAPIView):
     """
     Get a single topic
     """
     queryset = Topic.objects.all()
-    serializer_class = TopicSerializer
+    serializer_class = TopicSearchSerializer
 
 class UserList(ListAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)

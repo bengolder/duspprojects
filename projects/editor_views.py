@@ -1,4 +1,10 @@
 from pprint import pprint
+
+
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django.http import HttpResponse, HttpResponseRedirect
+
 from dusp.config import root_url
 from projects.models import (
         Topic, Person, Project, Country, City,
@@ -8,9 +14,6 @@ from projects.models import (
 from projects.serializers import (
         EditingIndexSerializer,
         )
-
-from django.shortcuts import render_to_response
-from django.template import RequestContext
 
 model_lookup = {
         "person":(Person, PersonForm),
